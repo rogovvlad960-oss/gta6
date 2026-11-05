@@ -3,5 +3,7 @@
   "monthly_api_limit_usd": 2,
   "post_approved": false,
   "autopublish_approved": false,
-  "funding_status": "User reports empty balances; no paid calls started."
+  "funding_status": "User reports empty balances; no paid calls started.",
+  "current_mode": "free_only",
+  "effective_monthly_paid_limit_usd": 0
 }

@@ -18,7 +18,7 @@
   "minimum_gap_hours": 4,
   "max_age_hours": 48,
   "model": "gpt-4.1-mini",
-  "monthly_budget_usd": 2,
+  "monthly_budget_usd": 0,
   "input_usd_per_million": 0.4,
   "output_usd_per_million": 1.6,
   "allow_rumors": false,
