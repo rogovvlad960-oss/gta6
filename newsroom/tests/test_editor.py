@@ -140,7 +140,7 @@ class Tests(unittest.TestCase):
     def test_telegram_html_escaped(self):
         self.assertIn('&lt;script&gt;',e.format_post({**D,'body':'<script>'}))
     def test_budget_zero_no_api_call(self):
-        with patch.dict(e.os.environ, {'NEWSROOM_AI_SPEND_APPROVED':'true'}), patch.object(e,'request') as r:
+        with patch.dict(e.CONFIG, {'monthly_budget_usd':0}), patch.dict(e.os.environ, {'NEWSROOM_AI_SPEND_APPROVED':'true'}), patch.object(e,'request') as r:
             with self.assertRaisesRegex(RuntimeError,'ai_budget_disabled'): e.generate([P],[PROOF],self.state)
             r.assert_not_called()
     def test_no_consent_no_api(self):
