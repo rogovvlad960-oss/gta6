@@ -18,3 +18,6 @@
 ## Повторная проверка после подключения секрета
 
 Реальный bot-check прошёл: GTA6NewsHustleBot, administrator, can_post_messages=true, канал -1004369086405. Секрет получен из настроек среды, в GitHub Actions не копировался. Все 44 локальных теста и живое чтение трёх источников снова прошли. Сообщения в канал не отправлялись. NEWSROOM_LLM_KEY отсутствует, бюджет остаётся нулевым. Доступ к GitHub Actions Secrets API через текущее подключение возвращает HTTP 403; это не доказывает отсутствия секретов в GitHub.
+
+
+Облако развёрнуто: [audit](https://github.com/rogovvlad960-oss/gta6/actions/runs/42068378753) и [init-state](https://github.com/rogovvlad960-oss/gta6/actions/runs/42068432351) завершились success. state.json реально прочитан из ветки newsroom-state: история 0, live_test=null. [Cloud bot-check](https://github.com/rogovvlad960-oss/gta6/actions/runs/42068663110) завершился failure; журнал runner явно содержит telegram_bot_token_missing. Это отсутствие секрета в GitHub, а не отсутствие прав бота в канале. Локальный bot-check прав прошёл. Платных запросов и отправок в Telegram по-прежнему не было.

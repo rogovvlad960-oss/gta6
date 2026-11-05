@@ -1,0 +1,13 @@
+{
+  "audit_run": "https://github.com/rogovvlad960-oss/gta6/actions/runs/42068378753",
+  "audit_conclusion": "success",
+  "init_state_run": "https://github.com/rogovvlad960-oss/gta6/actions/runs/42068432351",
+  "init_state_conclusion": "success",
+  "state_branch": "newsroom-state",
+  "autopublish": false,
+  "paid_calls": 0,
+  "bot_check_run": "https://github.com/rogovvlad960-oss/gta6/actions/runs/42068663110",
+  "bot_check_conclusion": "failure",
+  "bot_check_error": "telegram_bot_token_missing",
+  "github_secret_management_http": 403
+}
