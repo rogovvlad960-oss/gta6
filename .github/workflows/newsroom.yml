@@ -1,0 +1,70 @@
+name: Lester Dossier newsroom
+on:
+  schedule:
+    - cron: '0 6,9,12,15,18 * * *' # 09/12/15/18/21 Europe/Moscow, UTC+3
+  workflow_dispatch:
+    inputs:
+      operation:
+        type: choice
+        options: [audit, bot-check, init-state, draft, cycle, test-post, confirm-test]
+        default: audit
+      sample:
+        type: choice
+        options: [01-fact, 02-rumor, 03-check]
+        default: 01-fact
+      approved_hash:
+        description: SHA256 of the exact reviewed draft.json, required for test/confirmation
+        type: string
+      message_id:
+        description: Published test message ID, confirm only after viewing it in Telegram
+        type: string
+permissions:
+  contents: read
+concurrency:
+  group: lesterdossier-newsroom
+  cancel-in-progress: false
+jobs:
+  newsroom:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    permissions:
+      contents: write # CAS ledger on newsroom-state; no other repo/API permissions
+    env:
+      TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+      NEWSROOM_LLM_KEY: ${{ secrets.NEWSROOM_LLM_KEY }}
+      NEWSROOM_AI_SPEND_APPROVED: ${{ vars.NEWSROOM_AI_SPEND_APPROVED }}
+      NEWSROOM_AUTOPUBLISH: ${{ vars.NEWSROOM_AUTOPUBLISH }}
+      NEWSROOM_STYLE_APPROVED: ${{ vars.NEWSROOM_STYLE_APPROVED }}
+      GITHUB_TOKEN: ${{ github.token }}
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+        with:
+          persist-credentials: false
+      - name: Meaningful offline tests
+        run: python3 -m unittest discover -s newsroom/tests -v
+      - name: Run editor
+        env:
+          REQUESTED_OPERATION: ${{ inputs.operation }}
+          SAMPLE: ${{ inputs.sample }}
+          APPROVED_HASH: ${{ inputs.approved_hash }}
+          TEST_MESSAGE_ID: ${{ inputs.message_id }}
+        run: |
+          set -eu
+          operation="${REQUESTED_OPERATION:-audit}"
+          if [ "$GITHUB_EVENT_NAME" = schedule ] && [ "$NEWSROOM_AUTOPUBLISH" = true ]; then
+            operation=cycle
+          fi
+          case "$operation" in
+            test-post) python3 -m newsroom.editor test-post --draft "newsroom/samples/$SAMPLE/draft.json" --approved-hash "$APPROVED_HASH" ;;
+            confirm-test) python3 -m newsroom.editor confirm-test --approved-hash "$APPROVED_HASH" --message-id "$TEST_MESSAGE_ID" ;;
+            audit|bot-check|init-state|draft|cycle) python3 -m newsroom.editor "$operation" ;;
+            *) exit 2 ;;
+          esac
+      - name: Save review queue and sanitized audit
+        if: always() && vars.NEWSROOM_SAVE_ARTIFACTS == 'true'
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
+        with:
+          name: newsroom-review-${{ github.run_id }}
+          path: out/newsroom/
+          retention-days: 7
+          if-no-files-found: ignore

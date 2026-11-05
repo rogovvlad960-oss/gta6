@@ -1,0 +1,38 @@
+{
+  "kind": "rumor",
+  "title": "Оценка есть. Названия игры нет",
+  "body": "Канал @leonidagov связывает публикацию Shirrako с оценкой игры с GTA 6. Сам канал признаёт: блогер не уточнил, какую игру оценивает.\n\nЧто оценка относится к GTA 6, не подтверждено. Прямой ссылки на исходный пост X в этой публикации нет.\n\nУдобная теория. Только доказательства опять опаздывают.",
+  "event_key": "shirrako-unidentified-rating-2026-11-05",
+  "source_ids": [
+    "leonidagov/2612"
+  ],
+  "citations": [
+    "https://t.me/leonidagov/2612"
+  ],
+  "claims": [
+    {
+      "url": "https://t.me/leonidagov/2612",
+      "quote": "Популярный игровой блогер Shirrako опубликовал в X пост с оценкой, не уточнив, о какой именно игре идёт речь."
+    }
+  ],
+  "source_posts": [
+    {
+      "id": "leonidagov/2612",
+      "text": "📊 Shirrako оценил GTA 6?\n\nПопулярный игровой блогер Shirrako опубликовал в X пост с оценкой, не уточнив, о какой именно игре идёт речь.\n\nЕсть основания полагать, что это GTA 6: всего 10 дней назад блогер намекал на получение раннего доступа к игре. Но также не исключено что оценка относиться к новой The Legend of Zelda. \n\n📰 Новости GTA VI 💭 Наш чат",
+      "links": [
+        "https://t.me/+HfC_qNG2EeMxODNi",
+        "https://t.me/chatGTAVI"
+      ],
+      "published_at": "2026-11-05T12:00:27+00:00",
+      "url": "https://t.me/leonidagov/2612",
+      "published_moscow": "2026-11-05T15:00:27+03:00"
+    }
+  ],
+  "proofs": [],
+  "image": {
+    "file": "samples/02-rumor/image.jpg",
+    "sha256": "dcad61dabf5c358ca435690cb3d3ffbd8ffd6cb008b34f2a8c9e08f033f02dc0",
+    "role": "secondary_source_screenshot",
+    "source_url": "https://t.me/leonidagov/2612"
+  }
+}

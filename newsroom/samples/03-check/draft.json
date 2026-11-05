@@ -1,0 +1,49 @@
+{
+  "kind": "analysis",
+  "title": "Часы в репосте — ещё не расписание",
+  "body": "@GTA6_m публикует время открытия GTA VI для разных регионов. Ссылки на страницу магазина или объявление Rockstar в этом посте нет.\n\nНа официальной странице проверяется дата выхода: 19 ноября 2026 года. Региональные часы из репоста оставляем неподтверждёнными.\n\nСохранить табличку легко. Обосновать её — работа посложнее.",
+  "event_key": "regional-unlock-unverified-2026-11-05",
+  "source_ids": [
+    "GTA6_m/9300"
+  ],
+  "citations": [
+    "https://t.me/GTA6_m/9300",
+    "https://www.rockstargames.com/VI"
+  ],
+  "claims": [
+    {
+      "url": "https://t.me/GTA6_m/9300",
+      "quote": "Доступ появится по местному времени в зависимости от региона аккаунта"
+    },
+    {
+      "url": "https://www.rockstargames.com/VI",
+      "quote": "Coming November 19, 2026"
+    }
+  ],
+  "source_posts": [
+    {
+      "id": "GTA6_m/9300",
+      "text": "🏝 Во сколько откроется GTA VI?\n\nДоступ появится по местному времени в зависимости от региона аккаунта\n\nСохраняйте расписание:\n\n🇳🇿 Новая Зеландия, 18 ноября в 14:00 МСК\n🇮🇳 Индия, 18 ноября в 21:30 МСК\n🇹🇷 Турция, 19 ноября в 00:01 МСК\n🇵🇱 Польша, 19 ноября в 02:00 МСК\n🇺🇸 США, 19 ноября в 08:00 МСК\n\n🥺 Канал про GTA 6 | Наш чат",
+      "links": [
+        "https://t.me/GTA6_m",
+        "https://t.me/GTA6_Chatik"
+      ],
+      "published_at": "2026-11-04T15:45:11+00:00",
+      "url": "https://t.me/GTA6_m/9300",
+      "published_moscow": "2026-11-04T18:45:11+03:00"
+    }
+  ],
+  "proofs": [
+    {
+      "url": "https://www.rockstargames.com/VI",
+      "text": "Grand Theft Auto VI - Rockstar Games Skip to Main Content Homepage Pre-Order Now Expand Navigation Menu Pre-Load Begins November 10 Coming November 19, 2026 Coming November 19, 2026 Pre-Order Now Pre-Order Now PlayStation 5 Xbox Series X|S Plays Best On PlayStation 5 PlayStation 5 Xbox Series X|S Pre-Order Now Plays Best On PlayStation 5 Scroll for more content. Watch Launch Trailer label Watch An Extended Look Watch Trailer 2 Watch Trailer 1 Ultimate Edition An exclusive collection of items threaded across all aspects of Jason and Lucia’s story. Learn More Pre-order Bonuses Vintage Vice City Pack Pre-order to get unique benefits that flash back to when the neon burned brightest. Learn More Vice City, USA. Jason and Lucia have always known the deck is stacked against them. But when an easy score goes wrong, they find themselves on the darkest side of the sunniest place in America, in the middle of a criminal conspiracy stretching across the state of Leonida — forced to rely on each other more than ever if they want to make it out alive. MUSIC In-Game Radio, Soundtrack, and Score Listen to the Official Score and Soundtrack, plus select in-game radio stations. Explore More Screenshots The Launch Gallery Get a stunning look inside Leonida with a collection of new screenshots. View All Downloads Media & Artwork Download and share official videos, screenshots, and more. See All People & Places Only in Leonida Vice City, USA. The darkest side of the sunniest place in America. Explore More Shop View All View All Merchandise Premium apparel, collectibles, and more Shop Now Collector’s Box The Vice City Collection Explore Now Featured News View all Newswire posts View all Newswire posts Explore the Grand Theft Auto VI Launch Gallery November 5, 2026 Grand Theft Auto VI Pre-Load Begins on November 10 November 3, 2026 Grand Theft Auto VI: Original Score by Justice October 29, 2026 For more on PlayStation benefits, see playstation.com/GTAVIfeatures Get Rockstar Propaganda Get the latest game announcements, updates on special events and offers, and much more from Rockstar Games. X Instagram YouTube TikTok Facebook Twitch Discord Corporate Privacy Cookie Settings Cookie Policy Legal Do Not Sell or Share My Personal Information Blood and Gore, Intense Violence, Mature Humor, Nudity, Strong Language, Strong Sexual Content, Use of Drugs and Alcohol. In-Game Purchases.",
+      "checked_at": "2026-11-05T15:23:38.468928+00:00"
+    }
+  ],
+  "image": {
+    "file": "samples/03-check/image.jpg",
+    "sha256": "6ff050fe59b9a58dbb2d13e440facfd7c2ef291b4c341851b61784e64a124c34",
+    "role": "secondary_source_screenshot",
+    "source_url": "https://t.me/GTA6_m/9300"
+  }
+}

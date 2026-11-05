@@ -1,0 +1,29 @@
+{
+  "checked_at": "2026-11-05T15:37:51.568391+00:00",
+  "sources": [
+    {
+      "name": "leonidagov",
+      "dated_texts": 25,
+      "last_url": "https://t.me/leonidagov/2658",
+      "last_at": "2026-11-05T15:28:01+00:00",
+      "last_moscow": "2026-11-05T18:28:01+03:00"
+    },
+    {
+      "name": "GTA6_m",
+      "dated_texts": 18,
+      "last_url": "https://t.me/GTA6_m/9303",
+      "last_at": "2026-11-05T13:56:34+00:00",
+      "last_moscow": "2026-11-05T16:56:34+03:00"
+    },
+    {
+      "name": "gta6deluxe",
+      "dated_texts": 25,
+      "last_url": "https://t.me/gta6deluxe/1956",
+      "last_at": "2026-11-05T15:14:42+00:00",
+      "last_moscow": "2026-11-05T18:14:42+03:00"
+    }
+  ],
+  "bot_verified": false,
+  "telegram_sent": 0,
+  "paid_calls": 0
+}

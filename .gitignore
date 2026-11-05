@@ -1,0 +1,10 @@
+node_modules/
+out/
+.DS_Store
+.env
+.env.*
+public/precision-frames/
+public/v3-frames/
+__pycache__/
+*.pyc
+newsroom/runtime/

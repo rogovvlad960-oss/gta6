@@ -1,0 +1,30 @@
+[
+  {
+    "file": "channel-avatar.jpg",
+    "source": "Материал пользователя из public/channel-avatar.jpg",
+    "role": "user_character_illustration",
+    "sha256": "b06341ad8297a3cde626bde2156478a6f50c02bbd8d3f5e161db37c931e10cf4",
+    "captured_or_verified_on": "2026-11-05"
+  },
+  {
+    "file": "rockstar-official-poster.jpg",
+    "source": "https://www.rockstargames.com/VI/_next/static/media/poster_full.02ig6s_80ei58.jpg",
+    "role": "official_promotional_art",
+    "sha256": "9e7e3f7d7a9621d1f66c7a92ce36390d96504c0d5c06ab176ff857f04ef201b4",
+    "captured_or_verified_on": "2026-11-05"
+  },
+  {
+    "file": "rumor-screenshot.png",
+    "source": "https://t.me/leonidagov/2612?embed=1",
+    "role": "real_secondary_post_screenshot",
+    "sha256": "008bae3db394ec393caa18345d217f2227fcfe8cf93ca70f37cc96e96fff9254",
+    "captured_or_verified_on": "2026-11-05"
+  },
+  {
+    "file": "schedule-screenshot.png",
+    "source": "https://t.me/GTA6_m/9300?embed=1",
+    "role": "real_secondary_post_screenshot",
+    "sha256": "e178b927685863f76aaa2524b4fc3a9976dc91eee03b5a5d499cebd5e1068e29",
+    "captured_or_verified_on": "2026-11-05"
+  }
+]
