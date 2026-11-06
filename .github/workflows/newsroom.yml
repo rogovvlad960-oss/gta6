@@ -61,7 +61,8 @@ jobs:
           case "$operation" in
             test-post) python3 -m newsroom.editor test-post --draft "newsroom/samples/$SAMPLE/draft.json" --approved-hash "$APPROVED_HASH" ;;
             confirm-test) python3 -m newsroom.editor confirm-test --approved-hash "$APPROVED_HASH" --message-id "$TEST_MESSAGE_ID" ;;
-            audit|connections-check|bot-check|init-state|draft|cycle|urgent-cycle) python3 -m newsroom.editor "$operation" ;;
+            draft) NEWSROOM_AI_SPEND_APPROVED=true python3 -m newsroom.editor draft ;;
+            audit|connections-check|bot-check|init-state|cycle|urgent-cycle) python3 -m newsroom.editor "$operation" ;;
             *) exit 2 ;;
           esac
       - name: Save review queue and sanitized audit

@@ -385,6 +385,7 @@ def settle_cost(state, month, prior, responses):
         return
     actual = sum(u['prompt_tokens'] * CONFIG['input_usd_per_million'] + u['completion_tokens'] * CONFIG['output_usd_per_million'] for u in usages) / 1e6
     state.data['spend'][month] = round(prior + actual, 8)
+    state.data['last_api_usage'] = {'at':stamp(),'model':CONFIG['model'],'calls':len(responses),'prompt_tokens':sum(u['prompt_tokens'] for u in usages),'completion_tokens':sum(u['completion_tokens'] for u in usages),'estimated_usd_uncached':round(actual,8)}
     state.save()
 
 
@@ -419,6 +420,7 @@ def generate(posts, proofs, state, target_posts=None, urgent_only=False):
     r = json.loads(request('https://api.openai.com/v1/chat/completions', {'model': CONFIG['model'], 'messages': [{'role': 'system', 'content': system}, {'role': 'user', 'content': user}], 'max_completion_tokens': 1200, 'response_format': {'type': 'json_object'}}, {'Authorization': 'Bearer ' + token}))
     d = json.loads(r['choices'][0]['message']['content'])
     if d.get('skip'):
+        print(json.dumps({'editorial_result':'no_supported_fresh_story'}))
         settle_cost(state, month, spent, [r])
         return None
     if set(d) - {'kind','title','body','event_key','source_ids','citations','claims','priority'}:
@@ -440,6 +442,7 @@ def generate(posts, proofs, state, target_posts=None, urgent_only=False):
     verdict = json.loads(checked['choices'][0]['message']['content'])
     settle_cost(state, month, spent, [r, checked])
     if verdict.get('approved') is not True:
+        print(json.dumps({'editorial_result':'factcheck_rejected'}))
         log_error(state, 'editorial_factcheck_rejected')
         return None
     if urgent_only:
@@ -686,6 +689,8 @@ def run(args):
         if d['kind'] == 'rumor' and not CONFIG['allow_rumors']:
             return
         (out / 'draft.json').write_text(json.dumps(d, ensure_ascii=False, indent=2))
+        if args.command == 'draft':
+            print(json.dumps({'review_draft':{k:d[k] for k in ('kind','title','body')},'draft_hash':digest(d),'api_usage':state.data.get('last_api_usage')},ensure_ascii=False))
         if args.command in ('cycle','urgent-cycle'):
             publish(state, Bot(), d, candidates[:8])
 
