@@ -12,15 +12,15 @@
     }
   ],
   "spend": {
-    "2026-11": 0.1053524
+    "2026-11": 0.0325684
   },
   "live_test": null,
   "last_api_usage": {
-    "at": "2026-11-06T16:13:14.385217+00:00",
-    "model": "gpt-4.1-mini",
+    "at": "2026-11-06T16:15:48.900412+00:00",
+    "model": "gpt-4.1",
     "calls": 2,
-    "prompt_tokens": 2038,
-    "completion_tokens": 176,
-    "estimated_usd_uncached": 0.0010968
+    "prompt_tokens": 2100,
+    "completion_tokens": 220,
+    "estimated_usd_uncached": 0.00596
   }
 }
