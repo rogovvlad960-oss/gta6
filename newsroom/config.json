@@ -17,10 +17,10 @@
   "daily_max": 3,
   "minimum_gap_hours": 4,
   "max_age_hours": 48,
-  "model": "gpt-4.1-mini",
+  "model": "gpt-4.1",
   "monthly_budget_usd": 2,
-  "input_usd_per_million": 0.4,
-  "output_usd_per_million": 1.6,
+  "input_usd_per_million": 2,
+  "output_usd_per_million": 8,
   "allow_rumors": false,
   "autopublish": false,
   "urgent": {

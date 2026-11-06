@@ -114,7 +114,7 @@ class Tests(unittest.TestCase):
     def test_confirmed_usage_releases_unused_reserve(self):
         self.state.data['spend']['2026-11']=1
         e.settle_cost(self.state,'2026-11',.1,[{'usage':{'prompt_tokens':1000,'completion_tokens':100}}])
-        self.assertAlmostEqual(self.state.data['spend']['2026-11'],.10056)
+        self.assertAlmostEqual(self.state.data['spend']['2026-11'],.1+(1000*e.CONFIG['input_usd_per_million']+100*e.CONFIG['output_usd_per_million'])/1e6)
     def test_cross_source_duplicate(self):
         self.assertGreater(e.similarity('GTA 6 дата выхода ноябрь 19 2026', 'Дата выхода GTA 6: 19 ноябрь 2026'), .72)
     def test_fake_primary_domains(self):
