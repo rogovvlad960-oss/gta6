@@ -297,9 +297,10 @@ class Tests(unittest.TestCase):
         with self.assertRaisesRegex(RuntimeError,'outside_moscow'):e.publication_limits(self.state,at=AT+timedelta(hours=3))
     def test_unchanged_rejected_news_not_rebilled_but_new_evidence_rechecked(self):
         import argparse
-        args=argparse.Namespace(command='draft',state=str(self.state.local),output=str(Path(self.tmp.name)/'queue'))
+        args=argparse.Namespace(command='cycle',state=str(self.state.local),output=str(Path(self.tmp.name)/'queue'))
+        self.state.data['live_test']={'message_id':1};self.state.save()
         proof=copy.deepcopy(PROOF)
-        with patch.object(e,'now',return_value=AT),patch.object(e,'collect',return_value=([P],[],[])),patch.object(e,'evidence',side_effect=lambda u:dict(proof)),patch.object(e,'fetch_source',return_value=[]),patch.object(e,'generate',return_value=None) as model:
+        with patch.dict(e.os.environ,{'NEWSROOM_AUTOPUBLISH':'true','NEWSROOM_STYLE_APPROVED':'true'}),patch.object(e.Bot,'check',return_value={}),patch.object(e,'now',return_value=AT),patch.object(e,'collect',return_value=([P],[],[])),patch.object(e,'evidence',side_effect=lambda u:dict(proof)),patch.object(e,'fetch_source',return_value=[]),patch.object(e,'generate',return_value=None) as model:
             e.run(args);e.run(args);self.assertEqual(model.call_count,1)
             proof['text']+=' New official evidence.'
             e.run(args);self.assertEqual(model.call_count,2)

@@ -734,8 +734,9 @@ def run(args):
     if not candidates:
         print(json.dumps({'idle':'no_unexamined_supported_candidates'}));return
     examined.update({candidate_key(p):stamp() for p in candidates})
-    state.data['editor_examined']=examined
-    state.save()  # Reserve this examination before the paid API request.
+    if args.command in ('cycle','urgent-cycle'):
+        state.data['editor_examined']=examined
+        state.save()  # Reserve this examination before the paid API request.
     d = generate(candidates[:8], proofs, state, target_posts, urgent_only=urgent_only)
     if d:
         if any(len(t['text']) > 35 and similarity(d['title'] + ' ' + d['body'], t['text']) > .72 for t in target_posts):
