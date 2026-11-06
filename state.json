@@ -1,6 +1,49 @@
 {
   "version": 1,
-  "history": [],
+  "history": [
+    {
+      "at": "2026-11-06T16:30:08.102275+00:00",
+      "status": "pending",
+      "test": true,
+      "urgent": false,
+      "draft_hash": "5758177ce8db016ca3b70534279b1163e8f2c5083d531762a216c0c9243815a8",
+      "event_key": "official-vi-preload-2026-11-10",
+      "source_hashes": [
+        "1e2b0291cca12e88cba09a52e2e323ec945aaf79c4da6880b6f4153168af2493"
+      ],
+      "tokens": [
+        "0a2a81f7fa8cedfeda9fbd40b2bb423b8176f40068bc0e69cff025e3c307aff6",
+        "0c62083c31493024a1fdefc0cbbf36c95336110fedc842809d62808c4afc1541",
+        "0fa08bbcd0b93a649418182309cb6546b7d2151c15b0e72d141e7f36d10123db",
+        "1925356803504e44bd021990adbff8dc3bab5b627cc718b77608c5b58c499dc0",
+        "20a45eeeb030b0cbb530bd1c49a2b42888003c7808045cb07abbafaa766edd74",
+        "26dc2b432c38c94f9fd738b49402c564e9432b85a4b16f49434a9e864437c8a6",
+        "3bd0446f718bc3e147112a7cdf9db50f0a362c3fb344d0139058278eab496557",
+        "45bd180818ac52ad9fc1a7cb450ee90cdf8b1c7570591709e87f2789f0a29780",
+        "521597fae925f5e5c53308baa5e0d2220f105b328e5cbcf059a0a5a9c216e93b",
+        "634635a2166efa2ae765abd31d4ae807082287e329a8a7fff42b1fb30f65087e",
+        "65becda5ecff56934c8dd0fedb69fca7f8461484219358f86fcff81dea8706b6",
+        "6d1138378625f4bd0c4f61e3a3c573b087cb51f0a11abba8b24cdc2aa8c55635",
+        "76f5b303c4d8679b3837263259aba8a854eb0c8e43cd9027ff598b6e48805af9",
+        "7739b912577a0358fc758308b76fe2f82506f8d2ef0d824b63564b12fe9f21f7",
+        "83a2743464687dbf7554694abb90009d08ecf1d5d728f91dc5007f7c5d6b0e85",
+        "86cc9f068097f595cb6f5539ebc3b9c7123e00fc9877cb1e495d418f0ddfc30e",
+        "91852b7985971473f27dcb3d5302d2d69a38c1a2b625e6c7d38a0b9f68fd6a45",
+        "9c8f5cf989f40d28005452b7f0969317f9bd16c606c40788b9167f30fee57c1b",
+        "a09b686f504dc116fc654bb76a9dedcdd0eca92ad9c917436b1c9a48cce325c7",
+        "a833b94c08bf6b4274d532fbd53ece1bd341f94ec2fc541cf3defb17e655c6d6",
+        "be74f6c187ae5fd69ba573b408e0d7b6f3391600dbe3ec1db40b803ae98d115b",
+        "c7deb5a8c3ca9d3e828d0250a4c7040ee5d4407683c918bcd53b9c54c5b4228c",
+        "dd17a50e4250c1cf92e7ac1096913559a211a5b9934694fc2de38a488b6c341c",
+        "de6a42ec574f9cbdf07b0bb5e8e3c4e28c18c5305513b857a0205aeef18872e5",
+        "ec382d025301aec8dcc50c9a1534ccc5a35f8d3d1aaf20b18cab3927e0df8e42",
+        "fcc2f530114b48dd4af9f65450a51a8145aeb805e98ad81685ff9d9e54a56b77"
+      ],
+      "source_urls": [
+        "https://www.rockstargames.com/VI"
+      ]
+    }
+  ],
   "errors": [
     {
       "at": "2026-11-06T16:02:15.330516+00:00",
