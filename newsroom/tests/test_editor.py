@@ -266,6 +266,12 @@ class Tests(unittest.TestCase):
                 result=e.generate([P],[PROOF],self.state,urgent_only=True)
                 if confirm:self.assertTrue(result['_urgent_verified'])
                 else:self.assertIsNone(result)
+    def test_evidence_refs_resolve_exact_source_text(self):
+        catalog=e.evidence_catalog([P],[PROOF]);ref=next(k for k,v in catalog.items() if v['primary'])
+        d=e.resolve_evidence({'evidence_refs':[ref]},catalog)
+        self.assertEqual(d['citations'],[e.PRIMARY_FALLBACK]);self.assertIn(d['claims'][0]['quote'],PROOF['text'])
+    def test_invented_evidence_id_rejected(self):
+        with self.assertRaisesRegex(ValueError,'unknown_evidence_reference'):e.resolve_evidence({'evidence_refs':['invented']},e.evidence_catalog([P],[PROOF]))
     def test_bot_identity_and_permissions(self):
         with patch.dict(e.os.environ,{'TELEGRAM_BOT_TOKEN':'test-placeholder'}):
             bot=e.Bot()
