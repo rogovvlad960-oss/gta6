@@ -19,5 +19,13 @@
     "unrelated imagery",
     "invented factual details"
   ],
-  "publication_approval": false
+  "publication_approval": false,
+  "emoji_pack": {
+    "name": "GamingEmoji_by_MoiStikiBot",
+    "selection": "emoji/catalog.json",
+    "maximum_decorative_icons": 2,
+    "inline_channel_enabled": false,
+    "inline_permission": "unverified; see emoji/README.md",
+    "image_decoration_available": true
+  }
 }

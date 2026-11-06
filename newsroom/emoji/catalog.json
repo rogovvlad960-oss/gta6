@@ -1,0 +1,106 @@
+{
+  "pack_name": "GamingEmoji_by_MoiStikiBot",
+  "pack_url": "https://t.me/addemoji/GamingEmoji_by_MoiStikiBot",
+  "count": 148,
+  "items": [
+    {
+      "custom_emoji_id": "5282847372223740079",
+      "fallback": "📰",
+      "animated": false,
+      "preview_file": "assets/5282847372223740079.png"
+    },
+    {
+      "custom_emoji_id": "5222430393688432601",
+      "fallback": "⚡️",
+      "animated": true,
+      "preview_file": "assets/5222430393688432601.png"
+    },
+    {
+      "custom_emoji_id": "5343584136844063139",
+      "fallback": "🎮",
+      "animated": false,
+      "preview_file": "assets/5343584136844063139.png"
+    },
+    {
+      "custom_emoji_id": "5366094734752262903",
+      "fallback": "🤔",
+      "animated": false,
+      "preview_file": "assets/5366094734752262903.png"
+    },
+    {
+      "custom_emoji_id": "5283259006184357423",
+      "fallback": "🧐",
+      "animated": false,
+      "preview_file": "assets/5283259006184357423.png"
+    },
+    {
+      "custom_emoji_id": "5285504277647750450",
+      "fallback": "🤓",
+      "animated": false,
+      "preview_file": "assets/5285504277647750450.png"
+    },
+    {
+      "custom_emoji_id": "5368724410083614046",
+      "fallback": "🤓",
+      "animated": false,
+      "preview_file": "assets/5368724410083614046.png"
+    },
+    {
+      "custom_emoji_id": "5282842763723832120",
+      "fallback": "🗺️",
+      "animated": false,
+      "preview_file": "assets/5282842763723832120.png"
+    },
+    {
+      "custom_emoji_id": "5280793836690384768",
+      "fallback": "🎥",
+      "animated": true,
+      "preview_file": "assets/5280793836690384768.png"
+    },
+    {
+      "custom_emoji_id": "5284992347610842109",
+      "fallback": "📞",
+      "animated": false,
+      "preview_file": "assets/5284992347610842109.png"
+    },
+    {
+      "custom_emoji_id": "5312273060752039273",
+      "fallback": "🌴",
+      "animated": true,
+      "preview_file": "assets/5312273060752039273.png"
+    }
+  ],
+  "channel_custom_emoji_permission": "unverified",
+  "enabled": false,
+  "curated": [
+    {
+      "custom_emoji_id": "5282847372223740079",
+      "fallback": "📰",
+      "animated": false,
+      "preview_file": "assets/5282847372223740079.png",
+      "label": "Логотип GTA VI"
+    },
+    {
+      "custom_emoji_id": "5222430393688432601",
+      "fallback": "⚡️",
+      "animated": true,
+      "preview_file": "assets/5222430393688432601.png",
+      "label": "Срочная новость"
+    },
+    {
+      "custom_emoji_id": "5282842763723832120",
+      "fallback": "🗺️",
+      "animated": false,
+      "preview_file": "assets/5282842763723832120.png",
+      "label": "Мир игры"
+    },
+    {
+      "custom_emoji_id": "5312273060752039273",
+      "fallback": "🌴",
+      "animated": true,
+      "preview_file": "assets/5312273060752039273.png",
+      "label": "Знак VI"
+    }
+  ],
+  "inline_channel_policy": "Requires verified Fragment additional username eligibility. Owner Premium alone does not cover channel messages."
+}
