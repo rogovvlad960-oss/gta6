@@ -1,20 +1,17 @@
 [
   {
     "sample": "01-fact",
-    "draft_hash": "2c2d846a582ed43cb87041f3005f69f4787b41ffd5a23a6a32a70d743133bb35",
-    "source_url": "https://www.rockstargames.com/VI",
-    "image_sha256": "e60268d2102914bb5ea26023d7745bebb99254206a7e6ff7dfa88cb8fb4631ba"
+    "draft_hash": "708dd410b23adb126ac3561af7d6b7274b434128cc439a93e56358801113ce4d",
+    "image_sha256": "633b17f67bd5c2ed836cae9fad97243b040e3899c41fbdae77e92e5a0d651572"
   },
   {
     "sample": "02-rumor",
-    "draft_hash": "6ba91556bb21780a7f170ed157a591c77b781893a5f66f383ebdbc7f01da0419",
-    "source_url": "https://t.me/leonidagov/2612",
+    "draft_hash": "56452bb222ace7442a19415f655115562fecfe0360c06b3070a4ab4c17c9d062",
     "image_sha256": "dcad61dabf5c358ca435690cb3d3ffbd8ffd6cb008b34f2a8c9e08f033f02dc0"
   },
   {
     "sample": "03-check",
-    "draft_hash": "752dfd90af09ad4587a9b932a13c2241349726db11ac39cebc02ef637250d979",
-    "source_url": "https://t.me/GTA6_m/9300",
+    "draft_hash": "964006efbd77b445131b2b0f3d6913403c8baaee5a2d0550b96a49889ffaf947",
     "image_sha256": "6ff050fe59b9a58dbb2d13e440facfd7c2ef291b4c341851b61784e64a124c34"
   }
 ]

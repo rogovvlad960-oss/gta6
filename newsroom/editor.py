@@ -262,6 +262,18 @@ def log_error(state, code):
     state.save()
 
 
+def image_bytes(draft):
+    if not draft.get('image'):
+        return None
+    item = draft['image']
+    file = (ROOT / item['file']).resolve()
+    if ROOT not in file.parents or not file.is_file() or hashlib.sha256(file.read_bytes()).hexdigest() != item['sha256']:
+        raise RuntimeError('approved_image_changed')
+    if item.get('public_sources_hidden') is not True:
+        raise RuntimeError('image_public_sources_not_reviewed')
+    return file.read_bytes()
+
+
 class Bot:
     def __init__(self):
         self.token = os.environ.get('TELEGRAM_BOT_TOKEN')
@@ -287,10 +299,7 @@ class Bot:
     def send(self, draft):
         payload = {'chat_id': CONFIG['channel'], 'text': format_post(draft), 'parse_mode': 'HTML', 'link_preview_options': {'is_disabled': False}}
         if draft.get('image'):
-            image = draft['image']
-            file = (ROOT / image['file']).resolve()
-            if ROOT not in file.parents or hashlib.sha256(file.read_bytes()).hexdigest() != image['sha256']:
-                raise RuntimeError('approved_image_changed')
+            picture = image_bytes(draft)
             if len(format_post(draft)) > 1024:
                 raise RuntimeError('image_caption_too_long')
             boundary = 'LesterDossierBoundary'
@@ -298,7 +307,7 @@ class Bot:
             body = b''
             for k, v in fields.items():
                 body += (f'--{boundary}\r\nContent-Disposition: form-data; name="{k}"\r\n\r\n{v}\r\n').encode()
-            body += (f'--{boundary}\r\nContent-Disposition: form-data; name="photo"; filename="news.jpg"\r\nContent-Type: image/jpeg\r\n\r\n').encode() + file.read_bytes() + (f'\r\n--{boundary}--\r\n').encode()
+            body += (f'--{boundary}\r\nContent-Disposition: form-data; name="photo"; filename="news.jpg"\r\nContent-Type: image/jpeg\r\n\r\n').encode() + picture + (f'\r\n--{boundary}--\r\n').encode()
             r = json.loads(request('https://api.telegram.org/bot' + self.token + '/sendPhoto', body, {'Content-Type': 'multipart/form-data; boundary=' + boundary}))
             if not r.get('ok'):
                 raise RuntimeError('telegram_api_rejected')
@@ -335,8 +344,6 @@ def check_connections():
 def format_post(draft):
     labels = {'fact': 'ПРОВЕРЕНО', 'rumor': 'СЛУХ', 'analysis': 'РАЗБОР'}
     text = '<b>' + labels[draft['kind']] + ' · ' + html.escape(draft['title']) + '</b>\n\n' + html.escape(draft['body'])
-    for link in dict.fromkeys(draft['citations']):
-        text += '\n' + '<a href="' + html.escape(link, quote=True) + '">Источник</a>'
     text += '\n\n@lesterdossier'
     if len(text) > 4000:
         raise ValueError('post_too_long')
@@ -364,6 +371,8 @@ def validate_draft(d, posts, proofs):
         raise ValueError('fact_supported_by_secondary_only')
     if re.search(r'мой инсайдер|мои источники|я (?:уже )?(?:играл|видел закрыт)|нам слили', d['body'].lower()):
         raise ValueError('fabricated_insider_persona')
+    if re.search(r'https?://|www\.|@[A-Za-z0-9_]+|(?:^|\n)источник\s*:', d['title']+'\n'+d['body'], re.I):
+        raise ValueError('public_source_reference_forbidden')
     format_post(d)
     return d
 
@@ -396,7 +405,7 @@ def generate(posts, proofs, state, target_posts=None):
               'Если доказательства не относятся к теме, верни {"skip":true}. Для rumor чётко атрибутируй неподтверждённое сообщение, напиши "не подтверждено". '
               'Верни JSON: kind=fact|rumor|analysis, title, body, event_key (стабильное английское обозначение события с датой самого события, одинаковое для перепечаток), '
               'source_ids=[id публикаций, относящихся ТОЛЬКО к выбранному событию], citations=[точные URL], claims=[{url,quote:дословная выдержка из PROOFS, подтверждающая факт}]. '
-              'Все проверяемые утверждения body должны соответствовать claims. Не добавляй технические поля или ссылки в body. '
+              'Ссылки, названия каналов-источников, их @handles, упоминания места получения информации и подписи «Источник» нельзя выводить в title/body. Для слухов используй обобщённую атрибуцию («в сети обсуждают») и явную пометку неподтверждённости. Полные источники сохраняй ТОЛЬКО в служебных citations/claims. Все проверяемые утверждения body должны соответствовать claims. Не добавляй технические поля или ссылки в body. '
               'Избегай уже опубликованных тем HISTORY и TARGET_RECENT, в том числе ручных подписей к видео. Никаких рассуждений за пределами JSON.')
     user = json.dumps({'NOW': stamp(), 'POSTS': [{**p, 'text': p['text'][:2500]} for p in posts], 'PROOFS': proofs, 'HISTORY': [r.get('event_key') for r in state.data['history'][-90:]], 'TARGET_RECENT': [p['text'][:1200] for p in (target_posts or [])[-12:]], 'allow_rumors': CONFIG['allow_rumors']}, ensure_ascii=False)
     # UTF-8 bytes is a conservative token upper bound; reserve before the API call.
@@ -419,7 +428,7 @@ def generate(posts, proofs, state, target_posts=None):
                      'Первичный источник обязан подтверждать именно выбранную новость, а не просто существование GTA6. '
                      'Не считать скриншот Telegram подтверждением слов блогера в X. Не принимать домыслы или прежние события за свежую новость. '
                      'Для СЛУХА допускается только явная атрибуция публикации и отсутствие подтверждения. '
-                     'Если есть неподтверждённое фактическое утверждение, неверная дата, несоответствие цитат, реклама, повтор HISTORY/TARGET_RECENT или выдуманный доступ — reject. '
+                     'Отклоняй публичные ссылки и подписи источников в title/body; служебные citations/claims должны оставаться. Если есть неподтверждённое фактическое утверждение, неверная дата, несоответствие цитат, реклама, повтор HISTORY/TARGET_RECENT или выдуманный доступ — reject. '
                      'Верни JSON {"approved":true|false,"reason":"коротко"}. При сомнении false.')
     review_input = json.dumps({'DRAFT': d, 'EVIDENCE': json.loads(user)}, ensure_ascii=False)
     checked = json.loads(request('https://api.openai.com/v1/chat/completions', {'model': CONFIG['model'], 'messages': [{'role':'system','content':review_system},{'role':'user','content':review_input}], 'max_completion_tokens':400, 'response_format':{'type':'json_object'}}, {'Authorization':'Bearer '+token}))
@@ -463,6 +472,7 @@ def publish(state, bot, draft, posts, *, test=False, at=None):
     posts = [p for p in posts if p['id'] in draft.get('source_ids', [])]
     if duplicate(draft, posts, state):
         raise RuntimeError('duplicate_event')
+    image_bytes(draft)  # Reject obsolete/source-bearing media before reserving a delivery.
     bot.check()
     record = {'at': at.isoformat(), 'status': 'pending', 'test': test, 'draft_hash': digest(draft), 'event_key': draft['event_key'], 'source_hashes': [digest(p['text']) for p in posts], 'tokens': sorted(digest(w) for w in normalize(draft['title'] + ' ' + draft['body'])), 'source_urls': draft['citations']}
     state.data['history'].append(record)

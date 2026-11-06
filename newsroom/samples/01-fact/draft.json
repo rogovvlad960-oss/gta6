@@ -1,7 +1,7 @@
 {
   "kind": "fact",
   "title": "Предзагрузка раньше ограбления",
-  "body": "На официальной странице GTA VI указано: предзагрузка начинается 10 ноября, выход игры — 19 ноября 2026 года.\n\nНе путай загрузку файлов с доступом к игре. Сейф привезли — это ещё не значит, что тебе выдали код.",
+  "body": "Предзагрузка GTA VI начинается 10 ноября. Выход игры — 19 ноября 2026 года.\n\nНе путай загрузку файлов с доступом к игре. Сейф привезли — это ещё не значит, что тебе выдали код.",
   "event_key": "official-vi-preload-2026-11-10",
   "source_ids": [
     "official/vi-page-2026-11-05"
@@ -38,8 +38,9 @@
   ],
   "image": {
     "file": "samples/01-fact/image.jpg",
-    "sha256": "e60268d2102914bb5ea26023d7745bebb99254206a7e6ff7dfa88cb8fb4631ba",
-    "role": "official_promotional_art",
-    "source_url": "https://www.rockstargames.com/VI"
+    "sha256": "633b17f67bd5c2ed836cae9fad97243b040e3899c41fbdae77e92e5a0d651572",
+    "role": "author_illustration",
+    "source_url": "https://www.rockstargames.com/VI",
+    "public_sources_hidden": true
   }
 }

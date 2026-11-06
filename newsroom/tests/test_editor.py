@@ -137,6 +137,19 @@ class Tests(unittest.TestCase):
         with self.assertRaises(ValueError): e.validate_draft(d,[P],[])
         d['body']='Ранний доступ не подтверждено.'
         self.assertEqual(e.validate_draft(d,[P],[])['kind'],'rumor')
+    def test_sources_kept_internal_but_never_in_caption(self):
+        d=copy.deepcopy(D)
+        e.validate_draft(d,[P],[PROOF]);caption=e.format_post(d)
+        self.assertNotIn(e.PRIMARY_FALLBACK,caption);self.assertNotIn('href=',caption);self.assertNotIn('Источник',caption)
+        self.assertEqual(d['citations'],[e.PRIMARY_FALLBACK])
+    def test_source_links_in_body_rejected(self):
+        d=copy.deepcopy(D);d['body']='Ссылка: '+e.PRIMARY_FALLBACK
+        with self.assertRaisesRegex(ValueError,'public_source_reference'):e.validate_draft(d,[P],[PROOF])
+    def test_old_source_bearing_image_cannot_publish(self):
+        d=json.loads((e.ROOT/'samples/02-rumor/draft.json').read_text())
+        bot=FakeBot()
+        with self.assertRaisesRegex(RuntimeError,'image_public_sources_not_reviewed'):e.publish(self.state,bot,d,d['source_posts'],test=True,at=AT)
+        self.assertEqual(bot.calls,0);self.assertEqual(self.state.data['history'],[])
     def test_telegram_html_escaped(self):
         self.assertIn('&lt;script&gt;',e.format_post({**D,'body':'<script>'}))
     def test_budget_zero_no_api_call(self):
