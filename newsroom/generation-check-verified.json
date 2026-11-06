@@ -1,0 +1,20 @@
+{
+  "reference_test": true,
+  "review_draft": {
+    "kind": "fact",
+    "title": "Когда ждать выход и предзагрузку GTA VI",
+    "body": "Начать скачивать Grand Theft Auto VI можно с 10 ноября. Сам запуск игры состоится 19 ноября 2026 года. Ожидание всегда длиннее, чем кажется — даже на высокой скорости интернета."
+  },
+  "api_usage": {
+    "at": "2026-11-06T16:15:48.900412+00:00",
+    "model": "gpt-4.1",
+    "calls": 2,
+    "prompt_tokens": 2100,
+    "completion_tokens": 220,
+    "estimated_usd_uncached": 0.00596
+  },
+  "monthly_ledger_including_reserves": 0.0325684,
+  "run_url": "https://github.com/rogovvlad960-oss/gta6/actions/runs/42250683992",
+  "telegram_published": false,
+  "scope": "Controlled reference facts; not a proof that live-news selection is ready."
+}

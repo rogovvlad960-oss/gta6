@@ -11,7 +11,7 @@ on:
         default: audit
       sample:
         type: choice
-        options: [01-fact, 02-rumor, 03-check]
+        options: [01-fact, 02-rumor, 03-check, 04-generated]
         default: 01-fact
       approved_hash:
         description: SHA256 of the exact reviewed draft.json, required for test/confirmation

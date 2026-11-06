@@ -13,5 +13,10 @@
     "sample": "03-check",
     "draft_hash": "964006efbd77b445131b2b0f3d6913403c8baaee5a2d0550b96a49889ffaf947",
     "image_sha256": "6ff050fe59b9a58dbb2d13e440facfd7c2ef291b4c341851b61784e64a124c34"
+  },
+  {
+    "sample": "04-generated",
+    "draft_hash": "5758177ce8db016ca3b70534279b1163e8f2c5083d531762a216c0c9243815a8",
+    "image_sha256": "633b17f67bd5c2ed836cae9fad97243b040e3899c41fbdae77e92e5a0d651572"
   }
 ]

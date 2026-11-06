@@ -272,6 +272,12 @@ class Tests(unittest.TestCase):
         self.assertEqual(d['citations'],[e.PRIMARY_FALLBACK]);self.assertIn(d['claims'][0]['quote'],PROOF['text'])
     def test_invented_evidence_id_rejected(self):
         with self.assertRaisesRegex(ValueError,'unknown_evidence_reference'):e.resolve_evidence({'evidence_refs':['invented']},e.evidence_catalog([P],[PROOF]))
+    def test_reference_generation_never_sends_to_telegram(self):
+        import argparse
+        args=argparse.Namespace(command='generation-check',state=str(self.state.local),output=str(Path(self.tmp.name)/'reference'))
+        with patch.object(e,'evidence',return_value=copy.deepcopy(PROOF)),patch.object(e,'generate',return_value=copy.deepcopy(D)),patch.object(e.Bot,'send') as send:
+            e.run(args);send.assert_not_called()
+        self.assertTrue((Path(args.output)/'reference-draft.json').exists())
     def test_bot_identity_and_permissions(self):
         with patch.dict(e.os.environ,{'TELEGRAM_BOT_TOKEN':'test-placeholder'}):
             bot=e.Bot()
