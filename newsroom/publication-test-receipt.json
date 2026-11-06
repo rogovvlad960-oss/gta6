@@ -5,12 +5,13 @@
   "status": "published",
   "ledger_records": 1,
   "public_caption_verified": true,
-  "user_visual_confirmation": false,
-  "autopublish_enabled": false,
+  "user_visual_confirmation": true,
+  "autopublish_enabled": true,
   "draft_hash": "5758177ce8db016ca3b70534279b1163e8f2c5083d531762a216c0c9243815a8",
   "public_title_verified": true,
   "public_body_verified": true,
   "sources_absent_from_public_caption": true,
   "public_photo_visually_verified": true,
-  "user_authorized_this_post": true
+  "user_authorized_this_post": true,
+  "user_confirmation_note": "User accepted published post and requested activation."
 }

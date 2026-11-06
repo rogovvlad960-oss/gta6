@@ -1,0 +1,35 @@
+{
+  "status": "active",
+  "enabled_at": "2026-11-06T17:03:22.875928+00:00",
+  "user_authorized": true,
+  "user_confirmed_test_message_id": 7,
+  "normal_post_hours_moscow": [
+    9,
+    15,
+    21
+  ],
+  "source_check_hours_moscow": [
+    9,
+    12,
+    15,
+    18,
+    21
+  ],
+  "urgent_poll_minutes": 10,
+  "urgent_round_the_clock": true,
+  "monthly_api_cap_usd": 2,
+  "auto_cards": true,
+  "card_template": "approved-lester-v1",
+  "card_art": "reused approved illustrative artwork; no automatic search of new screenshots",
+  "inline_custom_emoji": false,
+  "publisher": "GTA6NewsHustleBot",
+  "uses_personal_account": false,
+  "verified_tests": 65,
+  "smoke_audit_run": "https://github.com/rogovvlad960-oss/gta6/actions/runs/42256738674",
+  "live_urgent_run": "https://github.com/rogovvlad960-oss/gta6/actions/runs/42257108643",
+  "live_queue_model_run": "https://github.com/rogovvlad960-oss/gta6/actions/runs/42257649146",
+  "live_queue_result": "no_supported_fresh_story",
+  "ledger_usd_including_reserves": 0.0420224,
+  "stop_variable": "NEWSROOM_AUTOPUBLISH=false",
+  "stop_config": "autopublish=false"
+}
