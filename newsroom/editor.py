@@ -453,10 +453,12 @@ def generate(posts, proofs, state, target_posts=None, urgent_only=False, referen
         raise ValueError('unexpected_model_fields')
     try:
         validate_draft(d, posts, proofs)
-    except ValueError:
+    except ValueError as exc:
         settle_cost(state, month, spent, [r])
-        print(json.dumps({'editorial_result':'validation_rejected','api_usage':state.data.get('last_api_usage')}))
-        raise
+        reason=str(exc) if re.fullmatch('[a-z_]+',str(exc)) else 'invalid_draft'
+        log_error(state, reason)
+        print(json.dumps({'editorial_result':'validation_rejected','reason':reason,'api_usage':state.data.get('last_api_usage')}))
+        return None
     if urgent_only and (d.get('kind') != 'fact' or d.get('priority') != 'urgent'):
         settle_cost(state, month, spent, [r])
         return None
