@@ -12,7 +12,7 @@ from newsroom import editor as e
 AT = datetime(2026, 11, 5, 12, 0, tzinfo=timezone.utc) # 15:00 Moscow
 P = {'id': 'leonidagov/2612', 'text': 'GTA 6: неподтверждённый ранний доступ блогера', 'url': 'https://t.me/leonidagov/2612', 'published_at': AT.isoformat(), 'links': []}
 PROOF = {'url': e.PRIMARY_FALLBACK, 'text': 'Coming November 19, 2026. Pre-Load Begins November 10.'}
-D = {'kind': 'fact', 'title': 'Дата в досье', 'body': 'На странице Rockstar указана дата 19 ноября.', 'event_key': 'release-date-2026-11-19', 'source_ids': [P['id']], 'citations': [e.PRIMARY_FALLBACK], 'claims': [{'url': e.PRIMARY_FALLBACK, 'quote': 'Coming November 19, 2026'}]}
+D = {'kind': 'fact', 'title': 'Дата в досье', 'body': 'Дата выхода — 19 ноября.', 'event_key': 'release-date-2026-11-19', 'source_ids': [P['id']], 'citations': [e.PRIMARY_FALLBACK], 'claims': [{'url': e.PRIMARY_FALLBACK, 'quote': 'Coming November 19, 2026'}]}
 
 class FakeBot:
     def __init__(self, fail=False): self.calls = 0; self.fail = fail
