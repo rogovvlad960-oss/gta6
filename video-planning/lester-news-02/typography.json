@@ -1,0 +1,15 @@
+{
+  "primary_pair": [
+    "Druk Wide",
+    "Great Vibes"
+  ],
+  "pair_required": true,
+  "accent_family": "Touché/Grotesk (exact file and family to confirm)",
+  "great_vibes_available": true,
+  "great_vibes_cyrillic_verified": true,
+  "missing_files": [
+    "Druk Wide",
+    "Touché/Grotesk"
+  ],
+  "application": "New Lester video only. Keep earlier exported videos unchanged. No silent font substitutes."
+}

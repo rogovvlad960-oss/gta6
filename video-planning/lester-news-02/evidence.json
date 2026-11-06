@@ -1,0 +1,23 @@
+{
+  "checked_on": "2026-11-06",
+  "gallery": {
+    "url": "https://www.rockstargames.com/VI",
+    "verified_visible_text": [
+      "Explore the Grand Theft Auto VI Launch Gallery November 5, 2026",
+      "Get a stunning look inside Leonida with a collection of new screenshots."
+    ],
+    "note": "Linked Newswire article returned a JS shell; do not invent unseen article details."
+  },
+  "spoilers": {
+    "url": "https://support.rockstargames.com/articles/200153756/Policy-on-posting-copyrighted-Rockstar-Games-material",
+    "verified": "Last Updated January 10, 2025; policy describes pre-release footage and spoilers.",
+    "note": "This alone does not exclude separate newer policies. Script deliberately avoids categorical claim that none exist."
+  },
+  "preload": {
+    "url": "https://www.rockstargames.com/VI",
+    "verified": [
+      "Pre-Load Begins November 10",
+      "Coming November 19, 2026"
+    ]
+  }
+}
