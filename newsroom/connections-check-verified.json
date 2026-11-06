@@ -1,0 +1,15 @@
+{
+  "checked_on": "2026-11-06",
+  "run_url": "https://github.com/rogovvlad960-oss/gta6/actions/runs/42244259037",
+  "offline_tests_passed": 47,
+  "telegram": {
+    "ok": false,
+    "error": "telegram_bot_token_missing"
+  },
+  "openai": {
+    "ok": false,
+    "error": "http_401"
+  },
+  "paid_generations": 0,
+  "telegram_sends": 0
+}
