@@ -1,0 +1,23 @@
+{
+  "approved_on": "2026-11-06",
+  "approval_scope": "Approximate visual direction; not permission to send a test post or enable autopublishing.",
+  "reference_image": "samples/01-fact/image.jpg",
+  "reference_commit": "655f64a",
+  "background": "near-black",
+  "typography": "large bold light text; restrained lime highlights",
+  "presenter": "Recognizable Lester from existing channel avatar, usually a shoulder-up portrait with direct gaze.",
+  "composition": "Clear headline, relevant art or real media, at most two or three main information groups; vary placement for each story.",
+  "dates": "When multiple dates matter, label each separately and include the year where needed.",
+  "branding": "GTA6 Досье Лестера; @lesterdossier; subtle dossier number optional.",
+  "public_sources": false,
+  "internal_evidence_required": true,
+  "media_policy": "Real frames/screenshots for evidence; generated imagery is an authored illustration, never evidence.",
+  "avoid": [
+    "source credits, source URLs or channel watermarks",
+    "draft labels on publishable artwork",
+    "dense decoration",
+    "unrelated imagery",
+    "invented factual details"
+  ],
+  "publication_approval": false
+}
