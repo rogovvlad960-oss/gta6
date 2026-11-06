@@ -5,6 +5,10 @@
     {
       "at": "2026-11-06T16:02:15.330516+00:00",
       "code": "missing_primary_source"
+    },
+    {
+      "at": "2026-11-06T16:08:23.664614+00:00",
+      "code": "unsupported_claim"
     }
   ],
   "spend": {
