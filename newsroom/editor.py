@@ -389,7 +389,7 @@ def settle_cost(state, month, prior, responses):
     state.save()
 
 
-def generate(posts, proofs, state, target_posts=None, urgent_only=False):
+def generate(posts, proofs, state, target_posts=None, urgent_only=False, reference_test=False):
     """Paid endpoint only reachable after explicit cost opt-in AND nonzero hard budget."""
     if os.environ.get('NEWSROOM_AI_SPEND_APPROVED') != 'true':
         raise RuntimeError('paid_generation_not_approved')
@@ -409,7 +409,9 @@ def generate(posts, proofs, state, target_posts=None, urgent_only=False):
               'source_ids=[id публикаций, относящихся ТОЛЬКО к выбранному событию], citations=[точные URL], claims=[{url,quote:дословная выдержка из PROOFS, подтверждающая факт}]. '
               'Ссылки, названия каналов-источников, их @handles, упоминания места получения информации и подписи «Источник» нельзя выводить в title/body. Для слухов используй обобщённую атрибуцию («в сети обсуждают») и явную пометку неподтверждённости. Полные источники сохраняй ТОЛЬКО в служебных citations/claims. Все проверяемые утверждения body должны соответствовать claims. Не добавляй технические поля или ссылки в body. '
               'Избегай уже опубликованных тем HISTORY и TARGET_RECENT, в том числе ручных подписей к видео. Никаких рассуждений за пределами JSON.')
-    user = json.dumps({'NOW': stamp(), 'URGENT_ONLY': urgent_only, 'POSTS': [{**p, 'text': p['text'][:2500]} for p in posts], 'PROOFS': proofs, 'HISTORY': [r.get('event_key') for r in state.data['history'][-90:]], 'TARGET_RECENT': [p['text'][:1200] for p in (target_posts or [])[-12:]], 'allow_rumors': CONFIG['allow_rumors']}, ensure_ascii=False)
+    if reference_test:
+        system += (' Это контрольный прогон на фактах текущей официальной страницы, а не поиск свежего анонса: игнорируй требование новизны темы только для этого прогона. Объясни две даты — начало предзагрузки и выход игры. Не утверждай, что даты объявлены сегодня. Используй только предоставленный официальный материал. Все ссылки остаются в служебных полях. Верни fact и priority=normal.')
+    user = json.dumps({'REFERENCE_TEST':reference_test,'NOW': stamp(), 'URGENT_ONLY': urgent_only, 'POSTS': [{**p, 'text': p['text'][:2500]} for p in posts], 'PROOFS': proofs, 'HISTORY': [r.get('event_key') for r in state.data['history'][-90:]], 'TARGET_RECENT': [p['text'][:1200] for p in (target_posts or [])[-12:]], 'allow_rumors': CONFIG['allow_rumors']}, ensure_ascii=False)
     # UTF-8 bytes is a conservative token upper bound; reserve before the API call.
     reserve = (2 * len((system + user).encode()) + 20000) * CONFIG['input_usd_per_million'] / 1e6 + 1600 * CONFIG['output_usd_per_million'] / 1e6
     spent = state.data['spend'].get(month, 0)
@@ -425,7 +427,12 @@ def generate(posts, proofs, state, target_posts=None, urgent_only=False):
         return None
     if set(d) - {'kind','title','body','event_key','source_ids','citations','claims','priority'}:
         raise ValueError('unexpected_model_fields')
-    validate_draft(d, posts, proofs)
+    try:
+        validate_draft(d, posts, proofs)
+    except ValueError:
+        settle_cost(state, month, spent, [r])
+        print(json.dumps({'editorial_result':'validation_rejected','api_usage':state.data.get('last_api_usage')}))
+        raise
     if urgent_only and (d.get('kind') != 'fact' or d.get('priority') != 'urgent'):
         settle_cost(state, month, spent, [r])
         return None
@@ -587,6 +594,18 @@ def run(args):
     state = State(args.state)
     if args.command == 'init-state':
         state.init(); print('state_initialized_autopublish_off'); return
+    if args.command == 'generation-check':
+        state.load()
+        proof = evidence(PRIMARY_FALLBACK)
+        source = {'id':'official/vi-current','url':proof['url'],'text':proof['text'],'published_at':None,'checked_at':proof['checked_at'],'links':[]}
+        draft = generate([source],[proof],state,reference_test=True)
+        if not draft:
+            raise RuntimeError('reference_generation_rejected')
+        out=Path(args.output);out.mkdir(parents=True,exist_ok=True)
+        draft['source_posts']=[source];draft['proofs']=[proof]
+        (out/'reference-draft.json').write_text(json.dumps(draft,ensure_ascii=False,indent=2))
+        print(json.dumps({'reference_test':True,'review_draft':{k:draft[k] for k in ('kind','title','body')},'api_usage':state.data.get('last_api_usage'),'monthly_ledger_including_reserves':state.data['spend'].get(now().strftime('%Y-%m'),0)},ensure_ascii=False))
+        return
     if args.command == 'confirm-test':
         state.load()
         matches = [r for r in state.data['history'] if r.get('test') and r['status'] == 'published' and r['draft_hash'] == args.approved_hash and str(r['message_id']) == args.message_id]
@@ -697,7 +716,7 @@ def run(args):
 
 def main():
     p = argparse.ArgumentParser(description=__doc__)
-    p.add_argument('command', choices=['audit', 'connections-check', 'bot-check', 'init-state', 'draft', 'cycle', 'urgent-cycle', 'test-post', 'confirm-test'])
+    p.add_argument('command', choices=['audit', 'generation-check', 'connections-check', 'bot-check', 'init-state', 'draft', 'cycle', 'urgent-cycle', 'test-post', 'confirm-test'])
     p.add_argument('--state', help='Local ledger for tests/dev. Omit to use GitHub durable state.')
     p.add_argument('--output', default='out/newsroom')
     p.add_argument('--draft')

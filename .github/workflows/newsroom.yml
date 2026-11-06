@@ -7,7 +7,7 @@ on:
     inputs:
       operation:
         type: choice
-        options: [audit, connections-check, bot-check, init-state, draft, cycle, urgent-cycle, test-post, confirm-test]
+        options: [audit, generation-check, connections-check, bot-check, init-state, draft, cycle, urgent-cycle, test-post, confirm-test]
         default: audit
       sample:
         type: choice
@@ -61,7 +61,7 @@ jobs:
           case "$operation" in
             test-post) python3 -m newsroom.editor test-post --draft "newsroom/samples/$SAMPLE/draft.json" --approved-hash "$APPROVED_HASH" ;;
             confirm-test) python3 -m newsroom.editor confirm-test --approved-hash "$APPROVED_HASH" --message-id "$TEST_MESSAGE_ID" ;;
-            draft) NEWSROOM_AI_SPEND_APPROVED=true python3 -m newsroom.editor draft ;;
+            draft|generation-check) NEWSROOM_AI_SPEND_APPROVED=true python3 -m newsroom.editor "$operation" ;;
             audit|connections-check|bot-check|init-state|cycle|urgent-cycle) python3 -m newsroom.editor "$operation" ;;
             *) exit 2 ;;
           esac
