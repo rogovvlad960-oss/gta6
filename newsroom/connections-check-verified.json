@@ -1,14 +1,18 @@
 {
   "checked_on": "2026-11-06",
-  "run_url": "https://github.com/rogovvlad960-oss/gta6/actions/runs/42244259037",
+  "run_url": "https://github.com/rogovvlad960-oss/gta6/actions/runs/42245094442",
   "offline_tests_passed": 47,
   "telegram": {
-    "ok": false,
-    "error": "telegram_bot_token_missing"
+    "ok": true,
+    "username": "GTA6NewsHustleBot",
+    "chat_id": -1004369086405,
+    "status": "administrator",
+    "can_post_messages": true
   },
   "openai": {
-    "ok": false,
-    "error": "http_401"
+    "ok": true,
+    "model": "gpt-4.1-mini",
+    "billing_balance_verified": false
   },
   "paid_generations": 0,
   "telegram_sends": 0

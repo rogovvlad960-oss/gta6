@@ -4,6 +4,6 @@
   "post_approved": false,
   "autopublish_approved": false,
   "funding_status": "User reports empty balances; no paid calls started.",
-  "current_mode": "free_only",
-  "effective_monthly_paid_limit_usd": 0
+  "current_mode": "paid_api_budget_approved_after_user_return_to_openai",
+  "effective_monthly_paid_limit_usd": 2
 }
