@@ -1,1 +1,9 @@
-{"version": 1, "history": [], "errors": [], "spend": {}, "live_test": null}
+{
+  "version": 1,
+  "history": [],
+  "errors": [],
+  "spend": {
+    "2026-11": 0.0200832
+  },
+  "live_test": null
+}
