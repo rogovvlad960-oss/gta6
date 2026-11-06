@@ -275,7 +275,7 @@ class Tests(unittest.TestCase):
     def test_reference_generation_never_sends_to_telegram(self):
         import argparse
         args=argparse.Namespace(command='generation-check',state=str(self.state.local),output=str(Path(self.tmp.name)/'reference'))
-        with patch.object(e,'evidence',return_value=copy.deepcopy(PROOF)),patch.object(e,'generate',return_value=copy.deepcopy(D)),patch.object(e.Bot,'send') as send:
+        with patch.object(e,'evidence',return_value={**copy.deepcopy(PROOF),'checked_at':AT.isoformat()}),patch.object(e,'generate',return_value=copy.deepcopy(D)),patch.object(e.Bot,'send') as send:
             e.run(args);send.assert_not_called()
         self.assertTrue((Path(args.output)/'reference-draft.json').exists())
     def test_bot_identity_and_permissions(self):
