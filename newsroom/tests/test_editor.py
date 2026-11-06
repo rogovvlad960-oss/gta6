@@ -204,6 +204,17 @@ class Tests(unittest.TestCase):
         response={'choices':[{'message':{'content':json.dumps(d)}}]}
         with patch.dict(e.CONFIG,{'monthly_budget_usd':2}),patch.dict(e.os.environ,{'NEWSROOM_AI_SPEND_APPROVED':'true','NEWSROOM_LLM_KEY':'test-placeholder'}),patch.object(e,'request',return_value=json.dumps(response).encode()):
             with self.assertRaisesRegex(ValueError,'unexpected_model_fields'):e.generate([P],[PROOF],self.state)
+    def test_connections_metadata_only_no_sending(self):
+        with patch.dict(e.os.environ,{'NEWSROOM_LLM_KEY':'test-placeholder'}),patch.object(e.Bot,'check',return_value={'can_post_messages':True}),patch.object(e,'request',return_value=json.dumps({'id':e.CONFIG['model']}).encode()) as r:
+            result=e.check_connections()
+            self.assertTrue(result['openai']['ok']);self.assertFalse(result['openai']['billing_balance_verified'])
+            self.assertEqual(r.call_args.kwargs['method'],'GET');self.assertIn('/v1/models/',r.call_args.args[0])
+    def test_connections_missing_secret_no_api(self):
+        with patch.dict(e.os.environ,{'NEWSROOM_LLM_KEY':''}),patch.object(e.Bot,'check',return_value={}),patch.object(e,'request') as r:
+            self.assertEqual(e.check_connections()['openai']['error'],'llm_secret_missing');r.assert_not_called()
+    def test_connections_error_is_redacted(self):
+        with patch.dict(e.os.environ,{'NEWSROOM_LLM_KEY':'test-placeholder'}),patch.object(e.Bot,'check',side_effect=RuntimeError('secret value must not leak')),patch.object(e,'request',side_effect=RuntimeError('http_401')):
+            result=e.check_connections();self.assertEqual(result['telegram']['error'],'RuntimeError');self.assertEqual(result['openai']['error'],'http_401')
     def test_bot_identity_and_permissions(self):
         with patch.dict(e.os.environ,{'TELEGRAM_BOT_TOKEN':'test-placeholder'}):
             bot=e.Bot()

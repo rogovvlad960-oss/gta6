@@ -306,6 +306,32 @@ class Bot:
         return self.call('sendMessage', payload)
 
 
+def check_connections():
+    """Read-only diagnostics; no generation, spending, sending or secret output."""
+    results = {}
+    try:
+        results['telegram'] = {'ok': True, **Bot().check()}
+    except Exception as exc:
+        code = str(exc) if re.fullmatch('[a-z][a-z0-9_]{2,90}', str(exc)) else type(exc).__name__
+        results['telegram'] = {'ok': False, 'error': code}
+    token = os.environ.get('NEWSROOM_LLM_KEY')
+    if not token:
+        results['openai'] = {'ok': False, 'error': 'llm_secret_missing'}
+    else:
+        try:
+            model = CONFIG['model']
+            if not re.fullmatch(r'[A-Za-z0-9_.-]+', model):
+                raise RuntimeError('invalid_model_name')
+            r = json.loads(request('https://api.openai.com/v1/models/' + model, headers={'Authorization':'Bearer '+token}, method='GET'))
+            if r.get('id') != model:
+                raise RuntimeError('model_metadata_mismatch')
+            results['openai'] = {'ok': True, 'model': model, 'billing_balance_verified': False}
+        except Exception as exc:
+            code = str(exc) if re.fullmatch('[a-z][a-z0-9_]{2,90}', str(exc)) else type(exc).__name__
+            results['openai'] = {'ok': False, 'error': code}
+    return results
+
+
 def format_post(draft):
     labels = {'fact': 'ПРОВЕРЕНО', 'rumor': 'СЛУХ', 'analysis': 'РАЗБОР'}
     text = '<b>' + labels[draft['kind']] + ' · ' + html.escape(draft['title']) + '</b>\n\n' + html.escape(draft['body'])
@@ -497,6 +523,12 @@ def collect():
 
 
 def run(args):
+    if args.command == 'connections-check':
+        results = check_connections()
+        print(json.dumps(results, ensure_ascii=False))
+        if not all(r['ok'] for r in results.values()):
+            raise RuntimeError('connections_check_failed')
+        return
     if args.command == 'bot-check':
         print(json.dumps(Bot().check(), ensure_ascii=False)); return
     state = State(args.state)
@@ -597,7 +629,7 @@ def run(args):
 
 def main():
     p = argparse.ArgumentParser(description=__doc__)
-    p.add_argument('command', choices=['audit', 'bot-check', 'init-state', 'draft', 'cycle', 'test-post', 'confirm-test'])
+    p.add_argument('command', choices=['audit', 'connections-check', 'bot-check', 'init-state', 'draft', 'cycle', 'test-post', 'confirm-test'])
     p.add_argument('--state', help='Local ledger for tests/dev. Omit to use GitHub durable state.')
     p.add_argument('--output', default='out/newsroom')
     p.add_argument('--draft')
@@ -611,7 +643,7 @@ def main():
         code = str(exc) if re.fullmatch('[a-z][a-z0-9_]{2,90}', str(exc)) else type(exc).__name__
         print(json.dumps({'error': code, 'at': stamp()}), file=sys.stderr)
         # Append a sanitized operational failure without resetting or replacing the ledger.
-        if args.command not in ('audit', 'bot-check', 'init-state'):
+        if args.command not in ('audit', 'connections-check', 'bot-check', 'init-state'):
             try:
                 s = State(args.state); s.load(); log_error(s, code)
             except Exception:
