@@ -3,7 +3,7 @@
   "history": [
     {
       "at": "2026-11-06T16:30:08.102275+00:00",
-      "status": "pending",
+      "status": "published",
       "test": true,
       "urgent": false,
       "draft_hash": "5758177ce8db016ca3b70534279b1163e8f2c5083d531762a216c0c9243815a8",
@@ -41,7 +41,8 @@
       ],
       "source_urls": [
         "https://www.rockstargames.com/VI"
-      ]
+      ],
+      "message_id": 7
     }
   ],
   "errors": [
