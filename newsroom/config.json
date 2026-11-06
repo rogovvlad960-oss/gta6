@@ -22,5 +22,13 @@
   "input_usd_per_million": 0.4,
   "output_usd_per_million": 1.6,
   "allow_rumors": false,
-  "autopublish": false
+  "autopublish": false,
+  "urgent": {
+    "enabled": true,
+    "allow_night": true,
+    "poll_minutes": 10,
+    "max_age_hours": 6,
+    "minimum_gap_minutes": 15,
+    "extra_daily_max": 1
+  }
 }

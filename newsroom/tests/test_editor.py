@@ -228,6 +228,44 @@ class Tests(unittest.TestCase):
     def test_connections_error_is_redacted(self):
         with patch.dict(e.os.environ,{'NEWSROOM_LLM_KEY':'test-placeholder','TELEGRAM_BOT_TOKEN':'test-placeholder'}),patch.object(e.Bot,'check',side_effect=RuntimeError('secret value must not leak')),patch.object(e,'request',side_effect=RuntimeError('http_401')):
             result=e.check_connections();self.assertEqual(result['telegram']['error'],'RuntimeError');self.assertEqual(result['openai']['error'],'http_401')
+    def test_urgent_bypasses_normal_slot_at_night(self):
+        self.state.data['live_test']={'message_id':1}
+        d={**D,'priority':'urgent','_urgent_verified':True}
+        with patch.dict(e.CONFIG,{'autopublish':True}),patch.dict(e.os.environ,{'NEWSROOM_AUTOPUBLISH':'true','NEWSROOM_STYLE_APPROVED':'true'}):
+            self.assertEqual(e.publish(self.state,FakeBot(),d,[P],at=AT+timedelta(hours=10))['status'],'published')
+    def test_normal_story_still_blocked_at_night(self):
+        with self.assertRaisesRegex(RuntimeError,'outside_moscow'):e.publication_limits(self.state,urgent=False,at=AT+timedelta(hours=10))
+    def test_urgent_candidate_keywords_not_enough_for_publishing(self):
+        p={**P,'text':'Rockstar выпустила новый официальный трейлер GTA 6 с игровыми кадрами'}
+        self.assertTrue(e.urgent_candidate(p,self.state,AT))
+        self.assertFalse(e.urgent_verified({**D,'priority':'urgent'}))
+        self.assertFalse(e.urgent_candidate({**p,'text':'СЛУХ: '+p['text']},self.state,AT))
+    def test_urgent_rejected_candidate_not_rebilled(self):
+        p={**P,'text':'Rockstar выпустила новый официальный трейлер GTA 6 с игровыми кадрами'}
+        self.state.data['urgent_examined']={e.digest(p['text']):AT.isoformat()}
+        self.assertFalse(e.urgent_candidate(p,self.state,AT))
+    def test_urgent_stale_candidate_is_not_breaking(self):
+        p={**P,'text':'Rockstar выпустила новый официальный трейлер GTA 6 с игровыми кадрами'}
+        self.assertFalse(e.urgent_candidate(p,self.state,AT+timedelta(hours=7)))
+    def test_urgent_has_one_extra_daily_slot(self):
+        self.state.data['history']=[{'status':'published','at':(AT-timedelta(hours=i)).isoformat()} for i in (6,5,4)]
+        e.publication_limits(self.state,urgent=True,at=AT)
+        with self.assertRaisesRegex(RuntimeError,'daily_cap'):e.publication_limits(self.state,urgent=False,at=AT)
+        self.state.data['history'].append({'status':'published','at':(AT-timedelta(hours=1)).isoformat()})
+        with self.assertRaisesRegex(RuntimeError,'daily_cap'):e.publication_limits(self.state,urgent=True,at=AT)
+    def test_urgent_does_not_bypass_uncertain_delivery(self):
+        self.state.data['live_test']={'message_id':1}
+        self.state.data['history']=[{'status':'uncertain','at':(AT-timedelta(hours=1)).isoformat()}]
+        with patch.dict(e.CONFIG,{'autopublish':True}),patch.dict(e.os.environ,{'NEWSROOM_AUTOPUBLISH':'true','NEWSROOM_STYLE_APPROVED':'true'}):
+            with self.assertRaisesRegex(RuntimeError,'unresolved_delivery'):e.publish(self.state,FakeBot(),{**D,'_urgent_verified':True},[P],at=AT)
+    def test_urgency_requires_second_review_confirmation(self):
+        d={**D,'priority':'urgent'}
+        for confirm in (False,True):
+            responses=[{'choices':[{'message':{'content':json.dumps(d)}}]}, {'choices':[{'message':{'content':json.dumps({'approved':True,'urgent_confirmed':confirm})}}]}]
+            with patch.dict(e.os.environ,{'NEWSROOM_AI_SPEND_APPROVED':'true','NEWSROOM_LLM_KEY':'test-placeholder'}),patch.object(e,'request',side_effect=[json.dumps(r).encode() for r in responses]):
+                result=e.generate([P],[PROOF],self.state,urgent_only=True)
+                if confirm:self.assertTrue(result['_urgent_verified'])
+                else:self.assertIsNone(result)
     def test_bot_identity_and_permissions(self):
         with patch.dict(e.os.environ,{'TELEGRAM_BOT_TOKEN':'test-placeholder'}):
             bot=e.Bot()

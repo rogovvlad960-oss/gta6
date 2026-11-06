@@ -2,11 +2,12 @@ name: Lester Dossier newsroom
 on:
   schedule:
     - cron: '0 6,9,12,15,18 * * *' # 09/12/15/18/21 Europe/Moscow, UTC+3
+    - cron: '5-55/10 * * * *' # urgent checks; separate opt-in gate
   workflow_dispatch:
     inputs:
       operation:
         type: choice
-        options: [audit, connections-check, bot-check, init-state, draft, cycle, test-post, confirm-test]
+        options: [audit, connections-check, bot-check, init-state, draft, cycle, urgent-cycle, test-post, confirm-test]
         default: audit
       sample:
         type: choice
@@ -25,6 +26,7 @@ concurrency:
   cancel-in-progress: false
 jobs:
   newsroom:
+    if: github.event.schedule != '5-55/10 * * * *' || vars.NEWSROOM_URGENT_ENABLED == 'true'
     runs-on: ubuntu-latest
     timeout-minutes: 8
     permissions:
@@ -44,6 +46,7 @@ jobs:
         run: python3 -m unittest discover -s newsroom/tests -v
       - name: Run editor
         env:
+          CRON_SCHEDULE: ${{ github.event.schedule }}
           REQUESTED_OPERATION: ${{ inputs.operation }}
           SAMPLE: ${{ inputs.sample }}
           APPROVED_HASH: ${{ inputs.approved_hash }}
@@ -53,11 +56,12 @@ jobs:
           operation="${REQUESTED_OPERATION:-audit}"
           if [ "$GITHUB_EVENT_NAME" = schedule ] && [ "$NEWSROOM_AUTOPUBLISH" = true ]; then
             operation=cycle
+            if [ "$CRON_SCHEDULE" = '5-55/10 * * * *' ]; then operation=urgent-cycle; fi
           fi
           case "$operation" in
             test-post) python3 -m newsroom.editor test-post --draft "newsroom/samples/$SAMPLE/draft.json" --approved-hash "$APPROVED_HASH" ;;
             confirm-test) python3 -m newsroom.editor confirm-test --approved-hash "$APPROVED_HASH" --message-id "$TEST_MESSAGE_ID" ;;
-            audit|connections-check|bot-check|init-state|draft|cycle) python3 -m newsroom.editor "$operation" ;;
+            audit|connections-check|bot-check|init-state|draft|cycle|urgent-cycle) python3 -m newsroom.editor "$operation" ;;
             *) exit 2 ;;
           esac
       - name: Save review queue and sanitized audit
