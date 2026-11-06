@@ -524,7 +524,7 @@ def publication_limits(state, urgent=False, at=None):
     if urgent:
         if not policy.get('allow_night') and not 9 <= date.hour < 21:
             raise RuntimeError('outside_moscow_window')
-    elif date.hour not in CONFIG['check_hours'] or date.minute > 45:
+    elif date.hour not in CONFIG.get('publish_hours',CONFIG['check_hours']) or date.minute > 45:
         raise RuntimeError('outside_moscow_window')
     history = [r for r in state.data['history'] if r['status'] in ('published','pending','uncertain')]
     today = [r for r in history if datetime.fromisoformat(r['at']).astimezone(MSK).date() == date.date()]
@@ -705,7 +705,7 @@ def run(args):
         if any(r['status'] in ('pending','uncertain') for r in state.data['history']):
             raise RuntimeError('unresolved_delivery_blocks_publishing')
         if urgent_only:
-            candidates = [p for p in candidates if urgent_candidate(p, state)][:1]
+            candidates = [p for p in candidates if urgent_candidate(p, state)]
             if not candidates:
                 return
         Bot().check()
@@ -722,14 +722,18 @@ def run(args):
     candidates = [p for p in candidates if not any(len(t['text']) > 35 and similarity(p['text'], t['text']) > .72 for t in target_posts)]
     if not candidates:
         return
-    if urgent_only:
-        # Persist before a paid call. Identical rejected candidates must not consume
-        # budget on each ten-minute scan; expire hashes after seven days.
-        cutoff = now()-timedelta(days=7)
-        seen = {k:v for k,v in state.data.get('urgent_examined',{}).items() if datetime.fromisoformat(v) > cutoff}
-        seen.update({digest(p['text']):stamp() for p in candidates[:8]})
-        state.data['urgent_examined'] = seen
-        state.save()
+    # New official evidence can make a previously unsupported item verifiable.
+    # Cache the source text AND evidence snapshot, not the source ID alone.
+    proof_key = digest([{'url':p['url'],'text':p['text']} for p in proofs])
+    cutoff = now()-timedelta(days=7)
+    examined = {k:v for k,v in state.data.get('editor_examined',{}).items() if datetime.fromisoformat(v)>cutoff}
+    candidate_key = lambda p: digest([digest(p['text']),proof_key])
+    candidates = [p for p in candidates if candidate_key(p) not in examined][:1 if urgent_only else 8]
+    if not candidates:
+        print(json.dumps({'idle':'no_unexamined_supported_candidates'}));return
+    examined.update({candidate_key(p):stamp() for p in candidates})
+    state.data['editor_examined']=examined
+    state.save()  # Reserve this examination before the paid API request.
     d = generate(candidates[:8], proofs, state, target_posts, urgent_only=urgent_only)
     if d:
         if any(len(t['text']) > 35 and similarity(d['title'] + ' ' + d['body'], t['text']) > .72 for t in target_posts):
@@ -737,6 +741,9 @@ def run(args):
             return
         if d['kind'] == 'rumor' and not CONFIG['allow_rumors']:
             return
+        if CONFIG.get('auto_images',{}).get('enabled'):
+            from .cards import render_card
+            d['image']=render_card(d,sequence=len(state.data['history'])+1)
         (out / 'draft.json').write_text(json.dumps(d, ensure_ascii=False, indent=2))
         if args.command == 'draft':
             print(json.dumps({'review_draft':{k:d[k] for k in ('kind','title','body')},'draft_hash':digest(d),'api_usage':state.data.get('last_api_usage')},ensure_ascii=False))

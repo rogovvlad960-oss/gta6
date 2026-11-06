@@ -26,7 +26,7 @@ concurrency:
   cancel-in-progress: false
 jobs:
   newsroom:
-    if: github.event.schedule != '5-55/10 * * * *' || vars.NEWSROOM_URGENT_ENABLED == 'true'
+    if: github.event.schedule != '5-55/10 * * * *' || vars.NEWSROOM_URGENT_ENABLED != 'false'
     runs-on: ubuntu-latest
     timeout-minutes: 8
     permissions:
@@ -34,14 +34,16 @@ jobs:
     env:
       TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
       NEWSROOM_LLM_KEY: ${{ secrets.NEWSROOM_LLM_KEY }}
-      NEWSROOM_AI_SPEND_APPROVED: ${{ vars.NEWSROOM_AI_SPEND_APPROVED }}
-      NEWSROOM_AUTOPUBLISH: ${{ vars.NEWSROOM_AUTOPUBLISH }}
-      NEWSROOM_STYLE_APPROVED: ${{ vars.NEWSROOM_STYLE_APPROVED }}
+      NEWSROOM_AI_SPEND_APPROVED: ${{ vars.NEWSROOM_AI_SPEND_APPROVED || 'true' }}
+      NEWSROOM_AUTOPUBLISH: ${{ vars.NEWSROOM_AUTOPUBLISH || 'true' }}
+      NEWSROOM_STYLE_APPROVED: ${{ vars.NEWSROOM_STYLE_APPROVED || 'true' }}
       GITHUB_TOKEN: ${{ github.token }}
     steps:
       - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
         with:
           persist-credentials: false
+      - name: Install pinned card renderer
+        run: python3 -m pip install --disable-pip-version-check Pillow==11.3.0
       - name: Meaningful offline tests
         run: python3 -m unittest discover -s newsroom/tests -v
       - name: Run editor

@@ -278,6 +278,23 @@ class Tests(unittest.TestCase):
         with patch.object(e,'evidence',return_value={**copy.deepcopy(PROOF),'checked_at':AT.isoformat()}),patch.object(e,'generate',return_value=copy.deepcopy(D)),patch.object(e.Bot,'send') as send:
             e.run(args);send.assert_not_called()
         self.assertTrue((Path(args.output)/'reference-draft.json').exists())
+    def test_auto_card_renders_real_jpeg_with_verified_hash(self):
+        from newsroom.cards import render_card
+        from PIL import Image
+        with tempfile.TemporaryDirectory(dir=e.ROOT) as folder:
+            d=json.loads((e.ROOT/'samples/04-generated/draft.json').read_text())
+            asset=render_card(d,sequence=2,output=Path(folder)/'card.jpg')
+            with Image.open(e.ROOT/asset['file']) as im:
+                self.assertEqual(im.size,(1448,1086))
+            self.assertTrue(asset['public_sources_hidden']);self.assertTrue(asset['emoji_pack_graphics'])
+            self.assertEqual(e.hashlib.sha256(e.image_bytes({'image':asset})).hexdigest(),asset['sha256'])
+    def test_card_dates_are_labeled_and_no_dates_invented(self):
+        from newsroom.cards import date_facts
+        self.assertEqual(date_facts('Без дат — новое видео.'),[])
+        self.assertEqual(date_facts('Начать скачивать можно с 10 ноября. Запуск игры 19 ноября 2026 года.','Предзагрузка GTA VI'),[('ПРЕДЗАГРУЗКА','10 НОЯБРЯ'),('ВЫХОД ИГРЫ','19 НОЯБРЯ 2026')])
+    def test_normal_publication_slots(self):
+        e.publication_limits(self.state,at=AT)
+        with self.assertRaisesRegex(RuntimeError,'outside_moscow'):e.publication_limits(self.state,at=AT+timedelta(hours=3))
     def test_bot_identity_and_permissions(self):
         with patch.dict(e.os.environ,{'TELEGRAM_BOT_TOKEN':'test-placeholder'}):
             bot=e.Bot()

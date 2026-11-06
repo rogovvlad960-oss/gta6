@@ -22,7 +22,7 @@
   "input_usd_per_million": 2,
   "output_usd_per_million": 8,
   "allow_rumors": false,
-  "autopublish": false,
+  "autopublish": true,
   "urgent": {
     "enabled": true,
     "allow_night": true,
@@ -30,5 +30,15 @@
     "max_age_hours": 6,
     "minimum_gap_minutes": 15,
     "extra_daily_max": 1
+  },
+  "publish_hours": [
+    9,
+    15,
+    21
+  ],
+  "auto_images": {
+    "enabled": true,
+    "template": "approved-lester-v1",
+    "paid_image_generation": false
   }
 }
