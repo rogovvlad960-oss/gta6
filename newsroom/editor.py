@@ -526,8 +526,13 @@ def publication_limits(state, urgent=False, at=None):
     if urgent:
         if not policy.get('allow_night') and not 9 <= date.hour < 21:
             raise RuntimeError('outside_moscow_window')
-    elif date.hour not in CONFIG.get('publish_hours',CONFIG['check_hours']) or date.minute > 45:
-        raise RuntimeError('outside_moscow_window')
+    else:
+        # Actions cron is best-effort: a delayed runner must not discard the slot.
+        # Allow up to two hours after each slot, but never normal posts after 21:59.
+        minute = date.hour * 60 + date.minute
+        slots = CONFIG.get('publish_hours', CONFIG['check_hours'])
+        if not any(hour * 60 <= minute < min(hour * 60 + 120, 22 * 60) for hour in slots):
+            raise RuntimeError('outside_moscow_window')
     history = [r for r in state.data['history'] if r['status'] in ('published','pending','uncertain')]
     today = [r for r in history if datetime.fromisoformat(r['at']).astimezone(MSK).date() == date.date()]
     cap = CONFIG['daily_max'] + (policy.get('extra_daily_max', 0) if urgent else 0)

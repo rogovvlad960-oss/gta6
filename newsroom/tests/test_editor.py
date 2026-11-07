@@ -198,7 +198,7 @@ class Tests(unittest.TestCase):
     def test_out_of_window(self):
         self.state.data['live_test']={'message_id':1}
         with patch.dict(e.CONFIG,{'autopublish':True}),patch.dict(e.os.environ,{'NEWSROOM_AUTOPUBLISH':'true','NEWSROOM_STYLE_APPROVED':'true'}):
-            with self.assertRaisesRegex(RuntimeError,'outside_moscow'):e.publish(self.state,FakeBot(),D,[P],at=AT+timedelta(hours=1))
+            with self.assertRaisesRegex(RuntimeError,'outside_moscow'):e.publish(self.state,FakeBot(),D,[P],at=AT+timedelta(hours=2))
     def test_photo_sender_uses_approved_bytes_and_caption(self):
         d=json.loads((e.ROOT/'samples/01-fact/draft.json').read_text())
         with patch.dict(e.os.environ,{'TELEGRAM_BOT_TOKEN':'test-placeholder'}),patch.object(e,'request',return_value=b'{"ok":true,"result":{"message_id":7}}') as r:
@@ -292,6 +292,20 @@ class Tests(unittest.TestCase):
         from newsroom.cards import date_facts
         self.assertEqual(date_facts('Без дат — новое видео.'),[])
         self.assertEqual(date_facts('Начать скачивать можно с 10 ноября. Запуск игры 19 ноября 2026 года.','Предзагрузка GTA VI'),[('ПРЕДЗАГРУЗКА','10 НОЯБРЯ'),('ВЫХОД ИГРЫ','19 НОЯБРЯ 2026')])
+    def test_delayed_actions_runner_keeps_publication_slot(self):
+        # Actual incident: the 15:00 slot started at 15:50 Moscow.
+        e.publication_limits(self.state, at=AT+timedelta(minutes=50))
+        e.publication_limits(self.state, at=AT+timedelta(hours=1,minutes=14))
+        with self.assertRaisesRegex(RuntimeError,'outside_moscow'):
+            e.publication_limits(self.state, at=AT+timedelta(hours=2))
+    def test_delayed_normal_slot_does_not_spill_into_night(self):
+        e.publication_limits(self.state, at=AT+timedelta(hours=6,minutes=59))
+        with self.assertRaisesRegex(RuntimeError,'outside_moscow'):
+            e.publication_limits(self.state, at=AT+timedelta(hours=7))
+    def test_delayed_slot_still_obeys_posting_cooldown(self):
+        self.state.data['history']=[{'status':'published','at':AT.isoformat()}]
+        with self.assertRaisesRegex(RuntimeError,'posting_cooldown'):
+            e.publication_limits(self.state, at=AT+timedelta(minutes=50))
     def test_normal_publication_slots(self):
         e.publication_limits(self.state,at=AT)
         with self.assertRaisesRegex(RuntimeError,'outside_moscow'):e.publication_limits(self.state,at=AT+timedelta(hours=3))
