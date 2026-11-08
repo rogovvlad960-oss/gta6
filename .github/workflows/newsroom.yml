@@ -7,7 +7,7 @@ on:
     inputs:
       operation:
         type: choice
-        options: [audit, generation-check, connections-check, bot-check, init-state, draft, cycle, urgent-cycle, test-post, confirm-test]
+        options: [audit, generation-check, connections-check, bot-check, init-state, draft, cycle, urgent-cycle, prepare, prepare-urgent, test-post, confirm-test]
         default: audit
       sample:
         type: choice
@@ -33,6 +33,9 @@ jobs:
       contents: write # CAS ledger on newsroom-state; no other repo/API permissions
     env:
       TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+      NEWSROOM_PUBLISHER_URL: ${{ vars.NEWSROOM_PUBLISHER_URL }}
+      NEWSROOM_QUEUE_KEY: ${{ secrets.NEWSROOM_QUEUE_KEY }}
+      NEWSROOM_DELIVERY_BACKEND: ${{ vars.NEWSROOM_DELIVERY_BACKEND || 'github' }}
       NEWSROOM_LLM_KEY: ${{ secrets.NEWSROOM_LLM_KEY }}
       NEWSROOM_AI_SPEND_APPROVED: ${{ vars.NEWSROOM_AI_SPEND_APPROVED || 'true' }}
       NEWSROOM_AUTOPUBLISH: ${{ vars.NEWSROOM_AUTOPUBLISH || 'true' }}
@@ -46,6 +49,8 @@ jobs:
         run: python3 -m pip install --disable-pip-version-check Pillow==11.3.0
       - name: Meaningful offline tests
         run: python3 -m unittest discover -s newsroom/tests -v
+      - name: Independent scheduler offline tests
+        run: node --test newsroom/scheduler/test-worker.mjs
       - name: Run editor
         env:
           CRON_SCHEDULE: ${{ github.event.schedule }}
@@ -64,7 +69,7 @@ jobs:
             test-post) python3 -m newsroom.editor test-post --draft "newsroom/samples/$SAMPLE/draft.json" --approved-hash "$APPROVED_HASH" ;;
             confirm-test) python3 -m newsroom.editor confirm-test --approved-hash "$APPROVED_HASH" --message-id "$TEST_MESSAGE_ID" ;;
             draft|generation-check) NEWSROOM_AI_SPEND_APPROVED=true python3 -m newsroom.editor "$operation" ;;
-            audit|connections-check|bot-check|init-state|cycle|urgent-cycle) python3 -m newsroom.editor "$operation" ;;
+            audit|connections-check|bot-check|init-state|cycle|urgent-cycle|prepare|prepare-urgent) python3 -m newsroom.editor "$operation" ;;
             *) exit 2 ;;
           esac
       - name: Save review queue and sanitized audit
