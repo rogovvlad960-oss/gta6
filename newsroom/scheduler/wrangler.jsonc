@@ -1,0 +1,10 @@
+{
+  "$schema": "https://raw.githubusercontent.com/cloudflare/workers-sdk/main/packages/wrangler/config-schema.json",
+  "name": "lesterdossier-publisher",
+  "main": "worker.mjs",
+  "compatibility_date": "2026-11-01",
+  "triggers": {"crons": ["* * * * *"]},
+  "vars": {"PUBLISH_ENABLED": "false", "CHANNEL": "@lesterdossier", "BOT_USERNAME": "GTA6NewsHustleBot"},
+  "d1_databases": [{"binding": "DB", "database_name": "lesterdossier-newsroom", "database_id": "REPLACE_WITH_CREATED_DATABASE_ID"}],
+  "observability": {"enabled": true}
+}
