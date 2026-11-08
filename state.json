@@ -60,7 +60,7 @@
     }
   ],
   "spend": {
-    "2026-11": 0.1715124
+    "2026-11": 0.0695984
   },
   "live_test": {
     "draft_hash": "5758177ce8db016ca3b70534279b1163e8f2c5083d531762a216c0c9243815a8",
@@ -68,12 +68,12 @@
     "confirmed_at": "2026-11-06T16:55:59.511650+00:00"
   },
   "last_api_usage": {
-    "at": "2026-11-08T15:30:42.059908+00:00",
+    "at": "2026-11-08T19:55:49.981044+00:00",
     "model": "gpt-4.1",
     "calls": 1,
-    "prompt_tokens": 2874,
-    "completion_tokens": 134,
-    "estimated_usd_uncached": 0.00682
+    "prompt_tokens": 2803,
+    "completion_tokens": 5,
+    "estimated_usd_uncached": 0.005646
   },
   "editor_examined": {
     "ebc6e63d9f30c5acbfcb0eee44c93bb04d115e1417e12236c7475eb266c096ad": "2026-11-07T14:10:01.667644+00:00",
