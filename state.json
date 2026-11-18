@@ -108,6 +108,10 @@
         "at": "2026-11-18T14:41:43.559990+00:00",
         "code": "InvalidTag"
       }
-    ]
+    ],
+    "route": {
+      "nonce": "74azwyYB5CtE+7H1",
+      "ciphertext": "oaAo7g0pvB+RlJwY0AZE0Y0dVbiVIF91mPLRIcQ8iRuP+hilVw/Y"
+    }
   }
 }
