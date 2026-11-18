@@ -36,6 +36,9 @@ def recipient():
 def telegram(method,payload):
  return json.loads(e.request('https://api.telegram.org/bot'+os.environ['TELEGRAM_BOT_TOKEN']+'/'+method,payload))
 def check_recipient():
+ if e.CONFIG.get('delivery_backend')=='telegram_user':
+  from .telegram_user.transport import check
+  return check()
  cid=recipient();me=telegram('getMe',{});chat=telegram('getChat',{'chat_id':cid})
  if not me.get('ok') or me['result'].get('username','').lower()!='gta6newshustlebot':raise RuntimeError('wrong_bot')
  if not chat.get('ok') or chat['result'].get('type')!='private' or chat['result']['id']!=cid:raise RuntimeError('private_recipient_required')
@@ -98,18 +101,23 @@ def send_reserved(state,draft,posts,image_url,*,test=False):
  if not(image.startswith(b'\xff\xd8')or image.startswith(b'\x89PNG')):raise RuntimeError('invalid_image_bytes')
  text=caption(draft);record['image_hash']=hashlib.sha256(image).hexdigest();data['history'].append(record);state.save()
  try:
-  import uuid
-  b='lester'+uuid.uuid4().hex;parts=[]
-  for key,value in [('chat_id',str(cid)),('caption',text),('parse_mode','HTML')]:parts.append(('--'+b+'\r\nContent-Disposition: form-data; name="'+key+'"\r\n\r\n'+value+'\r\n').encode())
-  parts.extend([('--'+b+'\r\nContent-Disposition: form-data; name="photo"; filename="post.jpg"\r\nContent-Type: image/jpeg\r\n\r\n').encode(),image,('\r\n--'+b+'--\r\n').encode()])
-  result=json.loads(e.request('https://api.telegram.org/bot'+os.environ['TELEGRAM_BOT_TOKEN']+'/sendPhoto',b''.join(parts),{'Content-Type':'multipart/form-data; boundary='+b}))
-  if not result.get('ok'):raise RuntimeError('telegram_rejected')
-  message=result['result']
-  if message['chat'].get('type')!='private' or message['chat']['id']!=cid or not message.get('photo'):raise RuntimeError('unexpected_delivery')
+  if e.CONFIG.get('delivery_backend')=='telegram_user':
+   from .telegram_user.transport import send_photo
+   delivered=send_photo(image,text,urgent=draft.get('priority')=='urgent');message_id=delivered['message_id'];record['delivery_backend']='telegram_user';record['custom_emoji_id']=delivered['custom_emoji_id']
+  else:
+   import uuid
+   b='lester'+uuid.uuid4().hex;parts=[]
+   for key,value in [('chat_id',str(cid)),('caption',text),('parse_mode','HTML')]:parts.append(('--'+b+'\r\nContent-Disposition: form-data; name="'+key+'"\r\n\r\n'+value+'\r\n').encode())
+   parts.extend([('--'+b+'\r\nContent-Disposition: form-data; name="photo"; filename="post.jpg"\r\nContent-Type: image/jpeg\r\n\r\n').encode(),image,('\r\n--'+b+'--\r\n').encode()])
+   result=json.loads(e.request('https://api.telegram.org/bot'+os.environ['TELEGRAM_BOT_TOKEN']+'/sendPhoto',b''.join(parts),{'Content-Type':'multipart/form-data; boundary='+b}))
+   if not result.get('ok'):raise RuntimeError('telegram_rejected')
+   message=result['result']
+   if message['chat'].get('type')!='private' or message['chat']['id']!=cid or not message.get('photo'):raise RuntimeError('unexpected_delivery')
+   message_id=message['message_id']
  except Exception:
   record['status']='uncertain';state.save();raise RuntimeError('private_delivery_uncertain')from None
- record.update(status='sent',message_id=message['message_id']);state.save()
- return {'delivered':True,'message_id':message['message_id'],'destination':'private','test':test}
+ record.update(status='sent',message_id=message_id);state.save()
+ return {'delivered':True,'message_id':message_id,'destination':'saved_messages'if e.CONFIG.get('delivery_backend')=='telegram_user'else 'private','test':test}
 
 def vision_check(state,draft,image_url):
  month=e.now().strftime('%Y-%m');prior=state.data['spend'].get(month,0);reserve=.015

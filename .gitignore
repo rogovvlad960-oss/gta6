@@ -8,3 +8,6 @@ public/v3-frames/
 __pycache__/
 *.pyc
 newsroom/runtime/
+telegram-user-private/
+*.session
+*.session-journal
