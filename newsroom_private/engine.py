@@ -103,7 +103,7 @@ def reject_reason(post, at=None):
     if not timedelta(0) <= at - date <= timedelta(hours=CONFIG['max_age_hours']):
         return 'stale_or_future'
     t = post['text'].lower()
-    if re.search('розыгрыш|разыгра|boost|буст|конкурс|промокод|(?:^|\\s)#реклама(?:\\s|$)|рекламный пост|выигра[йть]', t):
+    if re.search('розыгрыш|разыгра|boost|буст(?:ы|ов|ами|ить)?\\b|конкурс|промокод|(?:^|\\s)#реклама(?:\\s|$)|рекламный пост|выигра[йть]', t):
         return 'advertisement_or_giveaway'
     if not re.search('gta\\s*(?:6|vi)\\b|гта\\s*6', t):
         return 'not_gta6_news'

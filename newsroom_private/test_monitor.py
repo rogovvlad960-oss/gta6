@@ -30,6 +30,9 @@ class Tests(unittest.TestCase):
   self.assertIn('не подтверждено',out)
   fallback=m.caption({'kind':'rumor','title':'Деталь','body':'Сообщают о детали'})
   self.assertIn('подтверждения пока нет',fallback)
+ def test_streamer_name_is_not_advertisement(self):
+  self.assertIsNone(m.e.reject_reason({'text':'Бустер показал смешной момент в GTA VI','published_at':m.e.stamp()}))
+  self.assertEqual(m.e.reject_reason({'text':'Буст канала про GTA VI','published_at':m.e.stamp()}),'advertisement_or_giveaway')
  def test_duplicate_event(self):
   d={'event_key':'one','title':'t','body':'b'};data={'history':[{'status':'sent','event_key':'one'}]};self.assertTrue(m.seen_draft(d,[],data))
  def test_new_event(self):
