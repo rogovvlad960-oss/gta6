@@ -16,7 +16,7 @@ export async function tick(env, ms, send = fetch) {
   return {dispatched: true, scheduled_at: new Date(ms).toISOString()};
 }
 export default {
-  async fetch() { return Response.json({service: 'Lester private clock', quiet_moscow: '01:00-08:00'}); },
+  async fetch(request, env) { return Response.json({service: 'Lester private clock', quiet_moscow: '01:00-08:00', interval_minutes: 15, github_dispatch_configured: Boolean(env.GITHUB_DISPATCH_TOKEN)}); },
   async scheduled(controller, env, ctx) {
     ctx.waitUntil(tick(env, controller.scheduledTime).then(x => console.log(JSON.stringify(x)))
       .catch(e => { console.error(/^[a-z_0-9]+$/.test(e.message) ? e.message : 'clock_failed'); throw Error('clock_failed'); }));

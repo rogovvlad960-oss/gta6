@@ -25,8 +25,12 @@
   "first_verified_schedule_run": 44375797927,
   "first_verified_schedule_at_moscow": "2026-11-18T22:01:13+03:00",
   "cadence_15_minutes_verified": false,
-  "cloudflare_deployed": false,
-  "cloudflare_missing": "CLOUDFLARE_API_TOKEN saved binding absent",
+  "cloudflare_deployed": true,
+  "cloudflare_missing": "GITHUB_DISPATCH_TOKEN must be added directly to Cloudflare Worker secrets",
   "daily_max": 6,
-  "minimum_gap_hours": 1
+  "minimum_gap_hours": 1,
+  "cloudflare_worker": "lester-private-clock",
+  "cloudflare_cron_utc": "*/15 5-21 * * *",
+  "cloudflare_end_to_end_verified": false,
+  "cloudflare_health": "public URL probe upstream503; deployment and cron API confirmed"
 }
