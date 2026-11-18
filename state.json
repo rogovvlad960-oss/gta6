@@ -103,7 +103,7 @@
     "history": [
       {
         "at": "2026-11-18T14:43:25.995452+00:00",
-        "status": "pending",
+        "status": "sent",
         "event_key": "private-editor-cloud-probe-v1",
         "source_hashes": [],
         "tokens": [
@@ -130,7 +130,8 @@
           "f588452202ef9ef0427572d2b96238cfe019e05828c59d25f5138ff513b4b989"
         ],
         "test": true,
-        "image_hash": "f97d26406f1bb77c905737551fe3a7d2e96f6263a43ffd29a9bad79d80b0d7ca"
+        "image_hash": "f97d26406f1bb77c905737551fe3a7d2e96f6263a43ffd29a9bad79d80b0d7ca",
+        "message_id": 11
       }
     ],
     "examined": {},
