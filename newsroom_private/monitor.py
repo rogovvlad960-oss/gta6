@@ -131,8 +131,9 @@ def run(mode):
   if data.get('last_schedule_slot')==slot:return {'idle':'schedule_slot_already_checked'}
   data['last_schedule_slot']=slot;state.save()
  check_recipient()
- if blocked(data,now):return {'idle':blocked(data,now)}
+ gate=blocked(data,now)
  if mode=='probe':
+  if gate:return {'idle':gate}
   if any(r.get('test')and r['status']=='sent'for r in data['history']):return {'probe':'already_confirmed'}
   official=e.evidence('https://www.rockstargames.com/VI/launch-gallery')
   if not official['text']:raise RuntimeError('primary_unreadable')
@@ -151,6 +152,7 @@ def run(mode):
  sent_hashes={h for r in data['history']for h in r.get('source_hashes',[])}
  fresh=[p for p in posts if e.digest(p['text'])not in data['examined']and e.digest(p['text'])not in sent_hashes]
  state.save()
+ if gate:return {'idle':gate,'dated_posts':len(posts),'new_candidates':len(fresh)}
  if not fresh:return {'idle':'no_new_image_posts','dated_posts':len(posts)}
  # Monitoring is cheap; model drafting at most twelve times/day for the entire private editor.
  day=now.astimezone(e.MSK).date().isoformat()

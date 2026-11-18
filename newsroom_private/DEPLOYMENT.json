@@ -1,10 +1,10 @@
 {
-  "phase": "ordinary_post_delivered_scheduler_under_verification",
+  "phase": "timer_bridge_deployed_awaiting_real_schedule",
   "cloud_probe_run": 44327327257,
   "cloud_probe_conclusion": "success",
   "telegram_private_photo_message_id": 11,
   "probe_api_estimated_usd": 0.001396,
-  "schedule_utc": "*/15 * * * *",
+  "schedule_utc": "*/15 5-21 * * *",
   "monthly_shared_ai_cap_usd": 2,
   "channel_posting": "not modified by this workflow",
   "first_cycle_run": 44327550739,
@@ -17,5 +17,9 @@
   "first_ordinary_run": 44361530091,
   "first_ordinary_message_id": 12,
   "first_ordinary_at": "2026-11-18T17:42:26Z",
-  "scheduled_run_verified": false
+  "scheduled_run_verified": false,
+  "quiet_hours_moscow": "01:00-08:00",
+  "schedule_bridge_commit": "adc91ce70c1d389de868cc32ac9109bb4798702e",
+  "monitor_even_when_delivery_capped": true,
+  "invalid_model_evidence": "reject_without_aborting_cycle"
 }

@@ -41,6 +41,15 @@ class Tests(unittest.TestCase):
   t=datetime(2026,11,18,3,0,tzinfo=m.e.MSK)
   with patch.object(m.e,'now',return_value=t),patch.object(m.e,'State',side_effect=AssertionError('State must not open')),patch.object(m,'check_recipient',side_effect=AssertionError('Telegram must not be called')):
    self.assertEqual(m.run('cycle')['idle'],'quiet_hours_moscow_01_08')
+ def test_invalid_model_evidence_is_rejected_without_crashing(self):
+  import json, os
+  from types import SimpleNamespace
+  state=SimpleNamespace(data={'history':[],'spend':{},'errors':[]},save=lambda:None)
+  response={'choices':[{'message':{'content':json.dumps({'evidence_refs':['invented']})}}], 'usage':{'prompt_tokens':10,'completion_tokens':10}}
+  with patch.dict(os.environ,{'NEWSROOM_AI_SPEND_APPROVED':'true','NEWSROOM_LLM_KEY':'test-only'}),patch.object(m.e,'request',return_value=json.dumps(response)):
+   self.assertIsNone(m.e.generate([],[],state))
+  self.assertEqual(state.data['errors'][-1]['code'],'unknown_evidence_reference')
+  self.assertLess(sum(state.data['spend'].values()),.001)
  def test_duplicate_event(self):
   d={'event_key':'one','title':'t','body':'b'};data={'history':[{'status':'sent','event_key':'one'}]};self.assertTrue(m.seen_draft(d,[],data))
  def test_new_event(self):

@@ -1,0 +1,6 @@
+{
+  "name": "lester-private-clock",
+  "main": "clock-worker.mjs",
+  "compatibility_date": "2026-11-18",
+  "triggers": {"crons": ["*/15 5-21 * * *"]}
+}

@@ -281,10 +281,10 @@ def generate(posts, proofs, state, target_posts=None, urgent_only=False, referen
         print(json.dumps({'editorial_result': 'no_supported_fresh_story'}))
         settle_cost(state, month, spent, [r])
         return None
-    resolve_evidence(d, catalog)
-    if set(d) - {'kind', 'title', 'body', 'event_key', 'source_ids', 'citations', 'claims', 'priority'}:
-        raise ValueError('unexpected_model_fields')
     try:
+        resolve_evidence(d, catalog)
+        if set(d) - {'kind', 'title', 'body', 'event_key', 'source_ids', 'citations', 'claims', 'priority'}:
+            raise ValueError('unexpected_model_fields')
         validate_draft(d, posts, proofs)
     except ValueError as exc:
         settle_cost(state, month, spent, [r])
