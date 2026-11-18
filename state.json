@@ -303,6 +303,7 @@
         "idle": "normal_cooldown"
       },
       "trigger": "push"
-    }
+    },
+    "last_schedule_slot": "2026-11-18T22:00"
   }
 }
