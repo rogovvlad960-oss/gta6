@@ -82,8 +82,10 @@ def body_html(text):
  return re.sub(r'\*\*([^*\n]{1,70})\*\*',lambda m:'<b>'+m.group(1)+'</b>',escaped,count=1)
 
 def caption(draft):
- title=draft['title'];title=title if title and ord(title[0])>=0x2000 else '⚡️ '+title
- text=('<b>⚠️ НЕ ПОДТВЕРЖДЕНО</b>\n' if draft.get('kind')=='rumor' else '')+'<b>'+html.escape(title)+'</b>\n\n'+body_html(draft['body'])
+ title=draft['title'];title=title if title and ord(title[0])>=0x2000 else ('👀 ' if draft.get('kind')=='rumor' else '⚡️ ')+title
+ body=draft['body']
+ if draft.get('kind')=='rumor' and not re.search(r'не подтвержден|неподтвержд|подтверждения нет',body,re.I):body='В сети сообщают об этом, но подтверждения пока нет. '+body
+ text='<b>'+html.escape(title)+'</b>\n\n'+body_html(body)
  if len(text)>1024:raise RuntimeError('caption_too_long')
  return text
 

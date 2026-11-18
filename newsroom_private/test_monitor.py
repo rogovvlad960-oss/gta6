@@ -23,9 +23,13 @@ class Tests(unittest.TestCase):
   self.assertIn('<b>под водой</b>',m.caption({'title':'Кадр','body':'Вид **под водой**'}))
   self.assertEqual(m.body_html('<script>x</script>'),'&lt;script&gt;x&lt;/script&gt;')
   self.assertNotIn('<b>',m.body_html('**'+('x'*71)+'**'))
- def test_rumor_label_cannot_be_omitted(self):
+ def test_rumor_uncertainty_is_inline(self):
   out=m.caption({'kind':'rumor','title':'Деталь','body':'Сообщают о детали, не подтверждено'})
-  self.assertTrue(out.startswith('<b>⚠️ НЕ ПОДТВЕРЖДЕНО</b>'))
+  self.assertNotIn('⚠️',out)
+  self.assertNotIn('<b>НЕ ПОДТВЕРЖДЕНО',out)
+  self.assertIn('не подтверждено',out)
+  fallback=m.caption({'kind':'rumor','title':'Деталь','body':'Сообщают о детали'})
+  self.assertIn('подтверждения пока нет',fallback)
  def test_duplicate_event(self):
   d={'event_key':'one','title':'t','body':'b'};data={'history':[{'status':'sent','event_key':'one'}]};self.assertTrue(m.seen_draft(d,[],data))
  def test_new_event(self):
