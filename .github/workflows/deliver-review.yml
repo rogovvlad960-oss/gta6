@@ -1,0 +1,39 @@
+name: Deliver private review file
+on:
+  workflow_dispatch:
+    inputs:
+      asset_url:
+        type: string
+        required: true
+      sha256:
+        type: string
+        required: true
+      filename:
+        type: string
+        required: true
+      caption:
+        type: string
+        required: true
+permissions:
+  contents: write
+concurrency:
+  group: lesterdossier-newsroom
+  cancel-in-progress: false
+jobs:
+  deliver:
+    runs-on: ubuntu-latest
+    timeout-minutes: 6
+    env:
+      TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+      GITHUB_TOKEN: ${{ github.token }}
+      REVIEW_ASSET_URL: ${{ inputs.asset_url }}
+      REVIEW_SHA256: ${{ inputs.sha256 }}
+      REVIEW_FILENAME: ${{ inputs.filename }}
+      REVIEW_CAPTION: ${{ inputs.caption }}
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          persist-credentials: false
+      - run: python3 -m pip install --disable-pip-version-check -r newsroom_private/requirements.txt
+      - name: Send exact file only to approved private recipient
+        run: python3 -m delivery_tools.review_file
