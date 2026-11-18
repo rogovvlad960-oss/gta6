@@ -76,6 +76,11 @@ def event_record(draft,posts):
 def seen_draft(draft,posts,data):
  return e.duplicate(draft,posts,type('View',(),{'data':{'history':data['history']}})())
 
+def body_html(text):
+ escaped=html.escape(text)
+ # Only the first short, single-line emphasis is rendered; arbitrary HTML stays escaped.
+ return re.sub(r'\*\*([^*\n]{1,70})\*\*',lambda m:'<b>'+m.group(1)+'</b>',escaped,count=1)
+
 def caption(draft):
  title=draft['title'];title=title if title and ord(title[0])>=0x2000 else '⚡️ '+title
  text='<b>'+html.escape(title)+'</b>\n\n'+html.escape(draft['body'])

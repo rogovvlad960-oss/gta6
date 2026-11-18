@@ -18,6 +18,10 @@ class Tests(unittest.TestCase):
  def test_caption_limits_and_escaping(self):
   self.assertIn('&lt;',m.caption({'title':'<x>','body':'text'}))
   with self.assertRaisesRegex(RuntimeError,'caption_too_long'):m.caption({'title':'x','body':'x'*1025})
+ def test_body_emphasis_safe(self):
+  self.assertEqual(m.body_html('Кадр **под водой**'),'Кадр <b>под водой</b>')
+  self.assertEqual(m.body_html('<script>x</script>'),'&lt;script&gt;x&lt;/script&gt;')
+  self.assertNotIn('<b>',m.body_html('**'+('x'*71)+'**'))
  def test_duplicate_event(self):
   d={'event_key':'one','title':'t','body':'b'};data={'history':[{'status':'sent','event_key':'one'}]};self.assertTrue(m.seen_draft(d,[],data))
  def test_new_event(self):
