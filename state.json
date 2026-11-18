@@ -69,6 +69,10 @@
     {
       "at": "2026-11-18T14:58:24.540648+00:00",
       "code": "missing_primary_source"
+    },
+    {
+      "at": "2026-11-18T17:37:19.769450+00:00",
+      "code": "unlabeled_uncertainty"
     }
   ],
   "spend": {
