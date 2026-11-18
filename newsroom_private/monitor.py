@@ -72,7 +72,7 @@ def blocked(data,now):
  return None
 
 def event_record(draft,posts):
- return {'at':e.stamp(),'status':'pending','event_key':draft['event_key'],'source_hashes':[e.digest(p['text'])for p in posts if p['id']in draft['source_ids']],'tokens':sorted(e.digest(w)for w in e.normalize(draft['title']+' '+draft['body']))}
+ return {'at':e.stamp(),'status':'pending','event_key':draft['event_key'],'source_hashes':[e.digest(p['text'])for p in posts if p['id']in draft['source_ids']],'tokens':sorted(e.digest(w)for w in e.normalize(draft['title']+' '+draft['body'])),'evidence':[{'url':c['url'],'quote_sha256':hashlib.sha256(c['quote'].encode()).hexdigest()}for c in draft.get('claims',[])]}
 def seen_draft(draft,posts,data):
  return e.duplicate(draft,posts,type('View',(),{'data':{'history':data['history']}})())
 
@@ -149,7 +149,7 @@ def run(mode):
  data['attempts'][day]=data['attempts'].get(day,0)+1
  for p in fresh:data['examined'][e.digest(p['text'])]=p['published_at']
  data['examined']={k:v for k,v in data['examined'].items()if datetime.fromisoformat(v)>now-timedelta(days=14)};state.save()
- draft=e.generate(fresh,proofs,state)
+ draft=e.generate(fresh,proofs,state,urgent_only=bool(sent and now-datetime.fromisoformat(sent[-1]['at'])<timedelta(hours=4)))
  if not draft:return {'idle':'no_supported_fresh_story','dated_posts':len(posts)}
  if seen_draft(draft,fresh,data):return {'idle':'duplicate'}
  selected=next((p for p in fresh if p['id']in draft['source_ids']and p['images']),None)

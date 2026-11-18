@@ -1,10 +1,16 @@
 {
-  "phase": "enabling_schedule_after_cloud_probe",
+  "phase": "schedule_enabled_and_first_cycle_passed",
   "cloud_probe_run": 44327327257,
   "cloud_probe_conclusion": "success",
   "telegram_private_photo_message_id": 11,
   "probe_api_estimated_usd": 0.001396,
   "schedule_utc": "7,22,37,52 * * * *",
   "monthly_shared_ai_cap_usd": 2,
-  "channel_posting": "not modified by this workflow"
+  "channel_posting": "not modified by this workflow",
+  "first_cycle_run": 44327550739,
+  "first_cycle_conclusion": "success",
+  "cloud_state_branch": "newsroom-state",
+  "private_state_namespace": "private_editor",
+  "cron_timing": "best effort, may be delayed by GitHub",
+  "api_month_ledger_after_first_cycle": 0.1497124
 }
