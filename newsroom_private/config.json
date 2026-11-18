@@ -15,8 +15,8 @@
     18,
     21
   ],
-  "daily_max": 3,
-  "minimum_gap_hours": 4,
+  "daily_max": 6,
+  "minimum_gap_hours": 1,
   "max_age_hours": 48,
   "model": "gpt-4.1-mini",
   "monthly_budget_usd": 2,
@@ -26,8 +26,8 @@
   "autopublish": true,
   "urgent": {
     "enabled": true,
-    "allow_night": true,
-    "poll_minutes": 10,
+    "allow_night": false,
+    "poll_minutes": 15,
     "max_age_hours": 6,
     "minimum_gap_minutes": 15,
     "extra_daily_max": 1

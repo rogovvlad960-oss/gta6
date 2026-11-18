@@ -1,5 +1,5 @@
 {
-  "phase": "timer_bridge_deployed_awaiting_real_schedule",
+  "phase": "first_real_schedule_verified_cadence_not_verified",
   "cloud_probe_run": 44327327257,
   "cloud_probe_conclusion": "success",
   "telegram_private_photo_message_id": 11,
@@ -17,9 +17,16 @@
   "first_ordinary_run": 44361530091,
   "first_ordinary_message_id": 12,
   "first_ordinary_at": "2026-11-18T17:42:26Z",
-  "scheduled_run_verified": false,
+  "scheduled_run_verified": true,
   "quiet_hours_moscow": "01:00-08:00",
   "schedule_bridge_commit": "adc91ce70c1d389de868cc32ac9109bb4798702e",
   "monitor_even_when_delivery_capped": true,
-  "invalid_model_evidence": "reject_without_aborting_cycle"
+  "invalid_model_evidence": "reject_without_aborting_cycle",
+  "first_verified_schedule_run": 44375797927,
+  "first_verified_schedule_at_moscow": "2026-11-18T22:01:13+03:00",
+  "cadence_15_minutes_verified": false,
+  "cloudflare_deployed": false,
+  "cloudflare_missing": "CLOUDFLARE_API_TOKEN saved binding absent",
+  "daily_max": 6,
+  "minimum_gap_hours": 1
 }

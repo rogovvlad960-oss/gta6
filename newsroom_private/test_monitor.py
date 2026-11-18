@@ -9,7 +9,10 @@ class Tests(unittest.TestCase):
  def test_uncertain_blocks_new_posts(self):
   self.assertEqual(m.blocked({'history':[{'status':'uncertain'}]},m.e.now()),'delivery_requires_reconciliation')
  def test_daily_cap(self):
-  records=[{'at':m.e.stamp(),'status':'sent'}for _ in range(3)];self.assertEqual(m.blocked({'history':records},m.e.now()),'daily_cap')
+  records=[{'at':m.e.stamp(),'status':'sent'}for _ in range(6)];self.assertEqual(m.blocked({'history':records},m.e.now()),'daily_cap')
+ def test_below_six_posts_is_allowed(self):
+  records=[{'at':m.e.stamp(),'status':'sent'}for _ in range(5)]
+  self.assertIsNone(m.blocked({'history':records},m.e.now()))
  def test_probe_not_counted(self):
   self.assertIsNone(m.blocked({'history':[{'at':m.e.stamp(),'status':'sent','test':True}for _ in range(3)]},m.e.now()))
  def test_private_only(self):

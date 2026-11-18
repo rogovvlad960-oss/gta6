@@ -68,7 +68,7 @@ def private_data(state):
 def blocked(data,now):
  if any(r['status']in('pending','uncertain')for r in data['history']):return 'delivery_requires_reconciliation'
  today=now.astimezone(e.MSK).date()
- if sum(datetime.fromisoformat(r['at']).astimezone(e.MSK).date()==today for r in data['history']if not r.get('test'))>=3:return 'daily_cap'
+ if sum(datetime.fromisoformat(r['at']).astimezone(e.MSK).date()==today for r in data['history']if not r.get('test'))>=e.CONFIG['daily_max']:return 'daily_cap'
  return None
 
 def event_record(draft,posts):
@@ -159,7 +159,7 @@ def run(mode):
  if data['attempts'].get(day,0)>=12:return {'idle':'daily_model_attempt_cap','new_candidates':len(fresh)}
  sent=[r for r in data['history']if r['status']=='sent'and not r.get('test')]
  urgent=any(e.urgent_candidate(p,state)for p in fresh)
- if sent and not urgent and now-datetime.fromisoformat(sent[-1]['at'])<timedelta(hours=4):return {'idle':'normal_cooldown'}
+ if sent and not urgent and now-datetime.fromisoformat(sent[-1]['at'])<timedelta(hours=e.CONFIG['minimum_gap_hours']):return {'idle':'normal_cooldown','dated_posts':len(posts),'new_candidates':len(fresh),'next_normal_at_moscow':(datetime.fromisoformat(sent[-1]['at'])+timedelta(hours=e.CONFIG['minimum_gap_hours'])).astimezone(e.MSK).isoformat()}
  fresh=sorted(fresh,key=lambda x:x['published_at'],reverse=True)[:6];proofs=[]
  urls=['https://www.rockstargames.com/VI','https://www.rockstargames.com/VI/launch-gallery']
  for p in fresh:
@@ -171,7 +171,7 @@ def run(mode):
  data['attempts'][day]=data['attempts'].get(day,0)+1
  for p in fresh:data['examined'][e.digest(p['text'])]=p['published_at']
  data['examined']={k:v for k,v in data['examined'].items()if datetime.fromisoformat(v)>now-timedelta(days=14)};state.save()
- draft=e.generate(fresh,proofs,state,urgent_only=bool(sent and now-datetime.fromisoformat(sent[-1]['at'])<timedelta(hours=4)))
+ draft=e.generate(fresh,proofs,state,urgent_only=bool(sent and now-datetime.fromisoformat(sent[-1]['at'])<timedelta(hours=e.CONFIG['minimum_gap_hours'])))
  if not draft:return {'idle':'no_supported_fresh_story','dated_posts':len(posts)}
  if seen_draft(draft,fresh,data):return {'idle':'duplicate'}
  selected=next((p for p in fresh if p['id']in draft['source_ids']and p['images']),None)
