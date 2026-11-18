@@ -287,12 +287,10 @@
     },
     "policy": "rumors-v2",
     "last_check": {
-      "at": "2026-11-18T17:42:26.438558+00:00",
+      "at": "2026-11-18T17:49:43.453875+00:00",
       "result": {
-        "delivered": true,
-        "message_id": 12,
-        "destination": "private",
-        "test": false
+        "idle": "no_supported_fresh_story",
+        "dated_posts": 21
       },
       "trigger": "push"
     }
