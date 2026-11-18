@@ -309,11 +309,12 @@
     },
     "policy": "rumors-v2",
     "last_check": {
-      "at": "2026-11-18T19:01:13.219415+00:00",
+      "at": "2026-11-18T21:03:44.361078+00:00",
       "result": {
-        "idle": "normal_cooldown"
+        "idle": "no_supported_fresh_story",
+        "dated_posts": 30
       },
-      "trigger": "schedule"
+      "trigger": "push"
     },
     "last_schedule_slot": "2026-11-18T22:00",
     "schedule_checks": [
