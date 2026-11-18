@@ -298,12 +298,22 @@
     },
     "policy": "rumors-v2",
     "last_check": {
-      "at": "2026-11-18T18:07:43.884218+00:00",
+      "at": "2026-11-18T19:01:13.219415+00:00",
       "result": {
         "idle": "normal_cooldown"
       },
-      "trigger": "push"
+      "trigger": "schedule"
     },
-    "last_schedule_slot": "2026-11-18T22:00"
+    "last_schedule_slot": "2026-11-18T22:00",
+    "schedule_checks": [
+      {
+        "at": "2026-11-18T19:01:13.219442+00:00",
+        "result": {
+          "idle": "normal_cooldown"
+        },
+        "workflow": "Lester Dossier newsroom",
+        "run_id": "44375797927"
+      }
+    ]
   }
 }
