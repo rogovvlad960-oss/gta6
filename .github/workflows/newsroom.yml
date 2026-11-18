@@ -1,6 +1,7 @@
 name: Lester Dossier newsroom
 on:
   schedule:
+    - cron: '*/15 5-21 * * *' # private editor, 08:00-01:00 Moscow
     - cron: '0 6,9,12,15,18 * * *' # 09/12/15/18/21 Europe/Moscow, UTC+3
     - cron: '5-55/10 * * * *' # urgent checks; separate opt-in gate
   workflow_dispatch:
@@ -26,7 +27,7 @@ concurrency:
   cancel-in-progress: false
 jobs:
   newsroom:
-    if: github.event.schedule != '5-55/10 * * * *' || vars.NEWSROOM_URGENT_ENABLED != 'false'
+    if: github.event.schedule != '*/15 5-21 * * *' && (github.event.schedule != '5-55/10 * * * *' || vars.NEWSROOM_URGENT_ENABLED != 'false')
     runs-on: ubuntu-latest
     timeout-minutes: 8
     permissions:
@@ -75,3 +76,26 @@ jobs:
           path: out/newsroom/
           retention-days: 7
           if-no-files-found: ignore
+
+  private-editor-clock:
+    needs: newsroom
+    if: always() && github.event_name == 'schedule'
+    runs-on: ubuntu-latest
+    timeout-minutes: 6
+    permissions:
+      contents: write
+    env:
+      TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+      NEWSROOM_LLM_KEY: ${{ secrets.NEWSROOM_LLM_KEY }}
+      NEWSROOM_AI_SPEND_APPROVED: 'true'
+      GITHUB_TOKEN: ${{ github.token }}
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          persist-credentials: false
+      - name: Private editor dependencies
+        run: python3 -m pip install --disable-pip-version-check -r newsroom_private/requirements.txt
+      - name: Private editor checks
+        run: python3 -m unittest newsroom_private.test_monitor -v
+      - name: Private editor cycle from established clock
+        run: python3 -m newsroom_private.monitor cycle

@@ -119,9 +119,18 @@ def vision_check(state,draft,image_url):
  response=json.loads(e.request('https://api.openai.com/v1/chat/completions',{'model':e.CONFIG['model'],'messages':[{'role':'user','content':[{'type':'text','text':prompt},{'type':'image_url','image_url':{'url':image_url,'detail':'low'}}]}],'response_format':{'type':'json_object'},'max_completion_tokens':100},{'Authorization':'Bearer '+os.environ['NEWSROOM_LLM_KEY']}))
  e.settle_cost(state,month,prior,[response]);return json.loads(response['choices'][0]['message']['content']).get('approved')is True
 
+def quiet_hours(at):
+ return 1<=at.astimezone(e.MSK).hour<8
+
 def run(mode):
  global ROUTING_STATE
- state=e.State();state.load();ROUTING_STATE=state;data=private_data(state);now=e.now();check_recipient()
+ if quiet_hours(e.now()):return {'idle':'quiet_hours_moscow_01_08'}
+ state=e.State();state.load();ROUTING_STATE=state;data=private_data(state);now=e.now()
+ if os.environ.get('GITHUB_EVENT_NAME')=='schedule':
+  slot=now.astimezone(e.MSK).strftime('%Y-%m-%dT%H:')+str((now.minute//15)*15).zfill(2)
+  if data.get('last_schedule_slot')==slot:return {'idle':'schedule_slot_already_checked'}
+  data['last_schedule_slot']=slot;state.save()
+ check_recipient()
  if blocked(data,now):return {'idle':blocked(data,now)}
  if mode=='probe':
   if any(r.get('test')and r['status']=='sent'for r in data['history']):return {'probe':'already_confirmed'}
@@ -171,7 +180,10 @@ def run(mode):
 def main():
  try:
   result=run(sys.argv[1]if len(sys.argv)>1 else 'cycle')
-  audit=e.State();audit.load();private_data(audit)['last_check']={'at':e.stamp(),'result':result,'trigger':os.environ.get('GITHUB_EVENT_NAME','local')};audit.save()
+  audit=e.State();audit.load();private_data(audit)['last_check']={'at':e.stamp(),'result':result,'trigger':os.environ.get('GITHUB_EVENT_NAME','local')}
+  if os.environ.get('GITHUB_EVENT_NAME')=='schedule':
+   data=private_data(audit);data['schedule_checks']=(data.get('schedule_checks',[])+[{'at':e.stamp(),'result':result,'workflow':os.environ.get('GITHUB_WORKFLOW'),'run_id':os.environ.get('GITHUB_RUN_ID')}])[-30:]
+  audit.save()
   print(json.dumps(result,ensure_ascii=False))
  except Exception as exc:
   code=str(exc)if re.fullmatch('[a-z_]+',str(exc))else type(exc).__name__

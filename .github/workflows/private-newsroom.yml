@@ -1,7 +1,7 @@
 name: Lester private post monitor
 on:
   schedule:
-    - cron: '*/15 * * * *' # UTC; 24/7 every 15 minutes, best effort
+    - cron: '*/15 5-21 * * *' # 08:00-00:45 Moscow; quiet 01:00-08:00
   push:
     branches: [main]
     paths: ['newsroom_private/**', '.github/workflows/private-newsroom.yml']

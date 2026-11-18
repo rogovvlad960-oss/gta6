@@ -1,5 +1,5 @@
 import unittest
-from datetime import timedelta
+from datetime import timedelta, datetime, timezone
 from unittest.mock import patch
 from . import monitor as m
 class Tests(unittest.TestCase):
@@ -33,6 +33,14 @@ class Tests(unittest.TestCase):
  def test_streamer_name_is_not_advertisement(self):
   self.assertIsNone(m.e.reject_reason({'text':'Бустер показал смешной момент в GTA VI','published_at':m.e.stamp()}))
   self.assertEqual(m.e.reject_reason({'text':'Буст канала про GTA VI','published_at':m.e.stamp()}),'advertisement_or_giveaway')
+ def test_night_boundaries_moscow(self):
+  for hour,minute,expected in [(0,59,False),(1,0,True),(7,59,True),(8,0,False),(23,45,False)]:
+   t=datetime(2026,11,18,hour,minute,tzinfo=m.e.MSK)
+   self.assertEqual(m.quiet_hours(t),expected)
+ def test_night_never_opens_state_or_telegram(self):
+  t=datetime(2026,11,18,3,0,tzinfo=m.e.MSK)
+  with patch.object(m.e,'now',return_value=t),patch.object(m.e,'State',side_effect=AssertionError('State must not open')),patch.object(m,'check_recipient',side_effect=AssertionError('Telegram must not be called')):
+   self.assertEqual(m.run('cycle')['idle'],'quiet_hours_moscow_01_08')
  def test_duplicate_event(self):
   d={'event_key':'one','title':'t','body':'b'};data={'history':[{'status':'sent','event_key':'one'}]};self.assertTrue(m.seen_draft(d,[],data))
  def test_new_event(self):
