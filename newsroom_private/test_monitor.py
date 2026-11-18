@@ -57,4 +57,22 @@ class Tests(unittest.TestCase):
   d={'event_key':'one','title':'t','body':'b'};data={'history':[{'status':'sent','event_key':'one'}]};self.assertTrue(m.seen_draft(d,[],data))
  def test_new_event(self):
   self.assertFalse(m.seen_draft({'event_key':'new','title':'t','body':'b'},[],{'history':[]}))
+ def test_premium_caption_preserves_bold_utf16_and_literal_html(self):
+  from .bot_emoji import format_caption,units,LOGO
+  text,entities=format_caption(m.caption({'title':'🚔 КОПЫ','body':'Деталь **важная** <x>'}))
+  self.assertEqual(text,'📰 КОПЫ\n\nДеталь важная <x>')
+  custom=next(e for e in entities if e['type']=='custom_emoji')
+  self.assertEqual(custom,{'type':'custom_emoji','offset':0,'length':2,'custom_emoji_id':LOGO})
+  body_bold=next(e for e in entities if e['type']=='bold'and e['offset']>0)
+  self.assertEqual(body_bold['offset'],units('📰 КОПЫ\n\nДеталь '))
+ def test_urgent_and_body_lightning_use_pack_entities(self):
+  from .bot_emoji import format_caption,LIGHTNING
+  text,entities=format_caption('<b>🚔 Заголовок</b>\n⚡️ Важная деталь',urgent=True)
+  custom=[e for e in entities if e['type']=='custom_emoji']
+  self.assertEqual(len(custom),2);self.assertTrue(all(e['custom_emoji_id']==LIGHTNING for e in custom))
+ def test_stripped_premium_emoji_is_not_claimed_success(self):
+  from .bot_emoji import format_caption,verify_returned
+  text,entities=format_caption('<b>⚡️ Новость</b>')
+  with self.assertRaisesRegex(RuntimeError,'premium_emoji_not_preserved'):verify_returned({'caption_entities':[]},entities)
+  verify_returned({'caption_entities':entities},entities)
 if __name__=='__main__':unittest.main()

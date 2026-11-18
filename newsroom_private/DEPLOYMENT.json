@@ -38,5 +38,10 @@
   "cloudflare_first_verified_tick_moscow": "2026-11-19T00:30:31.533+03:00",
   "cloudflare_first_verified_result": "no_new_image_posts",
   "scheduled_post_delivery_verified": false,
-  "cloudflare_credential_type": "secret_text"
+  "cloudflare_credential_type": "secret_text",
+  "premium_emoji_enabled": true,
+  "premium_emoji_private_test_message": 19,
+  "premium_emoji_visual_confirmed_by_user": true,
+  "delivery_backend": "bot",
+  "personal_account_authorized": false
 }

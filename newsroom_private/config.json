@@ -41,5 +41,7 @@
     "enabled": true,
     "template": "approved-lester-v1",
     "paid_image_generation": false
-  }
+  },
+  "premium_emoji_enabled": true,
+  "delivery_backend": "bot"
 }

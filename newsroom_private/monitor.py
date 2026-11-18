@@ -107,13 +107,21 @@ def send_reserved(state,draft,posts,image_url,*,test=False):
   else:
    import uuid
    b='lester'+uuid.uuid4().hex;parts=[]
-   for key,value in [('chat_id',str(cid)),('caption',text),('parse_mode','HTML')]:parts.append(('--'+b+'\r\nContent-Disposition: form-data; name="'+key+'"\r\n\r\n'+value+'\r\n').encode())
+   entities=None
+   if e.CONFIG.get('premium_emoji_enabled'):
+    from .bot_emoji import format_caption
+    text,entities=format_caption(text,urgent=draft.get('priority')=='urgent')
+   fields=[('chat_id',str(cid)),('caption',text)]+([('caption_entities',json.dumps(entities,ensure_ascii=False))]if entities is not None else [('parse_mode','HTML')])
+   for key,value in fields:parts.append(('--'+b+'\r\nContent-Disposition: form-data; name="'+key+'"\r\n\r\n'+value+'\r\n').encode())
    parts.extend([('--'+b+'\r\nContent-Disposition: form-data; name="photo"; filename="post.jpg"\r\nContent-Type: image/jpeg\r\n\r\n').encode(),image,('\r\n--'+b+'--\r\n').encode()])
    result=json.loads(e.request('https://api.telegram.org/bot'+os.environ['TELEGRAM_BOT_TOKEN']+'/sendPhoto',b''.join(parts),{'Content-Type':'multipart/form-data; boundary='+b}))
    if not result.get('ok'):raise RuntimeError('telegram_rejected')
    message=result['result']
    if message['chat'].get('type')!='private' or message['chat']['id']!=cid or not message.get('photo'):raise RuntimeError('unexpected_delivery')
-   message_id=message['message_id']
+   message_id=message['message_id'];record['message_id']=message_id
+   if entities is not None:
+    from .bot_emoji import verify_returned
+    verify_returned(message,entities);record['custom_emoji_ids']=[x['custom_emoji_id']for x in entities if x['type']=='custom_emoji']
  except Exception:
   record['status']='uncertain';state.save();raise RuntimeError('private_delivery_uncertain')from None
  record.update(status='sent',message_id=message_id);state.save()
