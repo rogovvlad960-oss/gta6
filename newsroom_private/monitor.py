@@ -83,7 +83,7 @@ def body_html(text):
 
 def caption(draft):
  title=draft['title'];title=title if title and ord(title[0])>=0x2000 else '⚡️ '+title
- text='<b>'+html.escape(title)+'</b>\n\n'+html.escape(draft['body'])
+ text=('<b>⚠️ НЕ ПОДТВЕРЖДЕНО</b>\n' if draft.get('kind')=='rumor' else '')+'<b>'+html.escape(title)+'</b>\n\n'+body_html(draft['body'])
  if len(text)>1024:raise RuntimeError('caption_too_long')
  return text
 
@@ -134,7 +134,11 @@ def run(mode):
  for name in e.CONFIG['sources']:
   try:posts.extend(fetch_feed(name))
   except Exception:data['errors']=(data['errors']+[{'at':e.stamp(),'code':'feed_unavailable','source':name}])[-100:]
- fresh=[p for p in posts if e.digest(p['text'])not in data['examined']]
+ policy='rumors-v1' if e.CONFIG.get('allow_rumors')else 'facts-v1'
+ if data.get('policy')!=policy:
+  data['examined']={};data['policy']=policy
+ sent_hashes={h for r in data['history']for h in r.get('source_hashes',[])}
+ fresh=[p for p in posts if e.digest(p['text'])not in data['examined']and e.digest(p['text'])not in sent_hashes]
  state.save()
  if not fresh:return {'idle':'no_new_image_posts','dated_posts':len(posts)}
  # Monitoring is cheap; model drafting at most six times/day for the entire private editor.
@@ -150,7 +154,7 @@ def run(mode):
  for url in list(dict.fromkeys(urls))[:5]:
   try:proofs.append(e.evidence(url))
   except Exception:pass
- if not proofs:return {'idle':'primary_sources_unavailable'}
+ if not proofs and not e.CONFIG.get('allow_rumors'):return {'idle':'primary_sources_unavailable'}
  data['attempts'][day]=data['attempts'].get(day,0)+1
  for p in fresh:data['examined'][e.digest(p['text'])]=p['published_at']
  data['examined']={k:v for k,v in data['examined'].items()if datetime.fromisoformat(v)>now-timedelta(days=14)};state.save()

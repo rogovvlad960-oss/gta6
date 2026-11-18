@@ -22,7 +22,7 @@
   "monthly_budget_usd": 2,
   "input_usd_per_million": 0.4,
   "output_usd_per_million": 1.6,
-  "allow_rumors": false,
+  "allow_rumors": true,
   "autopublish": true,
   "urgent": {
     "enabled": true,
