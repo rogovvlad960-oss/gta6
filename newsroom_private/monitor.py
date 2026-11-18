@@ -136,16 +136,16 @@ def run(mode):
  for name in e.CONFIG['sources']:
   try:posts.extend(fetch_feed(name))
   except Exception:data['errors']=(data['errors']+[{'at':e.stamp(),'code':'feed_unavailable','source':name}])[-100:]
- policy='rumors-v1' if e.CONFIG.get('allow_rumors')else 'facts-v1'
+ policy='rumors-v2' if e.CONFIG.get('allow_rumors')else 'facts-v1'
  if data.get('policy')!=policy:
   data['examined']={};data['policy']=policy
  sent_hashes={h for r in data['history']for h in r.get('source_hashes',[])}
  fresh=[p for p in posts if e.digest(p['text'])not in data['examined']and e.digest(p['text'])not in sent_hashes]
  state.save()
  if not fresh:return {'idle':'no_new_image_posts','dated_posts':len(posts)}
- # Monitoring is cheap; model drafting at most six times/day for the entire private editor.
+ # Monitoring is cheap; model drafting at most twelve times/day for the entire private editor.
  day=now.astimezone(e.MSK).date().isoformat()
- if data['attempts'].get(day,0)>=6:return {'idle':'daily_model_attempt_cap','new_candidates':len(fresh)}
+ if data['attempts'].get(day,0)>=12:return {'idle':'daily_model_attempt_cap','new_candidates':len(fresh)}
  sent=[r for r in data['history']if r['status']=='sent'and not r.get('test')]
  urgent=any(e.urgent_candidate(p,state)for p in fresh)
  if sent and not urgent and now-datetime.fromisoformat(sent[-1]['at'])<timedelta(hours=4):return {'idle':'normal_cooldown'}
@@ -169,7 +169,10 @@ def run(mode):
  return send_reserved(state,draft,fresh,selected['images'][0])
 
 def main():
- try:print(json.dumps(run(sys.argv[1]if len(sys.argv)>1 else 'cycle'),ensure_ascii=False))
+ try:
+  result=run(sys.argv[1]if len(sys.argv)>1 else 'cycle')
+  audit=e.State();audit.load();private_data(audit)['last_check']={'at':e.stamp(),'result':result,'trigger':os.environ.get('GITHUB_EVENT_NAME','local')};audit.save()
+  print(json.dumps(result,ensure_ascii=False))
  except Exception as exc:
   code=str(exc)if re.fullmatch('[a-z_]+',str(exc))else type(exc).__name__
   try:
