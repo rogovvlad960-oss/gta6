@@ -10,7 +10,7 @@ export async function tick(env, ms, send = fetch) {
     method: 'POST',
     headers: {'Authorization': `Bearer ${env.GITHUB_DISPATCH_TOKEN}`, 'Accept': 'application/vnd.github+json',
       'Content-Type': 'application/json', 'User-Agent': 'LesterPrivateClock', 'X-GitHub-Api-Version': '2022-11-28'},
-    body: JSON.stringify({ref: 'main', inputs: {mode: 'cycle'}}), signal: AbortSignal.timeout(15000)
+    body: JSON.stringify({ref: 'main', inputs: {mode: 'cycle', cloudflare_tick: new Date(ms).toISOString()}}), signal: AbortSignal.timeout(15000)
   });
   if (r.status !== 204) throw Error(`dispatch_http_${r.status}`);
   return {dispatched: true, scheduled_at: new Date(ms).toISOString()};

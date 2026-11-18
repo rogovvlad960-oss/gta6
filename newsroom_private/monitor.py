@@ -126,7 +126,7 @@ def run(mode):
  global ROUTING_STATE
  if quiet_hours(e.now()):return {'idle':'quiet_hours_moscow_01_08'}
  state=e.State();state.load();ROUTING_STATE=state;data=private_data(state);now=e.now()
- if os.environ.get('GITHUB_EVENT_NAME')=='schedule':
+ if os.environ.get('GITHUB_EVENT_NAME')=='schedule' or os.environ.get('PRIVATE_CLOCK_TICK'):
   slot=now.astimezone(e.MSK).strftime('%Y-%m-%dT%H:')+str((now.minute//15)*15).zfill(2)
   if data.get('last_schedule_slot')==slot:return {'idle':'schedule_slot_already_checked'}
   data['last_schedule_slot']=slot;state.save()
@@ -185,6 +185,9 @@ def main():
   audit=e.State();audit.load();private_data(audit)['last_check']={'at':e.stamp(),'result':result,'trigger':os.environ.get('GITHUB_EVENT_NAME','local')}
   if os.environ.get('GITHUB_EVENT_NAME')=='schedule':
    data=private_data(audit);data['schedule_checks']=(data.get('schedule_checks',[])+[{'at':e.stamp(),'result':result,'workflow':os.environ.get('GITHUB_WORKFLOW'),'run_id':os.environ.get('GITHUB_RUN_ID')}])[-30:]
+  if os.environ.get('PRIVATE_CLOCK_TICK'):
+   data=private_data(audit);data['external_clock_checks']=(data.get('external_clock_checks',[])+[{'at':e.stamp(),'scheduled_at':os.environ['PRIVATE_CLOCK_TICK'][:40],'result':result,'run_id':os.environ.get('GITHUB_RUN_ID')}])[-30:]
+   data['last_check']['external_clock']='cloudflare';data['last_check']['scheduled_at']=os.environ['PRIVATE_CLOCK_TICK'][:40]
   audit.save()
   print(json.dumps(result,ensure_ascii=False))
  except Exception as exc:

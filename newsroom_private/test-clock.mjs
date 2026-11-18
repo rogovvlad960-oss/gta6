@@ -15,5 +15,5 @@ test('day dispatches only the private workflow; no channel API',async()=>{
  let request;
  await tick({GITHUB_DISPATCH_TOKEN:'test-placeholder'},Date.parse('2026-11-18T12:00:00Z'),async(url,opt)=>{request={url,opt};return{status:204};});
  assert.match(request.url,/private-newsroom.yml\/dispatches$/);
- assert.deepEqual(JSON.parse(request.opt.body),{ref:'main',inputs:{mode:'cycle'}});
+ assert.deepEqual(JSON.parse(request.opt.body),{ref:'main',inputs:{mode:'cycle',cloudflare_tick:'2026-11-18T12:00:00.000Z'}});
 });

@@ -11,6 +11,10 @@ on:
         type: choice
         options: [cycle, probe]
         default: cycle
+      cloudflare_tick:
+        type: string
+        required: false
+        default: ""
 permissions:
   contents: read
 concurrency:
@@ -28,6 +32,7 @@ jobs:
       NEWSROOM_AI_SPEND_APPROVED: 'true'
       GITHUB_TOKEN: ${{ github.token }}
       MONITOR_MODE: ${{ inputs.mode || 'cycle' }}
+      PRIVATE_CLOCK_TICK: ${{ inputs.cloudflare_tick || '' }}
     steps:
       - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
         with:
