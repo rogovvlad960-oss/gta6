@@ -1,0 +1,38 @@
+name: Lester private post monitor
+on:
+  push:
+    branches: [main]
+    paths: ['newsroom_private/**', '.github/workflows/private-newsroom.yml']
+  workflow_dispatch:
+    inputs:
+      mode:
+        type: choice
+        options: [cycle, probe]
+        default: cycle
+permissions:
+  contents: read
+concurrency:
+  group: lesterdossier-newsroom
+  cancel-in-progress: false
+jobs:
+  private-editor:
+    runs-on: ubuntu-latest
+    timeout-minutes: 6
+    permissions:
+      contents: write
+    env:
+      TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+      NEWSROOM_LLM_KEY: ${{ secrets.NEWSROOM_LLM_KEY }}
+      NEWSROOM_AI_SPEND_APPROVED: 'true'
+      GITHUB_TOKEN: ${{ github.token }}
+      MONITOR_MODE: ${{ github.event_name == 'push' && 'probe' || inputs.mode || 'cycle' }}
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          persist-credentials: false
+      - name: Install pinned dependencies
+        run: python3 -m pip install --disable-pip-version-check -r newsroom_private/requirements.txt
+      - name: Private destination, duplicate and rate-limit tests
+        run: python3 -m unittest newsroom_private.test_monitor -v
+      - name: Private editor
+        run: python3 -m newsroom_private.monitor "$MONITOR_MODE"
