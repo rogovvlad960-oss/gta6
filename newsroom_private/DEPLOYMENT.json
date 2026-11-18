@@ -1,5 +1,5 @@
 {
-  "phase": "first_real_schedule_verified_cadence_not_verified",
+  "phase": "cloudflare_timer_to_editor_verified",
   "cloud_probe_run": 44327327257,
   "cloud_probe_conclusion": "success",
   "telegram_private_photo_message_id": 11,
@@ -26,11 +26,17 @@
   "first_verified_schedule_at_moscow": "2026-11-18T22:01:13+03:00",
   "cadence_15_minutes_verified": false,
   "cloudflare_deployed": true,
-  "cloudflare_missing": "GITHUB_DISPATCH_TOKEN must be added directly to Cloudflare Worker secrets",
+  "cloudflare_missing": null,
   "daily_max": 6,
   "minimum_gap_hours": 1,
   "cloudflare_worker": "lester-private-clock",
   "cloudflare_cron_utc": "*/15 5-21 * * *",
-  "cloudflare_end_to_end_verified": false,
-  "cloudflare_health": "public URL probe upstream503; deployment and cron API confirmed"
+  "cloudflare_end_to_end_verified": true,
+  "cloudflare_health": "public URL probe upstream503; deployment and cron API confirmed",
+  "cloudflare_verification_scope": "actual timer -> GitHub -> source checking",
+  "cloudflare_first_verified_run": 44402190247,
+  "cloudflare_first_verified_tick_moscow": "2026-11-19T00:30:31.533+03:00",
+  "cloudflare_first_verified_result": "no_new_image_posts",
+  "scheduled_post_delivery_verified": false,
+  "cloudflare_credential_type": "secret_text"
 }
