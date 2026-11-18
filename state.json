@@ -328,7 +328,7 @@
     },
     "policy": "rumors-v2",
     "last_check": {
-      "at": "2026-11-18T21:32:05.184304+00:00",
+      "at": "2026-11-18T21:40:53.272386+00:00",
       "result": {
         "idle": "no_new_image_posts",
         "dated_posts": 30
