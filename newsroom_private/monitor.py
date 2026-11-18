@@ -10,8 +10,29 @@ ROOT=Path(__file__).parent
 
 def cipher():
  return AESGCM(hashlib.sha256(b'Lester private routing v1\0'+os.environ['TELEGRAM_BOT_TOKEN'].encode()).digest())
+ROUTING_STATE=None
 def recipient():
- d=json.loads((ROOT/'route.enc.json').read_text());return json.loads(cipher().decrypt(base64.b64decode(d['nonce']),base64.b64decode(d['ciphertext']),b'private-route-v1'))['chat_id']
+ d=json.loads((ROOT/'route.enc.json').read_text())
+ stored=private_data(ROUTING_STATE).get('route') if ROUTING_STATE else None
+ for route in [stored,d]:
+  if not route:continue
+  try:
+   cid=json.loads(cipher().decrypt(base64.b64decode(route['nonce']),base64.b64decode(route['ciphertext']),b'private-route-v1'))['chat_id']
+   if hashlib.sha256((d['recipient_salt']+':'+str(cid)).encode()).hexdigest()==d['recipient_hash']:return cid
+  except Exception:pass
+ # Bootstrap only the exact approved /start recipient, never choose the latest stranger.
+ me=telegram('getMe',{})
+ if not me.get('ok')or me['result'].get('username','').lower()!='gta6newshustlebot':raise RuntimeError('wrong_bot')
+ updates=telegram('getUpdates',{'timeout':0,'limit':100})
+ if not updates.get('ok'):raise RuntimeError('private_start_unavailable')
+ for u in updates['result']:
+  m=u.get('message',{});chat=m.get('chat',{});cid=chat.get('id')
+  if chat.get('type')!='private'or not m.get('text','').startswith('/start'):continue
+  if hashlib.sha256((d['recipient_salt']+':'+str(cid)).encode()).hexdigest()!=d['recipient_hash']:continue
+  if ROUTING_STATE:
+   nonce=os.urandom(12);enc=cipher().encrypt(nonce,json.dumps({'chat_id':cid}).encode(),b'private-route-v1');private_data(ROUTING_STATE)['route']={'nonce':base64.b64encode(nonce).decode(),'ciphertext':base64.b64encode(enc).decode()};ROUTING_STATE.save()
+  return cid
+ raise RuntimeError('approved_private_start_not_found')
 def telegram(method,payload):
  return json.loads(e.request('https://api.telegram.org/bot'+os.environ['TELEGRAM_BOT_TOKEN']+'/'+method,payload))
 def check_recipient():
@@ -92,7 +113,8 @@ def vision_check(state,draft,image_url):
  e.settle_cost(state,month,prior,[response]);return json.loads(response['choices'][0]['message']['content']).get('approved')is True
 
 def run(mode):
- state=e.State();state.load();data=private_data(state);now=e.now();check_recipient()
+ global ROUTING_STATE
+ state=e.State();state.load();ROUTING_STATE=state;data=private_data(state);now=e.now();check_recipient()
  if blocked(data,now):return {'idle':blocked(data,now)}
  if mode=='probe':
   if any(r.get('test')and r['status']=='sent'for r in data['history']):return {'probe':'already_confirmed'}
