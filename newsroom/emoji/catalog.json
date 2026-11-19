@@ -1,7 +1,7 @@
 {
   "pack_name": "GamingEmoji_by_MoiStikiBot",
   "pack_url": "https://t.me/addemoji/GamingEmoji_by_MoiStikiBot",
-  "count": 148,
+  "count": 165,
   "items": [
     {
       "custom_emoji_id": "5282847372223740079",
@@ -71,28 +71,31 @@
     }
   ],
   "channel_custom_emoji_permission": "unverified",
-  "enabled": false,
+  "enabled": true,
   "curated": [
     {
       "custom_emoji_id": "5282847372223740079",
       "fallback": "📰",
       "animated": false,
       "preview_file": "assets/5282847372223740079.png",
-      "label": "Логотип GTA VI"
+      "label": "Логотип GTA VI",
+      "visually_checked": true
     },
     {
       "custom_emoji_id": "5222430393688432601",
       "fallback": "⚡️",
       "animated": true,
       "preview_file": "assets/5222430393688432601.png",
-      "label": "Срочная новость"
+      "label": "Молния — акцент",
+      "visually_checked": true
     },
     {
       "custom_emoji_id": "5282842763723832120",
       "fallback": "🗺️",
       "animated": false,
       "preview_file": "assets/5282842763723832120.png",
-      "label": "Мир игры"
+      "label": "Мини-карта — мир игры",
+      "visually_checked": true
     },
     {
       "custom_emoji_id": "5312273060752039273",
@@ -100,7 +103,883 @@
       "animated": true,
       "preview_file": "assets/5312273060752039273.png",
       "label": "Знак VI"
+    },
+    {
+      "custom_emoji_id": "5222098491500702725",
+      "fallback": "🔫",
+      "animated": true,
+      "preview_file": "assets/5222098491500702725.png",
+      "label": "Пистолет жестом — оружие",
+      "visually_checked": true
+    },
+    {
+      "custom_emoji_id": "5222464272390463282",
+      "fallback": "❗️",
+      "animated": true,
+      "preview_file": "assets/5222464272390463282.png",
+      "label": "Знак внимания",
+      "visually_checked": true
+    },
+    {
+      "custom_emoji_id": "5278320231880631425",
+      "fallback": "🚘",
+      "animated": true,
+      "preview_file": "assets/5278320231880631425.png",
+      "label": "Автомобиль — транспорт",
+      "visually_checked": true
+    },
+    {
+      "custom_emoji_id": "5283224216949261313",
+      "fallback": "📝",
+      "animated": false,
+      "preview_file": "assets/5283224216949261313.png",
+      "label": "Дискета GTA — шпаргалка и сохранение",
+      "visually_checked": true
+    },
+    {
+      "custom_emoji_id": "5282741466920156473",
+      "fallback": "💣",
+      "animated": false,
+      "preview_file": "assets/5282741466920156473.png",
+      "label": "Граната — взрывы",
+      "visually_checked": true
+    },
+    {
+      "custom_emoji_id": "5346023102742571644",
+      "fallback": "💸",
+      "animated": true,
+      "preview_file": "assets/5346023102742571644.png",
+      "label": "Пачка денег — деньги",
+      "visually_checked": true
     }
   ],
-  "inline_channel_policy": "Requires verified Fragment additional username eligibility. Owner Premium alone does not cover channel messages."
+  "inline_channel_policy": "Requires verified Fragment additional username eligibility. Owner Premium alone does not cover channel messages.",
+  "private_delivery_verified": true,
+  "available_items": [
+    {
+      "custom_emoji_id": "5282847372223740079",
+      "fallback": "📰",
+      "animated": false
+    },
+    {
+      "custom_emoji_id": "5280844435700089265",
+      "fallback": "💭",
+      "animated": false
+    },
+    {
+      "custom_emoji_id": "5280887608711347435",
+      "fallback": "🗣️",
+      "animated": false
+    },
+    {
+      "custom_emoji_id": "5341566511532254468",
+      "fallback": "📢",
+      "animated": false
+    },
+    {
+      "custom_emoji_id": "5429240168571776335",
+      "fallback": "🤩",
+      "animated": false
+    },
+    {
+      "custom_emoji_id": "5280816071736063226",
+      "fallback": "😍",
+      "animated": false
+    },
+    {
+      "custom_emoji_id": "5283048969398680672",
+      "fallback": "😍",
+      "animated": false
+    },
+    {
+      "custom_emoji_id": "5312273060752039273",
+      "fallback": "🌴",
+      "animated": true
+    },
+    {
+      "custom_emoji_id": "5283139726352616570",
+      "fallback": "☺️",
+      "animated": false
+    },
+    {
+      "custom_emoji_id": "5282767868084129476",
+      "fallback": "👩",
+      "animated": false
+    },
+    {
+      "custom_emoji_id": "5283180034620688178",
+      "fallback": "📱",
+      "animated": false
+    },
+    {
+      "custom_emoji_id": "5280709603791764566",
+      "fallback": "☺️",
+      "animated": false
+    },
+    {
+      "custom_emoji_id": "5283259006184357423",
+      "fallback": "🧐",
+      "animated": false
+    },
+    {
+      "custom_emoji_id": "5282995058969183837",
+      "fallback": "😑",
+      "animated": false
+    },
+    {
+      "custom_emoji_id": "5280929892664376368",
+      "fallback": "😤",
+      "animated": false
+    },
+    {
+      "custom_emoji_id": "5284992347610842109",
+      "fallback": "📞",
+      "animated": false
+    },
+    {
+      "custom_emoji_id": "5282836076459751776",
+      "fallback": "🤘",
+      "animated": false
+    },
+    {
+      "custom_emoji_id": "5280493532577037500",
+      "fallback": "🔫",
+      "animated": false
+    },
+    {
+      "custom_emoji_id": "5284975073252374999",
+      "fallback": "😎",
+      "animated": false
+    },
+    {
+      "custom_emoji_id": "5285097737518349891",
+      "fallback": "👩‍🦰",
+      "animated": false
+    },
+    {
+      "custom_emoji_id": "5285504277647750450",
+      "fallback": "🤓",
+      "animated": false
+    },
+    {
+      "custom_emoji_id": "5285020552661073736",
+      "fallback": "👨‍🦳",
+      "animated": false
+    },
+    {
+      "custom_emoji_id": "5285256621243530677",
+      "fallback": "🐶",
+      "animated": false
+    },
+    {
+      "custom_emoji_id": "5285207650026420844",
+      "fallback": "😷",
+      "animated": false
+    },
+    {
+      "custom_emoji_id": "5343877444455671978",
+      "fallback": "😎",
+      "animated": false
+    },
+    {
+      "custom_emoji_id": "5343828232720393015",
+      "fallback": "😤",
+      "animated": false
+    },
+    {
+      "custom_emoji_id": "5346112601271081985",
+      "fallback": "🔫",
+      "animated": false
+    },
+    {
+      "custom_emoji_id": "5343616026976232641",
+      "fallback": "🧐",
+      "animated": false
+    },
+    {
+      "custom_emoji_id": "5346178468889533126",
+      "fallback": "😷",
+      "animated": false
+    },
+    {
+      "custom_emoji_id": "5343584136844063139",
+      "fallback": "🎮",
+      "animated": false
+    },
+    {
+      "custom_emoji_id": "5345874995090333245",
+      "fallback": "🧢",
+      "animated": false
+    },
+    {
+      "custom_emoji_id": "5346098509483385233",
+      "fallback": "🚤",
+      "animated": false
+    },
+    {
+      "custom_emoji_id": "5368347208875810036",
+      "fallback": "😴",
+      "animated": false
+    },
+    {
+      "custom_emoji_id": "5366094734752262903",
+      "fallback": "🤔",
+      "animated": false
+    },
+    {
+      "custom_emoji_id": "5368724410083614046",
+      "fallback": "🤓",
+      "animated": false
+    },
+    {
+      "custom_emoji_id": "5368417633454562860",
+      "fallback": "🥰",
+      "animated": false
+    },
+    {
+      "custom_emoji_id": "5366135274948569857",
+      "fallback": "😡",
+      "animated": false
+    },
+    {
+      "custom_emoji_id": "5368756880036370069",
+      "fallback": "🔫",
+      "animated": false
+    },
+    {
+      "custom_emoji_id": "5366230837970905099",
+      "fallback": "😍",
+      "animated": false
+    },
+    {
+      "custom_emoji_id": "5366435278414193810",
+      "fallback": "😡",
+      "animated": false
+    },
+    {
+      "custom_emoji_id": "5368851249057797444",
+      "fallback": "😎",
+      "animated": false
+    },
+    {
+      "custom_emoji_id": "5368504048196558955",
+      "fallback": "🥰",
+      "animated": false
+    },
+    {
+      "custom_emoji_id": "5366495334941891531",
+      "fallback": "😛",
+      "animated": false
+    },
+    {
+      "custom_emoji_id": "5366364626202175313",
+      "fallback": "🔧",
+      "animated": false
+    },
+    {
+      "custom_emoji_id": "5368493903483808506",
+      "fallback": "🐸",
+      "animated": false
+    },
+    {
+      "custom_emoji_id": "5366195778152863893",
+      "fallback": "😌",
+      "animated": false
+    },
+    {
+      "custom_emoji_id": "5366041863704843817",
+      "fallback": "😀",
+      "animated": false
+    },
+    {
+      "custom_emoji_id": "5368574885092174402",
+      "fallback": "📞",
+      "animated": false
+    },
+    {
+      "custom_emoji_id": "5226723234975621501",
+      "fallback": "👀",
+      "animated": false
+    },
+    {
+      "custom_emoji_id": "5226574165250712345",
+      "fallback": "❤️",
+      "animated": false
+    },
+    {
+      "custom_emoji_id": "5226960128191802326",
+      "fallback": "😊",
+      "animated": false
+    },
+    {
+      "custom_emoji_id": "5224642048442806135",
+      "fallback": "😎",
+      "animated": false
+    },
+    {
+      "custom_emoji_id": "5262879158731583967",
+      "fallback": "👍",
+      "animated": false
+    },
+    {
+      "custom_emoji_id": "5262657216296561521",
+      "fallback": "😡",
+      "animated": false
+    },
+    {
+      "custom_emoji_id": "5262740547252035257",
+      "fallback": "😂",
+      "animated": false
+    },
+    {
+      "custom_emoji_id": "5262973712436602807",
+      "fallback": "😱",
+      "animated": false
+    },
+    {
+      "custom_emoji_id": "5456501550065165617",
+      "fallback": "🤷‍♂️",
+      "animated": false
+    },
+    {
+      "custom_emoji_id": "5454342873732394474",
+      "fallback": "🤦‍♂️",
+      "animated": false
+    },
+    {
+      "custom_emoji_id": "5456372907204717022",
+      "fallback": "🍺",
+      "animated": false
+    },
+    {
+      "custom_emoji_id": "5454261346663186031",
+      "fallback": "🫶",
+      "animated": false
+    },
+    {
+      "custom_emoji_id": "5454153182206798057",
+      "fallback": "😘",
+      "animated": false
+    },
+    {
+      "custom_emoji_id": "5454194456842514391",
+      "fallback": "✌️",
+      "animated": false
+    },
+    {
+      "custom_emoji_id": "5456508168609767306",
+      "fallback": "😍",
+      "animated": false
+    },
+    {
+      "custom_emoji_id": "5456318013227704057",
+      "fallback": "🤦‍♀️",
+      "animated": false
+    },
+    {
+      "custom_emoji_id": "5456331885972071268",
+      "fallback": "🍑",
+      "animated": false
+    },
+    {
+      "custom_emoji_id": "5454409531624827809",
+      "fallback": "😵",
+      "animated": false
+    },
+    {
+      "custom_emoji_id": "5456203857291946305",
+      "fallback": "😭",
+      "animated": false
+    },
+    {
+      "custom_emoji_id": "5456606978627383286",
+      "fallback": "😡",
+      "animated": false
+    },
+    {
+      "custom_emoji_id": "5456291577704000464",
+      "fallback": "🍑",
+      "animated": false
+    },
+    {
+      "custom_emoji_id": "5454392854266815022",
+      "fallback": "😘",
+      "animated": false
+    },
+    {
+      "custom_emoji_id": "5456306030268947735",
+      "fallback": "🫩",
+      "animated": false
+    },
+    {
+      "custom_emoji_id": "5456367207783114231",
+      "fallback": "😎",
+      "animated": false
+    },
+    {
+      "custom_emoji_id": "5386700871146972813",
+      "fallback": "😳",
+      "animated": false
+    },
+    {
+      "custom_emoji_id": "5386339277850345343",
+      "fallback": "😏",
+      "animated": false
+    },
+    {
+      "custom_emoji_id": "5384463601207649137",
+      "fallback": "😏",
+      "animated": false
+    },
+    {
+      "custom_emoji_id": "5386620619683042351",
+      "fallback": "❤️",
+      "animated": false
+    },
+    {
+      "custom_emoji_id": "5386365661834418522",
+      "fallback": "😳",
+      "animated": false
+    },
+    {
+      "custom_emoji_id": "5285535214297184007",
+      "fallback": "🤩",
+      "animated": false
+    },
+    {
+      "custom_emoji_id": "5282992125506519604",
+      "fallback": "👥",
+      "animated": false
+    },
+    {
+      "custom_emoji_id": "5282836291208118923",
+      "fallback": "🤩",
+      "animated": false
+    },
+    {
+      "custom_emoji_id": "5282864311574759230",
+      "fallback": "🤩",
+      "animated": false
+    },
+    {
+      "custom_emoji_id": "5283010512261514030",
+      "fallback": "🥡",
+      "animated": false
+    },
+    {
+      "custom_emoji_id": "5280869548373868404",
+      "fallback": "🍰",
+      "animated": false
+    },
+    {
+      "custom_emoji_id": "5280863372210895843",
+      "fallback": "🍮",
+      "animated": false
+    },
+    {
+      "custom_emoji_id": "5283051288681022287",
+      "fallback": "🧇",
+      "animated": false
+    },
+    {
+      "custom_emoji_id": "5282826000466476727",
+      "fallback": "😦",
+      "animated": false
+    },
+    {
+      "custom_emoji_id": "5282944026167771196",
+      "fallback": "☀️",
+      "animated": false
+    },
+    {
+      "custom_emoji_id": "5283077135794208102",
+      "fallback": "🍀",
+      "animated": false
+    },
+    {
+      "custom_emoji_id": "5282990742527047965",
+      "fallback": "🙎‍♀️",
+      "animated": false
+    },
+    {
+      "custom_emoji_id": "5282831781492454745",
+      "fallback": "🥊",
+      "animated": false
+    },
+    {
+      "custom_emoji_id": "5282811689635446642",
+      "fallback": "😎",
+      "animated": false
+    },
+    {
+      "custom_emoji_id": "5282903803799042838",
+      "fallback": "🔫",
+      "animated": false
+    },
+    {
+      "custom_emoji_id": "5346328994608355680",
+      "fallback": "🤩",
+      "animated": false
+    },
+    {
+      "custom_emoji_id": "5350604698976037275",
+      "fallback": "🤩",
+      "animated": false
+    },
+    {
+      "custom_emoji_id": "5350410725368049906",
+      "fallback": "🤩",
+      "animated": false
+    },
+    {
+      "custom_emoji_id": "5440629975164157950",
+      "fallback": "🎮",
+      "animated": false
+    },
+    {
+      "custom_emoji_id": "5282787977121005153",
+      "fallback": "🥴",
+      "animated": false
+    },
+    {
+      "custom_emoji_id": "5350589318698150186",
+      "fallback": "🤩",
+      "animated": false
+    },
+    {
+      "custom_emoji_id": "5326018137215237785",
+      "fallback": "🤩",
+      "animated": false
+    },
+    {
+      "custom_emoji_id": "5350440949052907281",
+      "fallback": "🤩",
+      "animated": false
+    },
+    {
+      "custom_emoji_id": "5350538066853407956",
+      "fallback": "🤩",
+      "animated": false
+    },
+    {
+      "custom_emoji_id": "5195346656337370508",
+      "fallback": "🤩",
+      "animated": false
+    },
+    {
+      "custom_emoji_id": "5283109476897947456",
+      "fallback": "🐕",
+      "animated": false
+    },
+    {
+      "custom_emoji_id": "5283148943352430508",
+      "fallback": "🔫",
+      "animated": false
+    },
+    {
+      "custom_emoji_id": "5222323161239955118",
+      "fallback": "🔫",
+      "animated": false
+    },
+    {
+      "custom_emoji_id": "5222098491500702725",
+      "fallback": "🔫",
+      "animated": true
+    },
+    {
+      "custom_emoji_id": "5434123099710727050",
+      "fallback": "🔤",
+      "animated": true
+    },
+    {
+      "custom_emoji_id": "5434056609322017894",
+      "fallback": "🔤",
+      "animated": true
+    },
+    {
+      "custom_emoji_id": "5434034421520967765",
+      "fallback": "🔤",
+      "animated": true
+    },
+    {
+      "custom_emoji_id": "5433913277673417740",
+      "fallback": "6️⃣",
+      "animated": true
+    },
+    {
+      "custom_emoji_id": "5222043198091731684",
+      "fallback": "🔞",
+      "animated": true
+    },
+    {
+      "custom_emoji_id": "5222212634551559039",
+      "fallback": "🔫",
+      "animated": false
+    },
+    {
+      "custom_emoji_id": "5224253903658329896",
+      "fallback": "😀",
+      "animated": false
+    },
+    {
+      "custom_emoji_id": "5222315846910645685",
+      "fallback": "❓",
+      "animated": true
+    },
+    {
+      "custom_emoji_id": "5222430393688432601",
+      "fallback": "⚡️",
+      "animated": true
+    },
+    {
+      "custom_emoji_id": "5222464272390463282",
+      "fallback": "❗️",
+      "animated": true
+    },
+    {
+      "custom_emoji_id": "5321465613615414059",
+      "fallback": "❓",
+      "animated": true
+    },
+    {
+      "custom_emoji_id": "5319008226602166086",
+      "fallback": "😀",
+      "animated": true
+    },
+    {
+      "custom_emoji_id": "5222171634793748979",
+      "fallback": "🤪",
+      "animated": true
+    },
+    {
+      "custom_emoji_id": "5319099082340346696",
+      "fallback": "😃",
+      "animated": true
+    },
+    {
+      "custom_emoji_id": "5280641803438040531",
+      "fallback": "👨‍🤝‍👩",
+      "animated": true
+    },
+    {
+      "custom_emoji_id": "5280890207166571002",
+      "fallback": "👕",
+      "animated": true
+    },
+    {
+      "custom_emoji_id": "5280793836690384768",
+      "fallback": "🎥",
+      "animated": true
+    },
+    {
+      "custom_emoji_id": "5390936683858407111",
+      "fallback": "🎒",
+      "animated": true
+    },
+    {
+      "custom_emoji_id": "5433973407215556756",
+      "fallback": "🏝",
+      "animated": true
+    },
+    {
+      "custom_emoji_id": "5278320231880631425",
+      "fallback": "🚘",
+      "animated": true
+    },
+    {
+      "custom_emoji_id": "5278308742843117208",
+      "fallback": "🧑",
+      "animated": true
+    },
+    {
+      "custom_emoji_id": "5278449682194934658",
+      "fallback": "🔫",
+      "animated": true
+    },
+    {
+      "custom_emoji_id": "5282842763723832120",
+      "fallback": "🗺️",
+      "animated": false
+    },
+    {
+      "custom_emoji_id": "5285482845760946769",
+      "fallback": "🎮",
+      "animated": false
+    },
+    {
+      "custom_emoji_id": "5355047159743945565",
+      "fallback": "🧢",
+      "animated": false
+    },
+    {
+      "custom_emoji_id": "5355335515258264016",
+      "fallback": "💍",
+      "animated": false
+    },
+    {
+      "custom_emoji_id": "5343647032345143410",
+      "fallback": "5️⃣",
+      "animated": false
+    },
+    {
+      "custom_emoji_id": "5345959103434892294",
+      "fallback": "♨️",
+      "animated": false
+    },
+    {
+      "custom_emoji_id": "5269639312701431507",
+      "fallback": "🏆",
+      "animated": false
+    },
+    {
+      "custom_emoji_id": "5282755975319680535",
+      "fallback": "🗺️",
+      "animated": false
+    },
+    {
+      "custom_emoji_id": "5283224216949261313",
+      "fallback": "📝",
+      "animated": false
+    },
+    {
+      "custom_emoji_id": "5217619373186917972",
+      "fallback": "🤟",
+      "animated": true
+    },
+    {
+      "custom_emoji_id": "5213126369243867308",
+      "fallback": "🧸",
+      "animated": false
+    },
+    {
+      "custom_emoji_id": "5213105603076990909",
+      "fallback": "🧅",
+      "animated": false
+    },
+    {
+      "custom_emoji_id": "5213270031604951129",
+      "fallback": "🧅",
+      "animated": false
+    },
+    {
+      "custom_emoji_id": "5212930797908042125",
+      "fallback": "🧅",
+      "animated": false
+    },
+    {
+      "custom_emoji_id": "5278428903143158315",
+      "fallback": "⭐",
+      "animated": true
+    },
+    {
+      "custom_emoji_id": "5280579148455114035",
+      "fallback": "📝",
+      "animated": false
+    },
+    {
+      "custom_emoji_id": "5402113593216901869",
+      "fallback": "🌴",
+      "animated": false
+    },
+    {
+      "custom_emoji_id": "5217464835968637355",
+      "fallback": "🎮",
+      "animated": true
+    },
+    {
+      "custom_emoji_id": "5282845538272705059",
+      "fallback": "🌇",
+      "animated": false
+    },
+    {
+      "custom_emoji_id": "5282860914255625347",
+      "fallback": "4️⃣",
+      "animated": false
+    },
+    {
+      "custom_emoji_id": "5282876526461745777",
+      "fallback": "5️⃣",
+      "animated": false
+    },
+    {
+      "custom_emoji_id": "5283156717243236579",
+      "fallback": "🌴",
+      "animated": false
+    },
+    {
+      "custom_emoji_id": "5217621774073632044",
+      "fallback": "📹",
+      "animated": true
+    },
+    {
+      "custom_emoji_id": "5285144041560766322",
+      "fallback": "🤩",
+      "animated": false
+    },
+    {
+      "custom_emoji_id": "5282933503497896386",
+      "fallback": "⛽️",
+      "animated": false
+    },
+    {
+      "custom_emoji_id": "5282741466920156473",
+      "fallback": "💣",
+      "animated": false
+    },
+    {
+      "custom_emoji_id": "5346023102742571644",
+      "fallback": "💸",
+      "animated": true
+    },
+    {
+      "custom_emoji_id": "5285395262787843406",
+      "fallback": "😁",
+      "animated": true
+    },
+    {
+      "custom_emoji_id": "5346323965201651625",
+      "fallback": "🚶‍➡️",
+      "animated": true
+    },
+    {
+      "custom_emoji_id": "5323541611827727032",
+      "fallback": "🎮",
+      "animated": true
+    },
+    {
+      "custom_emoji_id": "5355179242873200711",
+      "fallback": "👩‍🔧",
+      "animated": false
+    },
+    {
+      "custom_emoji_id": "5357453135998658633",
+      "fallback": "🥺",
+      "animated": false
+    },
+    {
+      "custom_emoji_id": "5285187798687578770",
+      "fallback": "🎮",
+      "animated": false
+    },
+    {
+      "custom_emoji_id": "5282782883289790371",
+      "fallback": "💸",
+      "animated": false
+    },
+    {
+      "custom_emoji_id": "5372874538197493286",
+      "fallback": "🎁",
+      "animated": true
+    },
+    {
+      "custom_emoji_id": "5372997004894973011",
+      "fallback": "🎁",
+      "animated": true
+    },
+    {
+      "custom_emoji_id": "5460715299529601818",
+      "fallback": "😎",
+      "animated": false
+    }
+  ]
 }
