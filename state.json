@@ -1043,6 +1043,12 @@
       "document_verified": true,
       "caption_verified": true,
       "premium_emoji_verified": true
+    },
+    "697f00b710aa116e24551cc1357c961b72a233de7c5c813c5728c9b4bb9fee1c": {
+      "status": "pending",
+      "sha256": "5be1a68cd5c80afdd97d4e418e16472dd095d1496ed33d8e37c47d9f09ef29d5",
+      "bytes": 22572847,
+      "filename": "lester-map-buster-review-v2.mp4"
     }
   }
 }
