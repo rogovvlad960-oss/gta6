@@ -1079,10 +1079,14 @@
       "premium_emoji_verified": true
     },
     "a190886743bf187b04624e7a13c2dd03546e4fe8c7a13b68eb3219575d796afc": {
-      "status": "pending",
+      "status": "sent",
       "sha256": "e4d7a3bf4fe05f5c27401b5ed840ecf55fa205b69c796342d4389375a9d14603",
       "bytes": 35479808,
-      "filename": "lester-map-speaking-final-v1.mp4"
+      "filename": "lester-map-speaking-final-v1.mp4",
+      "message_id": 40,
+      "document_verified": true,
+      "caption_verified": true,
+      "premium_emoji_verified": true
     }
   }
 }
