@@ -412,10 +412,14 @@
       "premium_emoji_verified": true
     },
     "d27a6ac76c5b3bb30fd8a9dd131a398ce93a6f4803a080b8588b1e922a033248": {
-      "status": "pending",
+      "status": "sent",
       "sha256": "372253ee1ad71b648747a5e8a1662b2efd5546f9a266edc29ae8fb9b7349cd1d",
       "bytes": 22501802,
-      "filename": "lester-cheats-draft-v3.mp4"
+      "filename": "lester-cheats-draft-v3.mp4",
+      "message_id": 23,
+      "document_verified": true,
+      "caption_verified": true,
+      "premium_emoji_verified": true
     }
   }
 }
