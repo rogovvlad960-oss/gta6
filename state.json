@@ -669,7 +669,7 @@
       "external_clock": "cloudflare",
       "scheduled_at": "2026-11-19T19:15:31.533Z"
     },
-    "last_schedule_slot": "2026-11-19T22:15",
+    "last_schedule_slot": "2026-11-19T22:30",
     "schedule_checks": [
       {
         "at": "2026-11-18T19:01:13.219442+00:00",
