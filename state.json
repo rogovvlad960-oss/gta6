@@ -334,14 +334,14 @@
     },
     "policy": "rumors-v2",
     "last_check": {
-      "at": "2026-11-19T06:45:49.533808+00:00",
+      "at": "2026-11-19T07:00:56.747334+00:00",
       "result": {
-        "idle": "no_new_image_posts",
-        "dated_posts": 18
+        "idle": "no_supported_fresh_story",
+        "dated_posts": 29
       },
       "trigger": "workflow_dispatch",
       "external_clock": "cloudflare",
-      "scheduled_at": "2026-11-19T06:45:31.533Z"
+      "scheduled_at": "2026-11-19T07:00:31.533Z"
     },
     "last_schedule_slot": "2026-11-19T10:00",
     "schedule_checks": [
@@ -476,6 +476,15 @@
           "dated_posts": 18
         },
         "run_id": "44474517020"
+      },
+      {
+        "at": "2026-11-19T07:00:56.747365+00:00",
+        "scheduled_at": "2026-11-19T07:00:31.533Z",
+        "result": {
+          "idle": "no_supported_fresh_story",
+          "dated_posts": 29
+        },
+        "run_id": "44476315624"
       }
     ]
   },
