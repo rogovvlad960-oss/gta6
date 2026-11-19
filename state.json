@@ -97,6 +97,10 @@
     {
       "at": "2026-11-19T07:00:55.588872+00:00",
       "code": "unknown_evidence_reference"
+    },
+    {
+      "at": "2026-11-19T07:16:05.193207+00:00",
+      "code": "unlabeled_uncertainty"
     }
   ],
   "spend": {
