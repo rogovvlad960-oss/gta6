@@ -389,7 +389,7 @@
       },
       {
         "at": "2026-11-19T10:16:03.203882+00:00",
-        "status": "pending",
+        "status": "sent",
         "event_key": "no_prostitute_mechanics_in_GTA_VI",
         "source_hashes": [
           "63fdeee4aabc582d6fa91be3732a01de1c92a8035336887ddc0c7351b55cbf32"
@@ -472,7 +472,11 @@
           }
         ],
         "test": false,
-        "image_hash": "4c7af84e7b0c00462d2dc1dcec9cc8a1e1ac31b98d1b196921f214af09931f3c"
+        "image_hash": "4c7af84e7b0c00462d2dc1dcec9cc8a1e1ac31b98d1b196921f214af09931f3c",
+        "message_id": 26,
+        "custom_emoji_ids": [
+          "5282847372223740079"
+        ]
       }
     ],
     "examined": {
