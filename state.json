@@ -652,14 +652,12 @@
     },
     "policy": "rumors-v2",
     "last_check": {
-      "at": "2026-11-19T13:00:52.204864+00:00",
+      "at": "2026-11-19T13:01:19.136489+00:00",
       "result": {
         "idle": "no_new_image_posts",
         "dated_posts": 24
       },
-      "trigger": "workflow_dispatch",
-      "external_clock": "cloudflare",
-      "scheduled_at": "2026-11-19T13:00:31.533Z"
+      "trigger": "push"
     },
     "last_schedule_slot": "2026-11-19T16:00",
     "schedule_checks": [
