@@ -117,6 +117,10 @@
     {
       "at": "2026-11-19T10:00:58.775173+00:00",
       "code": "missing_primary_source"
+    },
+    {
+      "at": "2026-11-19T12:45:58.582842+00:00",
+      "code": "invalid_source_ids"
     }
   ],
   "spend": {
