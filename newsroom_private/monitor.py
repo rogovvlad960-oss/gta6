@@ -81,8 +81,23 @@ def seen_draft(draft,posts,data):
 
 def body_html(text):
  escaped=html.escape(text)
- # Only the first short, single-line emphasis is rendered; arbitrary HTML stays escaped.
- return re.sub(r'\*\*([^*\n]{1,70})\*\*',lambda m:'<b>'+m.group(1)+'</b>',escaped,count=1)
+ # A small safe formatting dialect; raw model/source HTML remains escaped.
+ code=[]
+ def hold(match):
+  code.append('<code>'+match.group(1)+'</code>');return '\x00CODE'+str(len(code)-1)+'\x00'
+ escaped=re.sub(r'`([^`\n]{1,160})`',hold,escaped)
+ escaped=re.sub(r'\*\*([^*\n]{1,70})\*\*',lambda m:'<b>'+m.group(1)+'</b>',escaped,count=1)
+ escaped=re.sub(r'(?<!\w)_([^_\n]{1,300})_(?!\w)',lambda m:'<i>'+m.group(1)+'</i>',escaped)
+ escaped=re.sub(r'\|\|([^|]{1,500})\|\|',lambda m:'<tg-spoiler>'+m.group(1)+'</tg-spoiler>',escaped)
+ lines=escaped.split('\n');result=[];quoted=[]
+ for line in lines:
+  if line.startswith('&gt; '):quoted.append(line[5:]);continue
+  if quoted:result.append('<blockquote>'+'\n'.join(quoted)+'</blockquote>');quoted=[]
+  result.append(line)
+ if quoted:result.append('<blockquote>'+'\n'.join(quoted)+'</blockquote>')
+ rendered='\n'.join(result)
+ for i,value in enumerate(code):rendered=rendered.replace('\x00CODE'+str(i)+'\x00',value)
+ return rendered
 
 def caption(draft):
  title=draft['title'];title=title if title and ord(title[0])>=0x2000 else ('👀 ' if draft.get('kind')=='rumor' else '⚡️ ')+title
@@ -99,6 +114,9 @@ def send_reserved(state,draft,posts,image_url,*,test=False):
  cid=check_recipient();record=event_record(draft,posts);record['test']=test
  image=e.request(image_url,limit=9_000_000)
  if not(image.startswith(b'\xff\xd8')or image.startswith(b'\x89PNG')):raise RuntimeError('invalid_image_bytes')
+ from .image_branding import brand_external_image
+ image,branding=brand_external_image(image,draft['title'])
+ record['image_branding']=branding
  text=caption(draft);record['image_hash']=hashlib.sha256(image).hexdigest();data['history'].append(record);state.save()
  try:
   if e.CONFIG.get('delivery_backend')=='telegram_user':

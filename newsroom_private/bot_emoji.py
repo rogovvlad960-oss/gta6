@@ -14,18 +14,21 @@ SEMANTIC_EMOJI={
 }
 def units(text):return len(text.encode('utf-16-le'))//2
 class CaptionParser(HTMLParser):
- TAGS={'b':'bold','strong':'bold','i':'italic','em':'italic','u':'underline','s':'strikethrough','code':'code','pre':'pre','blockquote':'blockquote','a':'text_link','tg-emoji':'custom_emoji'}
+ TAGS={'b':'bold','strong':'bold','i':'italic','em':'italic','u':'underline','s':'strikethrough','code':'code','pre':'pre','blockquote':'blockquote','tg-spoiler':'spoiler','a':'text_link','tg-emoji':'custom_emoji'}
  def __init__(self):super().__init__(convert_charrefs=True);self.text='';self.entities=[];self.stack=[]
  def handle_starttag(self,tag,attrs):
   if tag=='br':self.text+='\n';return
-  if tag not in self.TAGS:return
-  attrs=dict(attrs);extra={}
+  attrs=dict(attrs)
+  if tag=='span' and attrs.get('class')=='tg-spoiler':kind='spoiler'
+  elif tag in self.TAGS:kind=self.TAGS[tag]
+  else:return
+  extra={}
   if tag=='tg-emoji':
    ident=attrs.get('emoji-id','')
    if not ident.isdecimal():raise ValueError('invalid_custom_emoji_id')
    extra={'custom_emoji_id':ident}
   if tag=='a':extra={'url':attrs.get('href','')}
-  kind='expandable_blockquote'if tag=='blockquote'and'expandable'in attrs else self.TAGS[tag]
+  kind='expandable_blockquote'if tag=='blockquote'and'expandable'in attrs else kind
   self.stack.append((tag,units(self.text),kind,extra))
  def handle_endtag(self,tag):
   for i in range(len(self.stack)-1,-1,-1):
@@ -60,3 +63,19 @@ def verify_returned(message,expected):
  returned=message.get('caption_entities',message.get('entities',[]))
  actual={(e['offset'],e['length'],e['custom_emoji_id'])for e in returned if e['type']=='custom_emoji'}
  if not need or not need.issubset(actual):raise RuntimeError('premium_emoji_not_preserved')
+ verify_formatting(message,expected)
+
+
+def verify_formatting(message,expected):
+ returned=message.get('caption_entities',message.get('entities',[]))
+ supported={'bold','italic','underline','strikethrough','code','pre','blockquote','expandable_blockquote','spoiler'}
+ # Telegram can split a bold span around a custom emoji or merge adjacent spans.
+ for entity in expected:
+  if entity['type']not in supported:continue
+  cursor=entity['offset'];end=cursor+entity['length']
+  spans=sorted((item['offset'],item['offset']+item['length'])for item in returned if item['type']==entity['type'])
+  for left,right in spans:
+   if left>cursor:break
+   if right>cursor:cursor=right
+   if cursor>=end:break
+  if cursor<end:raise RuntimeError('rich_formatting_not_preserved')
