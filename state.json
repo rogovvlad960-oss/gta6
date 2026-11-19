@@ -125,6 +125,10 @@
     {
       "at": "2026-11-19T15:37:44.558130+00:00",
       "code": "partial_source_outage"
+    },
+    {
+      "at": "2026-11-19T15:37:46.163594+00:00",
+      "code": "partial_source_outage"
     }
   ],
   "spend": {
