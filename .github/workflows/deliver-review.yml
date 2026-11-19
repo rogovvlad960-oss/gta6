@@ -14,6 +14,17 @@ on:
       caption:
         type: string
         required: true
+      caption_format:
+        type: choice
+        description: Plain text or authored Telegram HTML
+        options: [auto, html, text]
+        default: auto
+        required: false
+      validate_only:
+        type: boolean
+        description: Run caption checks without sending a message
+        default: false
+        required: false
 permissions:
   contents: write
 concurrency:
@@ -30,10 +41,14 @@ jobs:
       REVIEW_SHA256: ${{ inputs.sha256 }}
       REVIEW_FILENAME: ${{ inputs.filename }}
       REVIEW_CAPTION: ${{ inputs.caption }}
+      REVIEW_CAPTION_FORMAT: ${{ inputs.caption_format || 'auto' }}
     steps:
       - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
         with:
           persist-credentials: false
       - run: python3 -m pip install --disable-pip-version-check -r newsroom_private/requirements.txt
+      - name: Check caption formatting
+        run: python3 -m unittest delivery_tools.test_review_caption
       - name: Send exact file only to approved private recipient
+        if: ${{ !inputs.validate_only }}
         run: python3 -m delivery_tools.review_file

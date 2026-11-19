@@ -4,6 +4,25 @@ from urllib.parse import urlparse
 from newsroom_private import engine as e,monitor as m
 from newsroom_private.bot_emoji import format_caption,verify_returned
 
+
+_RICH_TAG=re.compile(r'</?(?:b|strong|i|em|u|s|code|pre|blockquote|tg-spoiler|span|a|tg-emoji)(?:\s|>)',re.I)
+
+def prepare_review_caption(caption,caption_format='auto'):
+ """Accept authored Telegram HTML once; preserve legacy plain-text captions."""
+ if caption_format not in {'auto','html','text'}:raise RuntimeError('review_caption_format_invalid')
+ caption=caption.strip()
+ if not caption:raise RuntimeError('review_caption_empty')
+ rich=caption_format=='html'or(caption_format=='auto'and bool(_RICH_TAG.search(caption)))
+ lines=caption.split('\n',1)
+ if rich:
+  markup=caption
+  if re.match(r'^<(?:b|strong)>',markup,re.I):
+   markup=re.sub(r'^<(?:b|strong)>','<b>',markup,count=1,flags=re.I)
+   markup=re.sub(r'</(?:b|strong)>','</b>',markup,count=1,flags=re.I)
+  else:markup='<b>'+lines[0]+'</b>'+('\n'+lines[1]if len(lines)>1 else'')
+ else:markup='<b>'+html.escape(lines[0])+'</b>'+('\n'+html.escape(lines[1])if len(lines)>1 else'')
+ return format_caption(markup)
+
 def main():
  url=os.environ['REVIEW_ASSET_URL'];expected=os.environ['REVIEW_SHA256'];name=os.environ['REVIEW_FILENAME'];caption=os.environ['REVIEW_CAPTION'].strip()
  u=urlparse(url)
@@ -16,7 +35,7 @@ def main():
   raise RuntimeError('review_delivery_requires_reconciliation')
  blob=e.request(url,limit=49_000_000)
  if hashlib.sha256(blob).hexdigest()!=expected:raise RuntimeError('review_sha256_mismatch')
- lines=caption.split('\n',1);markup='<b>'+html.escape(lines[0])+'</b>'+('\n'+html.escape(lines[1])if len(lines)>1 else'');text,entities=format_caption(markup)
+ text,entities=prepare_review_caption(caption,os.environ.get('REVIEW_CAPTION_FORMAT','auto'))
  record={'status':'pending','sha256':expected,'bytes':len(blob),'filename':name};ledger[key]=record;state.save()
  try:
   b='review'+uuid.uuid4().hex;parts=[]
