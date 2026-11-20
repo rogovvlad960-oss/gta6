@@ -738,12 +738,12 @@
     },
     "policy": "rumors-v3-media-queue",
     "last_check": {
-      "at": "2026-11-20T08:44:12.623221+00:00",
+      "at": "2026-11-20T08:45:28.632440+00:00",
       "result": {
-        "delivered": true,
-        "message_id": 43,
-        "destination": "private",
-        "test": false
+        "idle": "normal_cooldown",
+        "dated_posts": 45,
+        "new_candidates": 35,
+        "next_normal_at_moscow": "2026-11-20T12:44:08.262635+03:00"
       },
       "trigger": "push"
     },
