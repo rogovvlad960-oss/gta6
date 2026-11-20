@@ -141,6 +141,10 @@
     {
       "at": "2026-11-20T07:01:01.133034+00:00",
       "code": "fact_supported_by_secondary_only"
+    },
+    {
+      "at": "2026-11-20T07:39:27.475020+00:00",
+      "code": "unlabeled_uncertainty"
     }
   ],
   "spend": {
