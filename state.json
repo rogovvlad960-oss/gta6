@@ -1307,7 +1307,7 @@
       },
       {
         "at": "2026-11-20T21:01:02.977900+00:00",
-        "status": "pending",
+        "status": "sent",
         "event_key": "gtavi_weeknd_mansion_rumor_2026",
         "source_hashes": [
           "1a51ca8d63a030af8036f4623e31e8b33986bec902104191cdb6f5e7e56f9aa0"
@@ -1396,7 +1396,14 @@
           ],
           "recomposed": true
         },
-        "image_hash": "6c41f9a28d07fbf8d77474a9a53b507b450b49d282bba637d2ba97f0d565f507"
+        "image_hash": "6c41f9a28d07fbf8d77474a9a53b507b450b49d282bba637d2ba97f0d565f507",
+        "message_id": 55,
+        "custom_emoji_ids": [
+          "5282847372223740079",
+          "5280793836690384768",
+          "5282842763723832120",
+          "5222464272390463282"
+        ]
       }
     ],
     "examined": {
