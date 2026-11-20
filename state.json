@@ -821,6 +821,119 @@
         "custom_emoji_ids": [
           "5282847372223740079"
         ]
+      },
+      {
+        "at": "2026-11-20T11:16:05.605070+00:00",
+        "status": "pending",
+        "event_key": "jimmy_desanta_in_GTA6",
+        "source_hashes": [
+          "1a5f9155f2a6eb0f9cde306ec271c8a0d9f776202d8a3b274890b18db023a7fb"
+        ],
+        "tokens": [
+          "01ac60947c9cc0b37f1d907ce2ef20cffe9e9497d8022349dee0cb2bbf49d237",
+          "0686e4b79ffc410c9d9696eed3f54eddcb5c806c65edff7eaecaa186a359af79",
+          "08477f919e8fc646d22fc352925e6572f1bf3836fbe5a9047909b7b0cd932b43",
+          "0874846ad45aa1cdb48fda59d690add8471c0e7fde4fc653bea97cfe762edf44",
+          "106d18779403cd278253782f14ec44ba9ca64f4d4bc053e249025a3e9fe41a88",
+          "14f76b10e8d99eccfbf92d09db18246e7128395e2f82d49c057a08a16d6d4f54",
+          "1c6524695b6806907a732ab9f4d293f79d724720d95caba60cc1463252de7937",
+          "23976997ea7352002165a3fadffd8b6064b70057ffb9b0c42350940bd1468b05",
+          "29555c0cfffd6664b665436f8197d22e91587f8cdab38d22d0354a87f09c2f5a",
+          "2bd5b7da14c19369b7faa6dbd2caf5d84f0b44a09af6f61d450ace610e9e2eba",
+          "30716e092700a09801e46c1ca9070c67a102400a3235d0c4b4a4e0f7901597b7",
+          "32fbc37a7c0a61a3135d4a34ed163dd94b94f1e10c57ed29be50717714000438",
+          "33e70a4ba37c8b327dd3d34a14867eb38f0f13c6bd2fa6b445c2a5b2b179ddaa",
+          "35c497a2cdcffe05a7446a3ee58d92a21c609ff2d1d01b3b69a0a4fe9c079e92",
+          "39ee38501e894c50977c67e0e623670a04d4cc9af410ffef639fff6d9118601d",
+          "45defc6d281ae867a8f1aab43daedb03639c9a64b52c06ebb8798a20cf344a18",
+          "4d196cfd979821e85969e6eb2c548fd30c9539fd5b21a213a363334895b70772",
+          "4eb3070cae13ee1d82721ad480d251422efffae2b962e3e67dad56e73decdab4",
+          "4f0f4da9887bf5a8360d2138c2c8670968851f277e2f698c6bb2c423c2686d29",
+          "511529b007ccc09559253dcb8cbc66f8b1aaa2792dbcc2a0c0647a5d1684b1e4",
+          "54df6d22f33d2c88643fe512537245a92bebfff4cebc99e4bed49680353a35b6",
+          "557dc7b1c662b4cc105640b2e6df11615db904f61e9711016350f5a75efbd491",
+          "58faa7d358096be8eb0a431f27c3f1a931b735c9a402fc022577736bc9dd6c2a",
+          "5a2114d1931d89bcbb60978d7152946f07a6bca42e9ddefaa2f553aa7df680b3",
+          "5d09b827aab3230442ec841b3eba16a89472f4e6ac9f788d1d9c45ccfc15fa5e",
+          "5d621344aaf8e28618cb5bbcbfc351518f08a709e977834bda351aaec52d9403",
+          "5fc9c1fa9da64dc7f451509aaf9db09131bed39a7b63ae03bbacd89721d8734b",
+          "667746e4f32cdf6e4b502a79799a969a67d7afd90ed7c0c094b0146d167736a0",
+          "672ee77926f3c20490410fbf050e8211ac55948e60e639d611e845cff30ddd9d",
+          "6a6b6875ec31ed72e78a6f7506c6f79ea8f520d6f9784831d820ec9adb178231",
+          "7379ce5d672d87dcf1713151bd3e96956f17bbb56fcef5db97e7ea585644dd06",
+          "73a0b20d5b28b81e506799524106c42d4dd673b75234f4ec94669ef22370555f",
+          "74038f9c14f7e6b6507f7e1576281982f28b49794555110fc667c97f0558da83",
+          "78c4d404cf4eaccf3e2a9f6c20039173c1f8399eaa00a0b949166ed542445da0",
+          "79ca81da745558905728fa13bbf991a9f97fd7f6c3758aadb8a2c05173502ffb",
+          "830eed61dc81b1430780dec61e1ced6b723d525085bdedadc704ade3b5d34e0f",
+          "83e2aff96947f064e07985c113ba27d169596aaf5a82e6a39069b75ebeb78d45",
+          "864ed538fd248b89edf00bd73a7cc951fcedfc0a59c7327b6cd7728228c9b1a0",
+          "88555a2381080b30fd37c81d3e7f08685c050caf13fbff3982d309b09ec3b73a",
+          "8ca487d46e1a8c17f81e3c0bebfb7cd45ab095183c7aee88bbb4d3430628d2e1",
+          "8cf9dbadd69b9725d48e5d6c16c091132ca71b8c2a06a1e3b3ce0323c7bf24e9",
+          "97d905d77166a1bde0113b10a252a2f2bb76892ee6b5ae268b0b72f5300394dd",
+          "a0513c16c589adc7437970fdb7b2fb1be7cedc91634f3a4a345e3ef03aa05d46",
+          "a3e54e628f56cfcf5743cd4e7deb1d763d917013b6fb88a3ea06caeb3efc5991",
+          "a833b94c08bf6b4274d532fbd53ece1bd341f94ec2fc541cf3defb17e655c6d6",
+          "acf17dc54e556123d1366ad726b2fcf6838019dc22d8aae777df5668daca32a5",
+          "ae43805ad206e44f4615d36bb2cd7627c17bea086538c0424fb96859fab6bb5d",
+          "aeee726d05d98001dccc69e899fb2be94f52e4a2a297f45ca006ce0b376e3b58",
+          "b34322c917db86e937c308e0bccee5e9631bbe0228d446484729b2041224688c",
+          "bb9b270bc30868d4152bc23bd097db665b559d9c2507a30be7f3c528d658c43d",
+          "bde196963e54fa0514852fb9ce30bc4368f8110fe89100c88a7d4f555b017ae7",
+          "c38da12bccb9863dd15db2874195a2935215383da4f6337d1450fcbb49e70a19",
+          "c3f4e339e91b32f937dc315ca33043d1c80ba5d98d50f51e7e05c53960aa1090",
+          "c4360ecc777e5cb2480c95bc70426e8d1f18b2e1841b0571e6bb838f63189b8c",
+          "c51ae9f4f7a92bbffe2c5e0fa4013bee73bf7f6bd11db8365044b6ffa56908e5",
+          "c89508befbf8fa15c4bb11b8b8076d697db912d6517b6af7136835035d09c10a",
+          "cde911fdf22983a5c7d23c030b34df5906e6aeff09c9ccde790a59ba76e7300c",
+          "d04ea878df0cfeeb11f871c4303491b1671b328dc66429f72789f3165c18cd75",
+          "d312c5a658993a32341c0583f450a7ec473836ef8e11869cda2a8bdf9fc95b54",
+          "d3c6f88424e3336f2cac9f107a23be38b254020e6b3d0d9f7dc23ec34b569479",
+          "d45b4c52b457d3c47a7bf64b669d67681194bffaf33b1723d14abf4b7f0c5bb1",
+          "dd04f91e2a49a70b67ebe0d73a07b03c93caa86cf6c4e5073a0d0a77479f5f1f",
+          "dd228e0f6d0904783e631bdd97a780bc0edb961f2629dc5ec449eec1be3236a6",
+          "dde7950114f546d04ff52a16955d78c69fab0d52495d6b22fd160d54ec4b7a2e",
+          "e11f5bafb15b9a0657c8f9da00a997ab7e13ce9f6104438eabb85c5b569a7f58",
+          "e77b1e7a64e82eb5b0b01983a2251c6b2ce3312fbb61ab418907edd0ea32df35",
+          "ea15d20d3425a98795daa4a35f50c38eb15e0aa757d0df7eee3aee30d9069258",
+          "ec56deb6fc74fa410a91b90dd7cbbf8e5f100b2be4963223beb1f4c4561a28db",
+          "ed8e7d6801eca26346c35f8b2b1d355d445c6ddb9719d286baf24c7ad05e05c7",
+          "fe9a0b692a24558df5fa71a565fc35709b659de05ea9137ea131a5c2dea86247"
+        ],
+        "evidence": [
+          {
+            "url": "https://t.me/inGTA6/3066",
+            "quote_sha256": "7e45e3800ca756da6723175db129269c7adf945a1f0ee8ce46d9971e3d5d886b"
+          },
+          {
+            "url": "https://t.me/inGTA6/3066",
+            "quote_sha256": "32188f93707904aa0fd27e78e7320960e5101d827c20c6beee5f37668553595b"
+          }
+        ],
+        "test": false,
+        "image_branding": {
+          "style": "lesterdossier-editorial-v1",
+          "source_sha256": "3aab93d444a288b73016e96e46003750c2dd90afedef1afbed924484bb19443f",
+          "output_sha256": "c679c9d89d54f992c2c9260fc7b878c9013b2cb24b33782d7a1b9b787a488af7",
+          "source_size": [
+            800,
+            450
+          ],
+          "output_size": [
+            1600,
+            1400
+          ],
+          "source_fully_visible": true,
+          "source_rect": [
+            80,
+            374,
+            1520,
+            1184
+          ],
+          "recomposed": true
+        },
+        "image_hash": "c679c9d89d54f992c2c9260fc7b878c9013b2cb24b33782d7a1b9b787a488af7"
       }
     ],
     "examined": {
