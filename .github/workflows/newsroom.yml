@@ -96,6 +96,6 @@ jobs:
       - name: Private editor dependencies
         run: python3 -m pip install --disable-pip-version-check -r newsroom_private/requirements.txt
       - name: Private editor checks
-        run: python3 -m unittest newsroom_private.test_monitor newsroom_private.test_queue_repair -v
+        run: python3 -m unittest newsroom_private.test_monitor newsroom_private.test_queue_repair newsroom_private.test_delivery_reliability -v
       - name: Private editor cycle from established clock
         run: python3 -m newsroom_private.monitor cycle

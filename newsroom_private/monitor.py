@@ -113,14 +113,18 @@ def caption(draft):
  return text
 
 def send_reserved(state,draft,posts,image_url,*,test=False):
- if not safe_image(image_url):raise RuntimeError('untrusted_image')
+ if image_url is not None and not safe_image(image_url):raise RuntimeError('untrusted_image')
  data=private_data(state)
  if seen_draft(draft,posts,data):return {'idle':'duplicate'}
  cid=check_recipient();record=event_record(draft,posts);record['test']=test
- image=e.request(image_url,limit=9_000_000)
- if not(image.startswith(b'\xff\xd8')or image.startswith(b'\x89PNG')):raise RuntimeError('invalid_image_bytes')
- from .image_branding import brand_external_image
- image,branding=brand_external_image(image,draft['title'])
+ if image_url is None:
+  from .image_branding import editorial_card
+  image,branding=editorial_card(draft)
+ else:
+  image=e.request(image_url,limit=9_000_000)
+  if not(image.startswith(b'\xff\xd8')or image.startswith(b'\x89PNG')):raise RuntimeError('invalid_image_bytes')
+  from .image_branding import brand_external_image
+  image,branding=brand_external_image(image,draft['title'])
  record['image_branding']=branding
  text=caption(draft);record['image_hash']=hashlib.sha256(image).hexdigest();data['history'].append(record);state.save()
  try:
@@ -210,6 +214,7 @@ def run(mode):
  for name in e.CONFIG['sources']:
   try:posts.extend(fetch_feed(name))
   except Exception:data['errors']=(data['errors']+[{'at':e.stamp(),'code':'feed_unavailable','source':name}])[-100:]
+ posts=list({p['id']:p for p in posts}.values())
  policy='rumors-v3-media-queue' if e.CONFIG.get('allow_rumors')else 'facts-v2-media-queue'
  if data.get('policy')!=policy:
   data['previous_examined_count']=len(data.get('examined',{}));data['examined']={};data['deferred']={};data['policy']=policy
@@ -223,7 +228,7 @@ def run(mode):
  sent=[r for r in data['history']if r['status']=='sent'and not r.get('test')]
  urgent=any(e.urgent_candidate(p,state)for p in fresh)
  if sent and not urgent and now-datetime.fromisoformat(sent[-1]['at'])<timedelta(hours=e.CONFIG['minimum_gap_hours']):return {'idle':'normal_cooldown','dated_posts':len(posts),'new_candidates':len(fresh),'next_normal_at_moscow':(datetime.fromisoformat(sent[-1]['at'])+timedelta(hours=e.CONFIG['minimum_gap_hours'])).astimezone(e.MSK).isoformat()}
- fresh=sorted(fresh,key=lambda x:x['published_at'],reverse=True)[:6];proofs=[]
+ fresh=sorted(fresh,key=lambda x:x['published_at'],reverse=True);proofs=[]
  urls=['https://www.rockstargames.com/VI','https://www.rockstargames.com/VI/launch-gallery']
  for p in fresh:
   urls.extend(u for u in p['links']if e.official(u))
@@ -231,24 +236,29 @@ def run(mode):
   try:proofs.append(e.evidence(url))
   except Exception:pass
  if not proofs and not e.CONFIG.get('allow_rumors'):return {'idle':'primary_sources_unavailable'}
- data['attempts'][day]=data['attempts'].get(day,0)+1
- data['examined']={k:v for k,v in data['examined'].items()if datetime.fromisoformat(v)>now-timedelta(days=14)};state.save()
- draft=e.generate(fresh,proofs,state,urgent_only=bool(sent and now-datetime.fromisoformat(sent[-1]['at'])<timedelta(hours=e.CONFIG['minimum_gap_hours'])),editor_history=data['history'])
- if not draft:
-  defer_posts(data,fresh,now,'no_supported_fresh_story');state.save()
-  return {'idle':'no_supported_fresh_story','dated_posts':len(posts),'new_candidates':len(fresh),'retry_minutes':60}
- if seen_draft(draft,fresh,data):
-  mark_selected(data,draft,fresh,'duplicate');state.save();return {'idle':'duplicate'}
- selected=next((p for p in fresh if p['id']in draft['source_ids']and p['images']),None)
- if not selected:
-  defer_posts(data,fresh,now,'no_matching_image');state.save();return {'idle':'no_matching_image'}
- image_url=choose_image(state,draft,fresh)
- if not image_url:
-  defer_posts(data,[post for post in fresh if post['id']in draft['source_ids']],now,'image_review_rejected',minutes=180);state.save();return {'idle':'image_review_rejected','source_ids':draft['source_ids']}
- result=send_reserved(state,draft,fresh,image_url)
- if result.get('delivered'):
-  mark_selected(data,draft,fresh,'sent');state.save()
- return result
+ batches_tried=0
+ for batch_start in range(0,min(len(fresh),12),6):
+  if data['attempts'].get(day,0)>=max(12,e.CONFIG['daily_max']*4):break
+  batch=fresh[batch_start:batch_start+6];batches_tried+=1
+  data['attempts'][day]=data['attempts'].get(day,0)+1
+  data['examined']={k:v for k,v in data['examined'].items()if datetime.fromisoformat(v)>now-timedelta(days=14)};state.save()
+  draft=e.generate(batch,proofs,state,urgent_only=bool(sent and now-datetime.fromisoformat(sent[-1]['at'])<timedelta(hours=e.CONFIG['minimum_gap_hours'])),editor_history=data['history'])
+  if not draft:
+   defer_posts(data,batch,now,'no_supported_fresh_story');state.save();continue
+  if seen_draft(draft,batch,data):
+   mark_selected(data,draft,batch,'duplicate');state.save();continue
+  image_url=choose_image(state,draft,batch)
+  # Do not replace rejected evidence with another claim. Use a clearly labelled own illustration.
+  result=send_reserved(state,draft,batch,image_url)
+  if result.get('delivered'):
+   mark_selected(data,draft,batch,'sent');state.save()
+   result['image_mode']='reviewed_source'if image_url else'own_editorial_illustration'
+   result['batches_tried']=batches_tried
+   return result
+  if result.get('idle')=='duplicate':
+   mark_selected(data,draft,batch,'duplicate');state.save();continue
+  return result
+ return {'idle':'no_supported_fresh_story','dated_posts':len(posts),'new_candidates':len(fresh),'batches_tried':batches_tried,'retry_minutes':60}
 
 def main():
  try:
