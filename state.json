@@ -1186,7 +1186,7 @@
       },
       {
         "at": "2026-11-20T15:01:05.841412+00:00",
-        "status": "pending",
+        "status": "sent",
         "event_key": "gta6_edition_buildings_access_2026",
         "source_hashes": [
           "c364faf7f5bce36128f006a759bf653a5c63b450b64486c902d250dc72438cba"
@@ -1298,7 +1298,12 @@
           ],
           "recomposed": true
         },
-        "image_hash": "4e8e4d76880b47999ca6f7f85beaff49a5a2fc78b95c5d8c863a12c6964bfdcd"
+        "image_hash": "4e8e4d76880b47999ca6f7f85beaff49a5a2fc78b95c5d8c863a12c6964bfdcd",
+        "message_id": 50,
+        "custom_emoji_ids": [
+          "5282847372223740079",
+          "5222464272390463282"
+        ]
       }
     ],
     "examined": {
