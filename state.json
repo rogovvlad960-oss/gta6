@@ -712,6 +712,111 @@
           "5282847372223740079",
           "5222464272390463282"
         ]
+      },
+      {
+        "at": "2026-11-20T10:15:06.575126+00:00",
+        "status": "pending",
+        "event_key": "lexi_mandy_cast_2026",
+        "source_hashes": [
+          "41227d4ff8c0d49df8c98dfeded3243c6f1585a5e27dee8bda7f12b77044470a"
+        ],
+        "tokens": [
+          "0097fefe6eca2db92c7f3ccc9ff9c30e4655cef94d33b763a03002e5c6c1b8bd",
+          "06585cf463d87e0eebb551a6b29d0d0907f75dbb5be451a853224f9c6d681364",
+          "08af712c9daf37902013422ef24cf578d2d78b575d98b1f95b4776f506ec9d29",
+          "0a5685f0958dd0f4bedddf602915c6431279c7fdc89e11751547835defe812ba",
+          "106d18779403cd278253782f14ec44ba9ca64f4d4bc053e249025a3e9fe41a88",
+          "174a2bced032a5665e4d57454c7bfcd30117418686e503be2b9fe4279ed963a6",
+          "19cf909586a9d2cb443be4ba9d6162008094f9afd330647823e5c86165b24aab",
+          "205533c6ab9e8f731195b1f9fb5382d8815119340846503f70277193d926843c",
+          "22652d541a6c2e9212b0025bd4990a1963db598a9327badcac6ee3fffa7e49b7",
+          "2d9d17f1dea63bd16a1da6286dd39b9f2a165f7009a280167ca0fb6c19753cd4",
+          "3283893eb72b2272657eee6efa5f525fa4b186158d015c529a2ad0b40e5fd1cd",
+          "38a8c0e0bc0710df0a87069ccbf57eb8f02f971f983c37dac3f92d2012310fe4",
+          "4005c21d2ae9fa064999d6a4b076d93892be0ba5f4a2cd58d798f823c0c1861d",
+          "40b939b982773c364022bb7a6d87db860bcef3f564376c8af70e37b2f8c91e0f",
+          "43a52c65433c88c5196a1445ac34a8e8b26ee15948c6a6cede478b6e5e721be9",
+          "4cc95057777dbf7a890d38a6cceb1253f66261f164fc63457fd71b8748fd64aa",
+          "51dae342da330e6dba7024344cb68496b2337f02b248313c24d7b13016b95685",
+          "557dc7b1c662b4cc105640b2e6df11615db904f61e9711016350f5a75efbd491",
+          "5659645d4e3d94b9519889105a444cb6f04e0a82a33e4822af48bdc25e72c3b8",
+          "5d196a618c74c1cec919fed3c698024bdab148d35d0af240b871191f81c0970a",
+          "5d621344aaf8e28618cb5bbcbfc351518f08a709e977834bda351aaec52d9403",
+          "5fd387a72530d3dba2ef646850c223b2a1b00c9584f926b5cc606dd5c2b3d21b",
+          "64d6d284a0464d3432cf79904c89db218c7b55c1d1e4514c9189b43dc10a731c",
+          "6582db2ba11655166044c932c6469e49d6e0531f453fed660faa1042691c109f",
+          "73282c77b6bd7ce21bd123006e1df688f701a3ff19ae3e921b007f61fd939f3f",
+          "77e646aba7be34e784b76d0fd6537a1987cefe8eeee20f075559b0f4ec57ca66",
+          "7ac0f294e928f51596c9e7c2cfe8cff9695d67f41f3af7b2ed4a068d52835510",
+          "7cec786603543b6b67e7203dd2230965b79fd3faa15c80feda6761b59baeebd6",
+          "7d60b8f70f421671e9240359821f87497337c62036236b3c4bc44a84568d9e9f",
+          "81e05cbe45bc34934cf782134b17dd119fcdbc75afc7219012595c164d1e1364",
+          "8722da249484db61c6b2f19471d1f2c641373733c6ee9c2cd630ac288923f310",
+          "886b25f02642c7c3b803f1ff9daa42278a301768bcac04887b5eed09bec3d07b",
+          "890b533cf0f1cd21a4e5943a87a73d142a9cebc22939be49a0a29316db37b3bb",
+          "8b7ca66679a7fc6c426a0e57200b945d6da6a22d0b6d72c2debadd1eb718b463",
+          "8de81a84e6d4217b5c8e1190d3c4f8b1ad554f0b77d4f41f988039a2af36063d",
+          "8fca867ac23e86d12aa7ad754dceb7f7b8cc48bc9f949b220b75135612f157d9",
+          "94d7d3020b93bebedacc1a2c9212dd6226e181c151be41bc872a944e0045c3de",
+          "99bbe423c51413de499288ce3061b632569cb7e2e4a803d5e3240a657f83db7e",
+          "a8122d855a12c916ff60c3ba9f4a466945a039a2d8fb3c001e74e5029f177acb",
+          "b0a7360f64cd9a5aaabb974951a5d50ff737b7271d4a54e1b4fe9da0a820ef45",
+          "b1bcaf13b0ad2d8d94679f265aaee08f755a81960a5ec6523f67f5273cadd789",
+          "b4585b2ec197c88a29813760c1a249be9b19975b744dff8e6679d618821ee485",
+          "b8f73a7f17421be08e691d37c84545399e5510bb404eaf5aeaade28f6c6bc0fc",
+          "b9531d5b55fb79e3a9394aea767f935063d048d6033a35c7fa89e83b75b775bd",
+          "bb97328c18a8b47569640eae8849bba2f4f640a659c84ff2cc8ed1a19d78a304",
+          "bb9b270bc30868d4152bc23bd097db665b559d9c2507a30be7f3c528d658c43d",
+          "bde196963e54fa0514852fb9ce30bc4368f8110fe89100c88a7d4f555b017ae7",
+          "c3f4e339e91b32f937dc315ca33043d1c80ba5d98d50f51e7e05c53960aa1090",
+          "c4360ecc777e5cb2480c95bc70426e8d1f18b2e1841b0571e6bb838f63189b8c",
+          "ca922b9bba31a0489b877f24ebc3f3778c9f5ccff2609971fb71102d6a21e0ab",
+          "ce2120a2857ad6c8d7a271705ef72441f542ef1155b0978e94161bbdc92aa857",
+          "cf018b71ab47d7516a1d9af2080f0360e1795bd60000324c63eb99bd1f2ab37e",
+          "d05e0b9e246cfe75fb9bc950428da27d4f5b42f007e584a048acb37a375eb661",
+          "dde7950114f546d04ff52a16955d78c69fab0d52495d6b22fd160d54ec4b7a2e",
+          "e68e8309eb986afa430d60362ca221ab443dab68a8e832febea827a754be722d",
+          "e73056b0fdc49a9589c91ad8628bec2a6727aad7ca37911d9aacc2aa3cfc5b2d",
+          "ef1b2fe1e2579bf6cdce8bead554b25c20b4e389dd63bf0f764c7727abac2262",
+          "efc8c324e98e314c7f95a695eb7c68cd6fc9a5190409fe6bf9a53b95f1b76c14",
+          "f059f3665367b77b6aa096b1ab2a937bfb9db7ee12325865b4c5aee21cb89904",
+          "f3a1c6de814b12c48c04a377a7dfc0f830a5651a05c34e44e170ff519ba9cae4",
+          "f7d46147a258959836f40834c01e79f3b55d0ddf9f5de81a57ce8f98c3694deb",
+          "f97e3ce5dd252d1d8f64fe31ea79e546b0a2c22ddce848dc4e077bb0777ef853"
+        ],
+        "evidence": [
+          {
+            "url": "https://t.me/GTAVIStar/980",
+            "quote_sha256": "5dc1a7c8d8f31ba1562b6f7f6977c53972597abc422c98cf07f55ba1e961b038"
+          },
+          {
+            "url": "https://t.me/GTAVIStar/980",
+            "quote_sha256": "49c1b02eec6d4fab173ee50827e00e9e3108cbab3cb74b65767574bda5c38d6d"
+          }
+        ],
+        "test": false,
+        "image_branding": {
+          "style": "lesterdossier-editorial-v1",
+          "source_sha256": "70bfa7cae2e779a1f2cfa2d43f177c23552eee0e9a9a522ed0b39e68eb4cc595",
+          "output_sha256": "c31d0a02ad4d4a9b93c96f9f12addec59b5e714bf698340b1ac735ddf1776f0d",
+          "source_size": [
+            565,
+            800
+          ],
+          "output_size": [
+            1600,
+            2000
+          ],
+          "source_fully_visible": true,
+          "source_rect": [
+            262,
+            318,
+            1337,
+            1840
+          ],
+          "recomposed": true
+        },
+        "image_hash": "c31d0a02ad4d4a9b93c96f9f12addec59b5e714bf698340b1ac735ddf1776f0d"
       }
     ],
     "examined": {
