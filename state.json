@@ -1071,6 +1071,111 @@
         "custom_emoji_ids": [
           "5282847372223740079"
         ]
+      },
+      {
+        "at": "2026-11-20T13:46:14.707645+00:00",
+        "status": "pending",
+        "event_key": "gta6_dlss5_neural_rumor_2026",
+        "source_hashes": [
+          "3185d44da3fda846d57a77e0b6d62079d0c9527e5bf7816c50526c280f12ae79",
+          "877ccc6c52b68812924351e0695cda41f80aa4eaf28ecf4626d883c3b1777d68"
+        ],
+        "tokens": [
+          "0097fefe6eca2db92c7f3ccc9ff9c30e4655cef94d33b763a03002e5c6c1b8bd",
+          "00a1d40bb304e08ed9a416332cbe5572e1b7ba660e7a28c758d5f1e6a6a70a25",
+          "04ffa7791084d60dcc737372ae0ad2da5971ba692bba9961fe2914c45d77573c",
+          "0690ff82575120643b2d431a0e04d3c29ff27ec8f3a55aaf80ccb5f9ad0c54c0",
+          "09adbca4f10cf7fb07d513ece90500d4264bed0aa29cc4c6f6de01fb372c44c3",
+          "0a3790bcb8dae63ded375ff4163aa10ad564e4739e144171dd838c750f1c15a8",
+          "1023ab443e14594e375df0a09c410101520d4973e2d38fee73ad5f3fd87c7eea",
+          "106d18779403cd278253782f14ec44ba9ca64f4d4bc053e249025a3e9fe41a88",
+          "13257cc8906ea831cb5650b373aa141b0afbaa6f5ca4efbeaafde591760712f4",
+          "174a2bced032a5665e4d57454c7bfcd30117418686e503be2b9fe4279ed963a6",
+          "182b1ee3e4bd4c2ab6c2a886c1433e6f2110f70f657b3b16ce9a206c883bdee6",
+          "1a7dcbbac43b2ddfea5f0de9f3e66d3a0e4d01ae456c607a4ba60f67706e183c",
+          "27fd8f717f41c84d1bc4db35f94e99c4ab62f73554cdcc0ef81a64c9866a5cde",
+          "29555c0cfffd6664b665436f8197d22e91587f8cdab38d22d0354a87f09c2f5a",
+          "37f9627dca23647e58f6ad25dbc43d81a586e33a3e9e17d9edbabeb92327bf58",
+          "3809a61bfacb8ee1e4b168d5d771e81c19e040e1c1de35dff78a3b2a6b157656",
+          "3b5fd48ee946d95aa245d241305b3d161fc924891525f9f2836f5cc166a84fa8",
+          "3c547658dc5c28508f2aaed4bbc74457acb81abb2283aaa1a8c54054c0c004ee",
+          "3e3e77a814c6f91f9d2c57a12b07c72e1a6f977882bbb008edbe5243b85e5a50",
+          "43a52c65433c88c5196a1445ac34a8e8b26ee15948c6a6cede478b6e5e721be9",
+          "4843f8d664b374049e683f9ecd40e0e624f75c99a7f0e0e7b29e17ca023e0242",
+          "4cc95057777dbf7a890d38a6cceb1253f66261f164fc63457fd71b8748fd64aa",
+          "5187ee2286dc3118aac96b638089f183ff5a1d5135eb510ec6fe411ae45ce40b",
+          "557dc7b1c662b4cc105640b2e6df11615db904f61e9711016350f5a75efbd491",
+          "5849b2f111370b3dfa208b776dd86b46841f76c22340e049d06e248a40073423",
+          "5d621344aaf8e28618cb5bbcbfc351518f08a709e977834bda351aaec52d9403",
+          "5d98a3485390453747b7193fae78980128617772ca3627a85c8c02445537daed",
+          "5f5dc8c0e3f627f8a3e6a24a171d7e239815f1800d4a59dfe5130cc6a8b02cae",
+          "6a530de6efb58d238053ac4bf748c63c905f290b8a5f1135be0e5182b1707d3e",
+          "6ac1fa5796367a2d3654ab434f51890422c905f5951038cad0f8685b386a392a",
+          "6b11a3e4884801cde832e2941bf5c565bf3c80550ce81afe2d39eb3b8a17f7b9",
+          "7379ce5d672d87dcf1713151bd3e96956f17bbb56fcef5db97e7ea585644dd06",
+          "7842bc22845be715eaa2f59efc114305e6e9570414a804624ec094e449d9e793",
+          "8d8d50db5aa9b4645e8f800e6fb2674949d631772f9e9e2f6e0794921561cce9",
+          "95b46b2b765219b8741d8190e0fea195caec51d4574428bb4b52282d0c332ad1",
+          "973b62acf9270242e539af7599cdab3ea7bd0d5cbb6b77a5c21aa8e30e764df0",
+          "a0c9932b657390b6bd8cd7c00af2a8373c22ca046cba59c5e89d1e8309ad9949",
+          "a3487572287ef4b7fbd7c1672ca07d80e39b04a8ba89d3f53bd448b8482f9ffd",
+          "a9efac9002aecc55a65b6022f1bd6745cd48671c8df47c774528e35aa1dec0e5",
+          "b503c4777189dfa7e2ddb68b449799809590adb251bdab6f3307be6b74c440b3",
+          "b8594c2ba2f4781f10967a4a70cd57ce1f51836febb39396830159262d6a2480",
+          "b8f73a7f17421be08e691d37c84545399e5510bb404eaf5aeaade28f6c6bc0fc",
+          "b9531d5b55fb79e3a9394aea767f935063d048d6033a35c7fa89e83b75b775bd",
+          "ba6a4df137a933b4ffbfc0af49be763399741c26a564fdfc01262432de712e9b",
+          "bb9b270bc30868d4152bc23bd097db665b559d9c2507a30be7f3c528d658c43d",
+          "bbaf50cd0982e735003ae91c8e583a71747e646d49569162d7059974199e178e",
+          "bde196963e54fa0514852fb9ce30bc4368f8110fe89100c88a7d4f555b017ae7",
+          "c07d088ca6d9aafa5f4a5361e19e6f54085d216e5a73a3b2f234b2de322df6cc",
+          "c0dcc2d73e0554e284794f10d07c9a48579e84fffafa74d07f7b82c18044e2b8",
+          "c1045fba62a1612ce5f98fc9497bccc7f1ddd06e7cf9eef663d8f2cdf1c08f47",
+          "c159be13b74c4e2e1fa777e2e675f803b4e58cc20d6ae367e8f26b7b3b0c5ca6",
+          "c3f4e339e91b32f937dc315ca33043d1c80ba5d98d50f51e7e05c53960aa1090",
+          "d0fe5919c3cb27c20ecef20a262edab8e4e54210e84bab7af23bb44fa3ca9a09",
+          "d2e06ece2ac5fed308b9b63c7318a77a5537e6a71c054ba19c1fa05316081d6b",
+          "d31d2b3414494b6731e133777797217bbf6dd35c36b68df470fc230c6df52f82",
+          "d3e01a284a0497057b1ba2d93dbcd485f0e5ff083cd8d3e55b5279cb3b1c0e11",
+          "d433b651312da7605afb9d5b61f8fc8a1bc83e2466f7500904c17b599aa38397",
+          "d53ec874b18fd9246ccccbb32893b59281bffb67efc6fe3db98c5e7d510584a1",
+          "dde7950114f546d04ff52a16955d78c69fab0d52495d6b22fd160d54ec4b7a2e",
+          "e8a9ad0bbe1f9e60fd5c2c484af4d403b21b64b172743e54df6436c5f6cd5fe5",
+          "f8b4e63d31ffbe91e47752905c8c8856082b8d033f628023f48d94aa02825219"
+        ],
+        "evidence": [
+          {
+            "url": "https://t.me/GTA6_m/9460",
+            "quote_sha256": "e9922ab0ca795816ec5464dda12a5d3a5e68e397b0d4a04204bfe65e2e838c7d"
+          },
+          {
+            "url": "https://t.me/gta6deluxe/2282",
+            "quote_sha256": "46e4c8e357a35df048ca4c152e48a020a132e5d7b99fa8270a129d778e95c934"
+          }
+        ],
+        "test": false,
+        "image_branding": {
+          "style": "lesterdossier-editorial-v1",
+          "source_sha256": "ae98a71712a144cbc75b9e75dd417fcde89f56debbcff57a3dbe9c7fc1d40ca3",
+          "output_sha256": "7e06e177dc8cb60e9bb3cbdab5a453b84f60b8f913c617be19c58167d8c5c286",
+          "source_size": [
+            320,
+            180
+          ],
+          "output_size": [
+            1600,
+            1400
+          ],
+          "source_fully_visible": true,
+          "source_rect": [
+            80,
+            374,
+            1520,
+            1184
+          ],
+          "recomposed": true
+        },
+        "image_hash": "7e06e177dc8cb60e9bb3cbdab5a453b84f60b8f913c617be19c58167d8c5c286"
       }
     ],
     "examined": {
