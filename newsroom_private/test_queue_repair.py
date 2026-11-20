@@ -46,4 +46,9 @@ class QueueRepairTests(unittest.TestCase):
   a=self.post();a['images']=['https://cdn4.telesco.pe/file/'+str(i)+'.jpg'for i in range(5)];b=self.post('Другой кадр GTA VI','test/2')
   with patch.object(m,'vision_check',side_effect=[False,True])as review:
    self.assertEqual(m.choose_image(object(),{'source_ids':[a['id'],b['id']]},[a,b]),b['images'][0]);self.assertEqual(review.call_count,2)
+ def test_twelve_attempts_do_not_prevent_six_post_target_after_rejections(self):
+  now=m.e.now().astimezone(m.e.MSK).replace(hour=12);day=now.date().isoformat();data={'history':[{'status':'sent','test':True,'at':(now-timedelta(hours=2)).isoformat()}],'examined':{},'deferred':{},'attempts':{day:12},'errors':[],'policy':'rumors-v3-media-queue'};state=SimpleNamespace(data={'private_editor':data,'history':[],'spend':{},'errors':[]},load=lambda:None,save=lambda:None)
+  with patch.object(m.e,'now',return_value=now),patch.object(m.e,'State',return_value=state),patch.object(m,'check_recipient',return_value=123),patch.object(m,'fetch_feed',return_value=[self.post()]),patch.object(m.e,'evidence',return_value={'url':'https://www.rockstargames.com/VI','text':'Verified page content long enough','checked_at':now.isoformat()}),patch.object(m.e,'generate',return_value=None):
+   result=m.run('cycle')
+  self.assertNotEqual(result.get('idle'),'daily_model_attempt_cap');self.assertEqual(data['attempts'][day],13)
 if __name__=='__main__':unittest.main()
