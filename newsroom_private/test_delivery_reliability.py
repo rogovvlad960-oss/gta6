@@ -26,4 +26,8 @@ class DeliveryReliability(unittest.TestCase):
   with patch.object(m.e,'now',return_value=now),patch.object(m.e,'State',return_value=state),patch.object(m,'check_recipient',return_value=123),patch.object(m,'fetch_feed',side_effect=[self.posts(12),[],[],[]]),patch.object(m.e,'evidence',return_value={'url':'https://www.rockstargames.com/VI','text':'Actual evidence'}),patch.object(m.e,'generate',return_value=None)as gen,patch.object(m,'send_reserved',side_effect=AssertionError('Never send unchecked text')):
    out=m.run('cycle')
   self.assertEqual(out['idle'],'no_supported_fresh_story');self.assertEqual(gen.call_count,2)
+ def test_urgent_keyword_cannot_spend_budget_or_bypass_hour_gap(self):
+  now,data,state=self.setup_state();data['history'].append({'status':'sent','at':(now-timedelta(minutes=2)).isoformat()})
+  with patch.object(m.e,'now',return_value=now),patch.object(m.e,'State',return_value=state),patch.object(m,'check_recipient',return_value=123),patch.object(m,'fetch_feed',return_value=self.posts(1)),patch.object(m.e,'urgent_candidate',return_value=True),patch.object(m.e,'generate',side_effect=AssertionError('Urgent keyword must not trigger paid drafting during cooldown')):
+   self.assertEqual(m.run('cycle')['idle'],'normal_cooldown')
 if __name__=='__main__':unittest.main()

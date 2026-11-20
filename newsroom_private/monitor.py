@@ -226,8 +226,7 @@ def run(mode):
  day=now.astimezone(e.MSK).date().isoformat()
  if data['attempts'].get(day,0)>=max(12,e.CONFIG['daily_max']*4):return {'idle':'daily_model_attempt_cap','new_candidates':len(fresh)}
  sent=[r for r in data['history']if r['status']=='sent'and not r.get('test')]
- urgent=any(e.urgent_candidate(p,state)for p in fresh)
- if sent and not urgent and now-datetime.fromisoformat(sent[-1]['at'])<timedelta(hours=e.CONFIG['minimum_gap_hours']):return {'idle':'normal_cooldown','dated_posts':len(posts),'new_candidates':len(fresh),'next_normal_at_moscow':(datetime.fromisoformat(sent[-1]['at'])+timedelta(hours=e.CONFIG['minimum_gap_hours'])).astimezone(e.MSK).isoformat()}
+ if sent and now-datetime.fromisoformat(sent[-1]['at'])<timedelta(hours=e.CONFIG['minimum_gap_hours']):return {'idle':'normal_cooldown','dated_posts':len(posts),'new_candidates':len(fresh),'next_normal_at_moscow':(datetime.fromisoformat(sent[-1]['at'])+timedelta(hours=e.CONFIG['minimum_gap_hours'])).astimezone(e.MSK).isoformat()}
  fresh=sorted(fresh,key=lambda x:x['published_at'],reverse=True);proofs=[]
  urls=['https://www.rockstargames.com/VI','https://www.rockstargames.com/VI/launch-gallery']
  for p in fresh:
