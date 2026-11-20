@@ -616,7 +616,7 @@
       },
       {
         "at": "2026-11-20T08:44:08.262635+00:00",
-        "status": "pending",
+        "status": "sent",
         "event_key": "nikobellic_gta6_appearance_2026",
         "source_hashes": [
           "4ef430dbaddf1bb85d59f02a12bc1e3e9a253d346254e9cd38e207c21993b7a7"
@@ -702,7 +702,12 @@
           ],
           "recomposed": true
         },
-        "image_hash": "bed09472d333c9561f5912c8b2e581f88fcd06fadd1639e495b5a89c650226ed"
+        "image_hash": "bed09472d333c9561f5912c8b2e581f88fcd06fadd1639e495b5a89c650226ed",
+        "message_id": 43,
+        "custom_emoji_ids": [
+          "5282847372223740079",
+          "5222464272390463282"
+        ]
       }
     ],
     "examined": {},
