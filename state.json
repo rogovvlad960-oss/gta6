@@ -1074,7 +1074,7 @@
       },
       {
         "at": "2026-11-20T13:46:14.707645+00:00",
-        "status": "pending",
+        "status": "sent",
         "event_key": "gta6_dlss5_neural_rumor_2026",
         "source_hashes": [
           "3185d44da3fda846d57a77e0b6d62079d0c9527e5bf7816c50526c280f12ae79",
@@ -1175,7 +1175,14 @@
           ],
           "recomposed": true
         },
-        "image_hash": "7e06e177dc8cb60e9bb3cbdab5a453b84f60b8f913c617be19c58167d8c5c286"
+        "image_hash": "7e06e177dc8cb60e9bb3cbdab5a453b84f60b8f913c617be19c58167d8c5c286",
+        "message_id": 48,
+        "custom_emoji_ids": [
+          "5282847372223740079",
+          "5280793836690384768",
+          "5282842763723832120",
+          "5222464272390463282"
+        ]
       }
     ],
     "examined": {
