@@ -2032,10 +2032,14 @@
       "premium_emoji_verified": true
     },
     "109d71e980d7adc41859c7845d2213f4154dbd099d8e6450c395c56e12b7a2d5": {
-      "status": "pending",
+      "status": "sent",
       "sha256": "38bb7f07edc633e62c206bed7bcfdddb60625d604958c737a36e38d45a4ac262",
       "bytes": 20784291,
-      "filename": "lester-blackout-speaking-v2.mp4"
+      "filename": "lester-blackout-speaking-v2.mp4",
+      "message_id": 53,
+      "document_verified": true,
+      "caption_verified": true,
+      "premium_emoji_verified": true
     }
   }
 }
