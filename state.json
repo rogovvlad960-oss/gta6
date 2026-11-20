@@ -637,14 +637,16 @@
     },
     "policy": "rumors-v3-media-queue",
     "last_check": {
-      "at": "2026-11-20T08:30:51.178570+00:00",
+      "at": "2026-11-20T08:39:51.764949+00:00",
       "result": {
-        "idle": "no_new_image_posts",
-        "dated_posts": 27
+        "idle": "image_review_rejected",
+        "source_ids": [
+          "GTAVIStar/977",
+          "gta6deluxe/2266",
+          "inGTA6/3062"
+        ]
       },
-      "trigger": "workflow_dispatch",
-      "external_clock": "cloudflare",
-      "scheduled_at": "2026-11-20T08:30:31.533Z"
+      "trigger": "push"
     },
     "last_schedule_slot": "2026-11-20T11:30",
     "schedule_checks": [
