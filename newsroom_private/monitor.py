@@ -175,6 +175,12 @@ def mark_selected(data,draft,posts,reason):
    key=e.digest(post['text']);data['examined'][key]=post['published_at'];data.setdefault('deferred',{}).pop(key,None)
  data['last_selection']={'at':e.stamp(),'reason':reason,'source_ids':draft['source_ids']}
 
+def choose_image(state,draft,posts):
+ candidates=list(dict.fromkeys(url for post in posts if post['id']in draft['source_ids']for url in post.get('images',[])if safe_image(url)))
+ for url in candidates[:3]:
+  if vision_check(state,draft,url):return url
+ return None
+
 def quiet_hours(at):
  return 1<=at.astimezone(e.MSK).hour<8
 
@@ -234,9 +240,10 @@ def run(mode):
  selected=next((p for p in fresh if p['id']in draft['source_ids']and p['images']),None)
  if not selected:
   defer_posts(data,fresh,now,'no_matching_image');state.save();return {'idle':'no_matching_image'}
- if not vision_check(state,draft,selected['images'][0]):
-  defer_posts(data,[selected],now,'image_review_rejected',minutes=180);state.save();return {'idle':'image_review_rejected','source_ids':draft['source_ids']}
- result=send_reserved(state,draft,fresh,selected['images'][0])
+ image_url=choose_image(state,draft,fresh)
+ if not image_url:
+  defer_posts(data,[post for post in fresh if post['id']in draft['source_ids']],now,'image_review_rejected',minutes=180);state.save();return {'idle':'image_review_rejected','source_ids':draft['source_ids']}
+ result=send_reserved(state,draft,fresh,image_url)
  if result.get('delivered'):
   mark_selected(data,draft,fresh,'sent');state.save()
  return result

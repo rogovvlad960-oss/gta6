@@ -29,4 +29,12 @@ class QueueRepairTests(unittest.TestCase):
   state=SimpleNamespace(data={'history':[{'event_key':'public-topic'}],'spend':{},'errors':[]},save=lambda:None)
   with patch.dict(os.environ,{'NEWSROOM_AI_SPEND_APPROVED':'true','NEWSROOM_LLM_KEY':'test'}),patch.object(m.e,'request',side_effect=request):out=m.e.generate([p],[],state,editor_history=[{'event_key':'private-topic'}])
   self.assertIsNotNone(out);self.assertIn('не подтверждено',out['body']);self.assertEqual(json.loads(calls[0]['messages'][1]['content'])['HISTORY'],['private-topic'])
+ def test_irrelevant_first_image_does_not_drop_the_story(self):
+  post=self.post();post['images'].append('https://cdn4.telesco.pe/file/matching.jpg');state=object()
+  with patch.object(m,'vision_check',side_effect=[False,True])as review:
+   self.assertEqual(m.choose_image(state,{'source_ids':[post['id']]},[post]),post['images'][1]);self.assertEqual(review.call_count,2)
+ def test_image_review_stops_after_three_candidates(self):
+  post=self.post();post['images']=['https://cdn4.telesco.pe/file/'+str(i)+'.jpg'for i in range(6)]
+  with patch.object(m,'vision_check',return_value=False)as review:
+   self.assertIsNone(m.choose_image(object(),{'source_ids':[post['id']]},[post]));self.assertEqual(review.call_count,3)
 if __name__=='__main__':unittest.main()
