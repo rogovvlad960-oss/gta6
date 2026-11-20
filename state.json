@@ -715,7 +715,7 @@
       },
       {
         "at": "2026-11-20T10:15:06.575126+00:00",
-        "status": "pending",
+        "status": "sent",
         "event_key": "lexi_mandy_cast_2026",
         "source_hashes": [
           "41227d4ff8c0d49df8c98dfeded3243c6f1585a5e27dee8bda7f12b77044470a"
@@ -816,7 +816,11 @@
           ],
           "recomposed": true
         },
-        "image_hash": "c31d0a02ad4d4a9b93c96f9f12addec59b5e714bf698340b1ac735ddf1776f0d"
+        "image_hash": "c31d0a02ad4d4a9b93c96f9f12addec59b5e714bf698340b1ac735ddf1776f0d",
+        "message_id": 44,
+        "custom_emoji_ids": [
+          "5282847372223740079"
+        ]
       }
     ],
     "examined": {
