@@ -852,16 +852,16 @@
     },
     "policy": "rumors-v3-media-queue",
     "last_check": {
-      "at": "2026-11-20T10:01:00.996633+00:00",
+      "at": "2026-11-20T10:15:12.966395+00:00",
       "result": {
-        "idle": "image_review_rejected",
-        "source_ids": [
-          "GTAVIStar/975"
-        ]
+        "delivered": true,
+        "message_id": 44,
+        "destination": "private",
+        "test": false,
+        "image_mode": "reviewed_source",
+        "batches_tried": 1
       },
-      "trigger": "workflow_dispatch",
-      "external_clock": "cloudflare",
-      "scheduled_at": "2026-11-20T10:00:31.533Z"
+      "trigger": "push"
     },
     "last_schedule_slot": "2026-11-20T13:00",
     "schedule_checks": [
