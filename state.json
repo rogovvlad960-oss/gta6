@@ -944,7 +944,7 @@
       },
       {
         "at": "2026-11-20T12:31:13.329450+00:00",
-        "status": "pending",
+        "status": "sent",
         "event_key": "gta6_cyberleek_leak_2026",
         "source_hashes": [
           "a3d8718ca09e95b916e1d36d19f5f36c04883febeba45cc46c753f54d470b067"
@@ -1066,7 +1066,11 @@
           ],
           "recomposed": true
         },
-        "image_hash": "6c937513f02d4e15e6e9759abf967c05919afef48d3baca9eb924feb19b84fbe"
+        "image_hash": "6c937513f02d4e15e6e9759abf967c05919afef48d3baca9eb924feb19b84fbe",
+        "message_id": 47,
+        "custom_emoji_ids": [
+          "5282847372223740079"
+        ]
       }
     ],
     "examined": {
