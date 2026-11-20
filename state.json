@@ -641,14 +641,12 @@
     },
     "policy": "rumors-v3-media-queue",
     "last_check": {
-      "at": "2026-11-20T08:39:51.764949+00:00",
+      "at": "2026-11-20T08:42:18.705027+00:00",
       "result": {
-        "idle": "image_review_rejected",
-        "source_ids": [
-          "GTAVIStar/977",
-          "gta6deluxe/2266",
-          "inGTA6/3062"
-        ]
+        "idle": "no_supported_fresh_story",
+        "dated_posts": 45,
+        "new_candidates": 6,
+        "retry_minutes": 60
       },
       "trigger": "push"
     },
