@@ -2192,6 +2192,12 @@
       "document_verified": true,
       "caption_verified": true,
       "premium_emoji_verified": true
+    },
+    "f9d30f951c3380292c92411738882eb1d93d3b14efb689e018044fb968a01c84": {
+      "status": "pending",
+      "sha256": "ccb60bf85785337269748b9deadbdf8f3e46c14c084a445b79cf481fd07da858",
+      "bytes": 30558367,
+      "filename": "lester-blackout-calm-chips-v5.mp4"
     }
   }
 }
