@@ -176,7 +176,9 @@ def mark_selected(data,draft,posts,reason):
  data['last_selection']={'at':e.stamp(),'reason':reason,'source_ids':draft['source_ids']}
 
 def choose_image(state,draft,posts):
- candidates=list(dict.fromkeys(url for post in posts if post['id']in draft['source_ids']for url in post.get('images',[])if safe_image(url)))
+ selected=[post.get('images',[])for post in posts if post['id']in draft['source_ids']]
+ # Try each selected source before exhausting an album from a single source.
+ candidates=list(dict.fromkeys(images[i]for i in range(max(map(len,selected),default=0))for images in selected if i<len(images)and safe_image(images[i])))
  for url in candidates[:3]:
   if vision_check(state,draft,url):return url
  return None

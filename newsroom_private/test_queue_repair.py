@@ -37,4 +37,13 @@ class QueueRepairTests(unittest.TestCase):
   post=self.post();post['images']=['https://cdn4.telesco.pe/file/'+str(i)+'.jpg'for i in range(6)]
   with patch.object(m,'vision_check',return_value=False)as review:
    self.assertIsNone(m.choose_image(object(),{'source_ids':[post['id']]},[post]));self.assertEqual(review.call_count,3)
+ def test_invalid_rumor_refs_are_bound_only_to_real_selected_sources(self):
+  post=self.post();other=self.post('Другая история в GTA VI','test/2');catalog=m.e.evidence_catalog([post,other],[]);draft={'kind':'rumor','source_ids':[post['id']],'evidence_refs':['invented']};m.e.resolve_evidence(draft,catalog,[post,other]);self.assertEqual(draft['citations'],[post['url']]);self.assertTrue(all(c['url']==post['url']for c in draft['claims']))
+ def test_invalid_source_cannot_be_repaired(self):
+  post=self.post();draft={'kind':'rumor','source_ids':['invented/1'],'evidence_refs':['invented']}
+  with self.assertRaises(ValueError):m.e.resolve_evidence(draft,m.e.evidence_catalog([post],[]),[post])
+ def test_image_alternatives_cover_other_selected_sources(self):
+  a=self.post();a['images']=['https://cdn4.telesco.pe/file/'+str(i)+'.jpg'for i in range(5)];b=self.post('Другой кадр GTA VI','test/2')
+  with patch.object(m,'vision_check',side_effect=[False,True])as review:
+   self.assertEqual(m.choose_image(object(),{'source_ids':[a['id'],b['id']]},[a,b]),b['images'][0]);self.assertEqual(review.call_count,2)
 if __name__=='__main__':unittest.main()

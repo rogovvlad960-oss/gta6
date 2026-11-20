@@ -230,7 +230,20 @@ def evidence_catalog(posts, proofs):
                 catalog[f'e{i}_{j}'] = {'url': url, 'quote': quote, 'primary': official(url)}
     return catalog
 
-def resolve_evidence(draft, catalog):
+def resolve_evidence(draft, catalog, posts=None):
+    # Rumor attribution is mechanically anchored to the selected real source posts.
+    # The independent review still checks every statement against those actual texts.
+    refs = draft.get("evidence_refs")
+    valid_refs = isinstance(refs, list) and bool(refs) and all(isinstance(x, str) and x in catalog for x in refs)
+    if draft.get("kind") == "rumor" and not valid_refs and posts:
+        selected = draft.get("source_ids", [])
+        known = {p["id"]: p["url"] for p in posts}
+        if isinstance(selected, list) and selected and all(isinstance(x, str) and x in known for x in selected):
+            urls = {known[x] for x in selected}
+            actual = [key for key, item in catalog.items() if item["url"] in urls]
+            if actual:
+                draft["evidence_refs"] = actual
+                print(json.dumps({"editorial_result": "rumor_attribution_bound_to_selected_posts", "source_count": len(urls)}))
     if 'evidence_refs' not in draft:
         return draft
     refs = draft.pop('evidence_refs')
@@ -256,7 +269,7 @@ def generate(posts, proofs, state, target_posts=None, urgent_only=False, referen
               'Если allow_rumors=true, отсутствие первичного подтверждения НЕ причина пропускать тему: перескажи её как kind=rumor, '
               'вплетая в body «в сети сообщают», «может» и «пока не подтверждено»/«подтверждения нет». '
               'Без отдельных плашек СЛУХ, без источников и ссылок в тексте. Заголовок слуха — условный или нейтральный, не установленный факт. '
-              'Для rumor evidence_refs могут ссылаться на фрагменты POSTS: это доказательство наличия сообщения, не его истинности. '
+              'Для rumor укажи точные source_ids; evidence_refs можно опустить — цитаты автоматически привяжем к выбранным POSTS. Это доказательство наличия сообщения, не его истинности. '
               'Для fact/analysis нужны относящиеся именно к теме PROOFS с primary=true. Явно опровергнутое не подавать как вероятную новость. '
               'Не выдумывай детали, инсайдерский доступ и отсутствующие сообщения. Реклама, розыгрыши и повторы запрещены. '
               'Заголовок до 9 слов, body150–550знаков,2–3короткихабзаца. Одну важную фразу выдели **так**,до70символов. '
@@ -287,7 +300,7 @@ def generate(posts, proofs, state, target_posts=None, urgent_only=False, referen
     if d.get('kind') == 'rumor' and isinstance(d.get('body'), str) and not re.search('не подтвержден|неподтвержд|подтверждения нет', d['body'].lower()):
         d['body'] = 'Пока это не подтверждено. ' + d['body']
     try:
-        resolve_evidence(d, catalog)
+        resolve_evidence(d, catalog, posts)
         if set(d) - {'kind', 'title', 'body', 'event_key', 'source_ids', 'citations', 'claims', 'priority'}:
             raise ValueError('unexpected_model_fields')
         validate_draft(d, posts, proofs)
