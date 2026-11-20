@@ -824,7 +824,7 @@
       },
       {
         "at": "2026-11-20T11:16:05.605070+00:00",
-        "status": "pending",
+        "status": "sent",
         "event_key": "jimmy_desanta_in_GTA6",
         "source_hashes": [
           "1a5f9155f2a6eb0f9cde306ec271c8a0d9f776202d8a3b274890b18db023a7fb"
@@ -933,7 +933,14 @@
           ],
           "recomposed": true
         },
-        "image_hash": "c679c9d89d54f992c2c9260fc7b878c9013b2cb24b33782d7a1b9b787a488af7"
+        "image_hash": "c679c9d89d54f992c2c9260fc7b878c9013b2cb24b33782d7a1b9b787a488af7",
+        "message_id": 45,
+        "custom_emoji_ids": [
+          "5282847372223740079",
+          "5222430393688432601",
+          "5282842763723832120",
+          "5346023102742571644"
+        ]
       }
     ],
     "examined": {
