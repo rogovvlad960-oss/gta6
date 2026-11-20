@@ -1042,7 +1042,12 @@
       }
     ],
     "previous_examined_count": 69,
-    "deferred": {}
+    "deferred": {
+      "351c94120403512c96100a7b77a4f90958e11d2f2cb54024991c353ddcaed837": {
+        "until": "2026-11-20T11:39:31.875606+00:00",
+        "reason": "image_review_rejected"
+      }
+    }
   },
   "review_file_deliveries": {
     "e2a93144b0d00a32a7ab912fc9d671ac7215fde713a5337df6c0c5c1e72d4275": {
