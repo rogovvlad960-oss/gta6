@@ -686,7 +686,7 @@
     },
     "policy": "rumors-v2",
     "last_check": {
-      "at": "2026-11-19T22:09:29.977232+00:00",
+      "at": "2026-11-20T00:23:56.701765+00:00",
       "result": {
         "idle": "quiet_hours_moscow_01_08"
       },
@@ -789,6 +789,14 @@
         },
         "workflow": "Lester Dossier newsroom",
         "run_id": "44625842748"
+      },
+      {
+        "at": "2026-11-20T00:23:56.701794+00:00",
+        "result": {
+          "idle": "quiet_hours_moscow_01_08"
+        },
+        "workflow": "Lester Dossier newsroom",
+        "run_id": "44645462173"
       }
     ],
     "external_clock_checks": [
