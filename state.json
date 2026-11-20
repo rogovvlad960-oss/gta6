@@ -2147,6 +2147,12 @@
       "document_verified": true,
       "caption_verified": true,
       "premium_emoji_verified": true
+    },
+    "f24f9500d1c9e16fb5012e4da372a6e853c488495253fbbe709caff0b9ac1559": {
+      "status": "pending",
+      "sha256": "587290909892a2c635a1aff151b5bb3b41de8bb8c91794f37b4bb4a173f6839c",
+      "bytes": 3014105,
+      "filename": "blackout-apartment-pause-study-v3.mp4"
     }
   }
 }
