@@ -240,7 +240,7 @@ def resolve_evidence(draft, catalog):
     draft['citations'] = list(dict.fromkeys((c['url'] for c in draft['claims'])))
     return draft
 
-def generate(posts, proofs, state, target_posts=None, urgent_only=False, reference_test=False):
+def generate(posts, proofs, state, target_posts=None, urgent_only=False, reference_test=False, editor_history=None):
     """Paid endpoint only reachable after explicit cost opt-in AND nonzero hard budget."""
     if os.environ.get('NEWSROOM_AI_SPEND_APPROVED') != 'true':
         raise RuntimeError('paid_generation_not_approved')
@@ -270,7 +270,7 @@ def generate(posts, proofs, state, target_posts=None, urgent_only=False, referen
     if reference_test:
         system += ' Это контрольный прогон на фактах текущей официальной страницы, а не поиск свежего анонса: игнорируй требование новизны темы только для этого прогона. Объясни только две даты — начало предзагрузки и выход игры, в двух-трёх предложениях. Никаких сведений о локации, сюжете, персонажах и оптимизации; никакого обсуждения слухов и скриншотов. Ирония должна быть про ожидание релиза или скачивание файлов. Не вычисляй относительное число дней и не добавляй обратный отсчёт. Скачивание файлов НЕ открывает доступ к игре до даты релиза; нельзя писать, что игра начнётся сразу после скачивания. Не утверждай, что даты объявлены сегодня. Используй только предоставленный официальный материал. Все ссылки остаются в служебных полях. Верни fact и priority=normal.'
     catalog = evidence_catalog(posts, proofs)
-    user = json.dumps({'EVIDENCE_CATALOG': catalog, 'REFERENCE_TEST': reference_test, 'NOW': stamp(), 'URGENT_ONLY': urgent_only, 'POSTS': [{**p, 'text': p['text'][:2500]} for p in posts], 'PROOFS': proofs, 'HISTORY': [r.get('event_key') for r in state.data['history'][-90:]], 'TARGET_RECENT': [p['text'][:1200] for p in (target_posts or [])[-12:]], 'allow_rumors': CONFIG['allow_rumors']}, ensure_ascii=False)
+    user = json.dumps({'EVIDENCE_CATALOG': catalog, 'REFERENCE_TEST': reference_test, 'NOW': stamp(), 'URGENT_ONLY': urgent_only, 'POSTS': [{**p, 'text': p['text'][:2500]} for p in posts], 'PROOFS': proofs, 'HISTORY': [r.get('event_key') for r in (editor_history if editor_history is not None else state.data['history'])[-90:]], 'TARGET_RECENT': [p['text'][:1200] for p in (target_posts or [])[-12:]], 'allow_rumors': CONFIG['allow_rumors']}, ensure_ascii=False)
     reserve = (2 * len((system + user).encode()) + 20000) * CONFIG['input_usd_per_million'] / 1000000.0 + 1600 * CONFIG['output_usd_per_million'] / 1000000.0
     spent = state.data['spend'].get(month, 0)
     if spent + reserve > budget:
@@ -283,6 +283,9 @@ def generate(posts, proofs, state, target_posts=None, urgent_only=False, referen
         print(json.dumps({'editorial_result': 'no_supported_fresh_story'}))
         settle_cost(state, month, spent, [r])
         return None
+    # The caption fallback runs after validation; normalize uncertainty before review as well.
+    if d.get('kind') == 'rumor' and isinstance(d.get('body'), str) and not re.search('не подтвержден|неподтвержд|подтверждения нет', d['body'].lower()):
+        d['body'] = 'Пока это не подтверждено. ' + d['body']
     try:
         resolve_evidence(d, catalog)
         if set(d) - {'kind', 'title', 'body', 'event_key', 'source_ids', 'citations', 'claims', 'priority'}:

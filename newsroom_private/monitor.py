@@ -45,9 +45,12 @@ def check_recipient():
  return cid
 
 def fetch_feed(name):
- soup=BeautifulSoup(e.request('https://t.me/s/'+name).decode(),'html.parser');posts=[]
+ return parse_feed(e.request('https://t.me/s/'+name).decode())
+
+def parse_feed(markup):
+ soup=BeautifulSoup(markup,'html.parser');posts=[]
  for msg in soup.select('.tgme_widget_message'):
-  text=msg.select_one('.tgme_widget_message_text');dt=msg.select_one('time');ident=msg.get('data-post')
+  text=msg.select_one('.tgme_widget_message_text');dt=msg.select_one('time[datetime]');ident=msg.get('data-post')
   if not text or not dt or not ident:continue
   date=dt.get('datetime');p={'id':ident,'url':'https://t.me/'+ident,'published_at':date,'text':text.get_text('\n',strip=True),'links':[a['href']for a in text.select('a[href]')]}
   if not date:continue
@@ -55,10 +58,12 @@ def fetch_feed(name):
    if e.reject_reason(p):continue
   except (ValueError,TypeError):continue
   images=[]
-  for photo in msg.select('.tgme_widget_message_photo_wrap'):
+  for photo in msg.select('.tgme_widget_message_photo_wrap, .tgme_widget_message_video_thumb'):
    m=re.search(r"url\(['\"]?([^)'\"]+)",photo.get('style',''))
    if m and safe_image(m[1]):images.append(m[1])
-  p['images']=images
+  for video in msg.select('video[poster]'):
+   if safe_image(video['poster']):images.append(video['poster'])
+  p['images']=list(dict.fromkeys(images))
   if images:posts.append(p)
  return posts
 
@@ -153,6 +158,23 @@ def vision_check(state,draft,image_url):
  response=json.loads(e.request('https://api.openai.com/v1/chat/completions',{'model':e.CONFIG['model'],'messages':[{'role':'user','content':[{'type':'text','text':prompt},{'type':'image_url','image_url':{'url':image_url,'detail':'low'}}]}],'response_format':{'type':'json_object'},'max_completion_tokens':100},{'Authorization':'Bearer '+os.environ['NEWSROOM_LLM_KEY']}))
  e.settle_cost(state,month,prior,[response]);return json.loads(response['choices'][0]['message']['content']).get('approved')is True
 
+
+def defer_posts(data,posts,now,reason,minutes=60):
+ queue=data.setdefault('deferred',{})
+ for post in posts:queue[e.digest(post['text'])]={'until':(now+timedelta(minutes=minutes)).isoformat(),'reason':reason}
+ data['deferred']={k:v for k,v in queue.items()if datetime.fromisoformat(v['until'])>now-timedelta(days=2)}
+
+def available_posts(posts,data,now):
+ sent_hashes={h for r in data['history']for h in r.get('source_hashes',[])if r.get('status')!='failed_confirmed'}
+ deferred=data.setdefault('deferred',{})
+ return [p for p in posts if e.digest(p['text'])not in data['examined']and e.digest(p['text'])not in sent_hashes and datetime.fromisoformat(deferred.get(e.digest(p['text']),{}).get('until','1970-01-01T00:00:00+00:00'))<=now]
+
+def mark_selected(data,draft,posts,reason):
+ for post in posts:
+  if post['id']in draft['source_ids']:
+   key=e.digest(post['text']);data['examined'][key]=post['published_at'];data.setdefault('deferred',{}).pop(key,None)
+ data['last_selection']={'at':e.stamp(),'reason':reason,'source_ids':draft['source_ids']}
+
 def quiet_hours(at):
  return 1<=at.astimezone(e.MSK).hour<8
 
@@ -180,14 +202,13 @@ def run(mode):
  for name in e.CONFIG['sources']:
   try:posts.extend(fetch_feed(name))
   except Exception:data['errors']=(data['errors']+[{'at':e.stamp(),'code':'feed_unavailable','source':name}])[-100:]
- policy='rumors-v2' if e.CONFIG.get('allow_rumors')else 'facts-v1'
+ policy='rumors-v3-media-queue' if e.CONFIG.get('allow_rumors')else 'facts-v2-media-queue'
  if data.get('policy')!=policy:
-  data['examined']={};data['policy']=policy
- sent_hashes={h for r in data['history']for h in r.get('source_hashes',[])}
- fresh=[p for p in posts if e.digest(p['text'])not in data['examined']and e.digest(p['text'])not in sent_hashes]
+  data['previous_examined_count']=len(data.get('examined',{}));data['examined']={};data['deferred']={};data['policy']=policy
+ fresh=available_posts(posts,data,now)
  state.save()
  if gate:return {'idle':gate,'dated_posts':len(posts),'new_candidates':len(fresh)}
- if not fresh:return {'idle':'no_new_image_posts','dated_posts':len(posts)}
+ if not fresh:return {'idle':'no_new_media_posts','dated_posts':len(posts)}
  # Monitoring is cheap; model drafting at most twelve times/day for the entire private editor.
  day=now.astimezone(e.MSK).date().isoformat()
  if data['attempts'].get(day,0)>=12:return {'idle':'daily_model_attempt_cap','new_candidates':len(fresh)}
@@ -203,15 +224,22 @@ def run(mode):
   except Exception:pass
  if not proofs and not e.CONFIG.get('allow_rumors'):return {'idle':'primary_sources_unavailable'}
  data['attempts'][day]=data['attempts'].get(day,0)+1
- for p in fresh:data['examined'][e.digest(p['text'])]=p['published_at']
  data['examined']={k:v for k,v in data['examined'].items()if datetime.fromisoformat(v)>now-timedelta(days=14)};state.save()
- draft=e.generate(fresh,proofs,state,urgent_only=bool(sent and now-datetime.fromisoformat(sent[-1]['at'])<timedelta(hours=e.CONFIG['minimum_gap_hours'])))
- if not draft:return {'idle':'no_supported_fresh_story','dated_posts':len(posts)}
- if seen_draft(draft,fresh,data):return {'idle':'duplicate'}
+ draft=e.generate(fresh,proofs,state,urgent_only=bool(sent and now-datetime.fromisoformat(sent[-1]['at'])<timedelta(hours=e.CONFIG['minimum_gap_hours'])),editor_history=data['history'])
+ if not draft:
+  defer_posts(data,fresh,now,'no_supported_fresh_story');state.save()
+  return {'idle':'no_supported_fresh_story','dated_posts':len(posts),'new_candidates':len(fresh),'retry_minutes':60}
+ if seen_draft(draft,fresh,data):
+  mark_selected(data,draft,fresh,'duplicate');state.save();return {'idle':'duplicate'}
  selected=next((p for p in fresh if p['id']in draft['source_ids']and p['images']),None)
- if not selected:return {'idle':'no_matching_image'}
- if not vision_check(state,draft,selected['images'][0]):return {'idle':'image_review_rejected'}
- return send_reserved(state,draft,fresh,selected['images'][0])
+ if not selected:
+  defer_posts(data,fresh,now,'no_matching_image');state.save();return {'idle':'no_matching_image'}
+ if not vision_check(state,draft,selected['images'][0]):
+  defer_posts(data,[selected],now,'image_review_rejected',minutes=180);state.save();return {'idle':'image_review_rejected','source_ids':draft['source_ids']}
+ result=send_reserved(state,draft,fresh,selected['images'][0])
+ if result.get('delivered'):
+  mark_selected(data,draft,fresh,'sent');state.save()
+ return result
 
 def main():
  try:
