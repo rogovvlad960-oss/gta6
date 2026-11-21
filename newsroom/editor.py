@@ -575,6 +575,48 @@ def publish(state, bot, draft, posts, *, test=False, at=None):
     return record
 
 
+def enqueue_cloud(state, draft, posts):
+    """Submit a verified card to the independent clock; never send to Telegram here."""
+    endpoint = os.environ.get('NEWSROOM_PUBLISHER_URL', '').rstrip('/')
+    key = os.environ.get('NEWSROOM_QUEUE_KEY')
+    host = urlparse(endpoint)
+    if host.scheme != 'https' or not (host.hostname or '').endswith('.workers.dev') or host.path not in ('', '/') or host.query or host.username or host.password:
+        raise RuntimeError('cloud_publisher_url_missing_or_invalid')
+    if not key:
+        raise RuntimeError('cloud_queue_secret_missing')
+    if any(r['status'] in ('pending','uncertain','queue_pending','queue_uncertain') for r in state.data['history']):
+        raise RuntimeError('unresolved_delivery_blocks_publishing')
+    posts = [p for p in posts if p['id'] in draft.get('source_ids', [])]
+    if duplicate(draft, posts, state):
+        raise RuntimeError('duplicate_event')
+    picture = image_bytes(draft)
+    caption = format_post(draft)
+    if not picture or len(picture) > 1_000_000 or len(caption) > 1024:
+        raise RuntimeError('cloud_card_invalid')
+    lifetime = CONFIG['urgent']['max_age_hours'] if urgent_verified(draft) else CONFIG['max_age_hours']
+    expires = min(datetime.fromisoformat(p['published_at']) + timedelta(hours=lifetime) for p in posts)
+    expires = min(expires, now()+timedelta(hours=48))
+    if expires <= now():
+        raise RuntimeError('cloud_story_expired')
+    payload = {'event_key': draft['event_key'], 'caption': caption, 'image_base64': base64.b64encode(picture).decode(),
+               'image_sha256': hashlib.sha256(picture).hexdigest(), 'image_role':'author_illustration',
+               'expires_at':int(expires.timestamp()*1000), 'verified':True, 'claims':draft['claims'],
+               'urgent':urgent_verified(draft), 'urgent_verified':urgent_verified(draft)}
+    record = {'at':stamp(),'status':'queue_pending','event_key':draft['event_key'],'draft_hash':digest(draft),
+              'source_hashes':[digest(p['text']) for p in posts], 'expires_at':expires.isoformat()}
+    state.data['history'].append(record); state.save()
+    try:
+        receipt=json.loads(request(endpoint+'/api/queue',payload,{'Authorization':'Bearer '+key}))
+        if receipt.get('queued') is not True or receipt.get('event_key') != draft['event_key']:
+            raise RuntimeError('cloud_queue_rejected')
+    except Exception:
+        record['status']='queue_uncertain';state.save()
+        raise RuntimeError('cloud_queue_uncertain_reconciliation_required') from None
+    record['status']='queued';state.save()
+    print(json.dumps({'queued':True,'event_key':draft['event_key'],'publisher':'cloudflare'}))
+    return record
+
+
 def fetch_source(name, cutoff=None, max_pages=8):
     cutoff = cutoff or now() - timedelta(hours=CONFIG['max_age_hours'])
     all_posts, seen, before, complete = [], set(), None, False
@@ -616,6 +658,7 @@ def collect():
 
 
 def run(args):
+    queue_mode = args.command in ('prepare','prepare-urgent') or os.environ.get('NEWSROOM_DELIVERY_BACKEND') == 'cloudflare'
     if args.command == 'connections-check':
         results = check_connections()
         print(json.dumps(results, ensure_ascii=False))
@@ -697,19 +740,20 @@ def run(args):
         log_error(state, 'partial_source_outage'); raise RuntimeError('partial_source_outage')
     if not candidates:
         return
-    if args.command in ('cycle','urgent-cycle') and not (CONFIG['autopublish'] and os.environ.get('NEWSROOM_AUTOPUBLISH') == 'true' and os.environ.get('NEWSROOM_STYLE_APPROVED') == 'true' and state.data['live_test']):
+    if args.command in ('cycle','urgent-cycle','prepare','prepare-urgent') and not (CONFIG['autopublish'] and os.environ.get('NEWSROOM_AUTOPUBLISH') == 'true' and os.environ.get('NEWSROOM_STYLE_APPROVED') == 'true' and state.data['live_test']):
         print('draft_only_publication_gates_closed'); return
-    urgent_only = args.command == 'urgent-cycle'
-    if args.command in ('cycle','urgent-cycle'):
+    urgent_only = args.command in ('urgent-cycle','prepare-urgent')
+    if args.command in ('cycle','urgent-cycle','prepare','prepare-urgent'):
         if urgent_only and not CONFIG.get('urgent',{}).get('enabled'):
             return
         try:
-            publication_limits(state, urgent=urgent_only)
+            if not queue_mode:
+                publication_limits(state, urgent=urgent_only)
         except RuntimeError as exc:
             if str(exc) in ('outside_moscow_window','daily_cap','posting_cooldown'):
                 print(json.dumps({'idle':str(exc)}));return
             raise
-        if any(r['status'] in ('pending','uncertain') for r in state.data['history']):
+        if any(r['status'] in ('pending','uncertain','queue_pending','queue_uncertain') for r in state.data['history']):
             raise RuntimeError('unresolved_delivery_blocks_publishing')
         if urgent_only:
             candidates = [p for p in candidates if urgent_candidate(p, state)]
@@ -733,14 +777,15 @@ def run(args):
     # Cache the source text AND evidence snapshot, not the source ID alone.
     proof_key = digest([{'url':p['url'],'text':p['text']} for p in proofs])
     cutoff = now()-timedelta(days=7)
-    examined = {k:v for k,v in state.data.get('editor_examined',{}).items() if datetime.fromisoformat(v)>cutoff}
+    examined_field = 'urgent_editor_examined' if urgent_only else 'editor_examined'
+    examined = {k:v for k,v in state.data.get(examined_field,{}).items() if datetime.fromisoformat(v)>cutoff}
     candidate_key = lambda p: digest([digest(p['text']),proof_key])
     candidates = [p for p in candidates if candidate_key(p) not in examined][:1 if urgent_only else 8]
     if not candidates:
         print(json.dumps({'idle':'no_unexamined_supported_candidates'}));return
     examined.update({candidate_key(p):stamp() for p in candidates})
-    if args.command in ('cycle','urgent-cycle'):
-        state.data['editor_examined']=examined
+    if args.command in ('cycle','urgent-cycle','prepare','prepare-urgent'):
+        state.data[examined_field]=examined
         state.save()  # Reserve this examination before the paid API request.
     d = generate(candidates[:8], proofs, state, target_posts, urgent_only=urgent_only)
     if d:
@@ -755,13 +800,16 @@ def run(args):
         (out / 'draft.json').write_text(json.dumps(d, ensure_ascii=False, indent=2))
         if args.command == 'draft':
             print(json.dumps({'review_draft':{k:d[k] for k in ('kind','title','body')},'draft_hash':digest(d),'api_usage':state.data.get('last_api_usage')},ensure_ascii=False))
-        if args.command in ('cycle','urgent-cycle'):
-            publish(state, Bot(), d, candidates[:8])
+        if args.command in ('cycle','urgent-cycle','prepare','prepare-urgent'):
+            if queue_mode:
+                enqueue_cloud(state, d, candidates[:8])
+            else:
+                publish(state, Bot(), d, candidates[:8])
 
 
 def main():
     p = argparse.ArgumentParser(description=__doc__)
-    p.add_argument('command', choices=['audit', 'generation-check', 'connections-check', 'bot-check', 'init-state', 'draft', 'cycle', 'urgent-cycle', 'test-post', 'confirm-test'])
+    p.add_argument('command', choices=['audit', 'generation-check', 'connections-check', 'bot-check', 'init-state', 'draft', 'cycle', 'urgent-cycle', 'prepare', 'prepare-urgent', 'test-post', 'confirm-test'])
     p.add_argument('--state', help='Local ledger for tests/dev. Omit to use GitHub durable state.')
     p.add_argument('--output', default='out/newsroom')
     p.add_argument('--draft')

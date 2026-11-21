@@ -306,6 +306,25 @@ class Tests(unittest.TestCase):
         self.state.data['history']=[{'status':'published','at':AT.isoformat()}]
         with self.assertRaisesRegex(RuntimeError,'posting_cooldown'):
             e.publication_limits(self.state, at=AT+timedelta(minutes=50))
+    def test_cloud_queue_reserves_and_never_sends_directly(self):
+        d=copy.deepcopy(D);d['image']={'file':'test'}
+        env={'NEWSROOM_PUBLISHER_URL':'https://test.workers.dev','NEWSROOM_QUEUE_KEY':'test-key'}
+        with patch.dict(e.os.environ,env),patch.object(e,'now',return_value=AT),patch.object(e,'image_bytes',return_value=b'image'),patch.object(e,'request',return_value=json.dumps({'queued':True,'event_key':D['event_key']}).encode()) as req,patch.object(e.Bot,'send') as send:
+            record=e.enqueue_cloud(self.state,d,[P]);self.assertEqual(record['status'],'queued');send.assert_not_called()
+            self.assertTrue(req.call_args.args[0].endswith('/api/queue'))
+            with self.assertRaisesRegex(RuntimeError,'duplicate_event'):e.enqueue_cloud(self.state,d,[P])
+    def test_ambiguous_cloud_acceptance_blocks_automatic_retry(self):
+        d=copy.deepcopy(D);d['image']={'file':'test'}
+        env={'NEWSROOM_PUBLISHER_URL':'https://test.workers.dev','NEWSROOM_QUEUE_KEY':'test-key'}
+        with patch.dict(e.os.environ,env),patch.object(e,'now',return_value=AT),patch.object(e,'image_bytes',return_value=b'image'),patch.object(e,'request',side_effect=TimeoutError) as req:
+            with self.assertRaisesRegex(RuntimeError,'cloud_queue_uncertain'):e.enqueue_cloud(self.state,d,[P])
+            self.state.load();self.assertEqual(self.state.data['history'][-1]['status'],'queue_uncertain')
+            with self.assertRaisesRegex(RuntimeError,'unresolved_delivery'):e.enqueue_cloud(self.state,d,[P])
+            self.assertEqual(req.call_count,1)
+    def test_cloud_queue_missing_secret_does_not_reserve_story(self):
+        with patch.dict(e.os.environ,{'NEWSROOM_PUBLISHER_URL':'https://test.workers.dev','NEWSROOM_QUEUE_KEY':''}):
+            with self.assertRaisesRegex(RuntimeError,'cloud_queue_secret_missing'):e.enqueue_cloud(self.state,D,[P])
+            self.assertEqual(self.state.data['history'],[])
     def test_normal_publication_slots(self):
         e.publication_limits(self.state,at=AT)
         with self.assertRaisesRegex(RuntimeError,'outside_moscow'):e.publication_limits(self.state,at=AT+timedelta(hours=3))
