@@ -1769,7 +1769,7 @@
       },
       {
         "at": "2026-11-21T09:01:15.380287+00:00",
-        "status": "pending",
+        "status": "sent",
         "event_key": "gta6_sales_traffic_rumor_2026",
         "source_hashes": [
           "3c68911bc0f824005e8685f5d65be20f043257794736272422ccaf4d0a890030"
@@ -1870,7 +1870,12 @@
           ],
           "recomposed": true
         },
-        "image_hash": "56e35665b4d59200e1b39d5e54ad7e35de8d3524774f82e2084b3bcf23b3420c"
+        "image_hash": "56e35665b4d59200e1b39d5e54ad7e35de8d3524774f82e2084b3bcf23b3420c",
+        "message_id": 68,
+        "custom_emoji_ids": [
+          "5282847372223740079",
+          "5222464272390463282"
+        ]
       }
     ],
     "examined": {
