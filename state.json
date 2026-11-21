@@ -1879,7 +1879,7 @@
       },
       {
         "at": "2026-11-21T10:15:59.558880+00:00",
-        "status": "pending",
+        "status": "sent",
         "event_key": "gta6_infinite_money_glitch_2026",
         "source_hashes": [
           "47ee526decb6cf4c361d91b55e6c71467ab712f0816c606d98da58461022902b"
@@ -1974,7 +1974,13 @@
           ],
           "recomposed": true
         },
-        "image_hash": "2e3f97895507a59414736887b25271753a0bb4c28ee32e66a7ce835249b9bd94"
+        "image_hash": "2e3f97895507a59414736887b25271753a0bb4c28ee32e66a7ce835249b9bd94",
+        "message_id": 71,
+        "custom_emoji_ids": [
+          "5282847372223740079",
+          "5346023102742571644",
+          "5278320231880631425"
+        ]
       }
     ],
     "examined": {
