@@ -1521,7 +1521,7 @@
       },
       {
         "at": "2026-11-21T06:16:09.293333+00:00",
-        "status": "pending",
+        "status": "sent",
         "event_key": "payment_with_bonus_gta6_2026",
         "source_hashes": [
           "86074b30c3225b3f40d264a3506bc7efbfca124248d87360324200725eafcf35"
@@ -1621,7 +1621,13 @@
           ],
           "recomposed": true
         },
-        "image_hash": "845281cc388a956865853e1e93e0a3e1fba84a09e16d7c50cb230fe3a3ff675d"
+        "image_hash": "845281cc388a956865853e1e93e0a3e1fba84a09e16d7c50cb230fe3a3ff675d",
+        "message_id": 63,
+        "custom_emoji_ids": [
+          "5282847372223740079",
+          "5346023102742571644",
+          "5222464272390463282"
+        ]
       }
     ],
     "examined": {
