@@ -1407,7 +1407,7 @@
       },
       {
         "at": "2026-11-21T05:01:11.744339+00:00",
-        "status": "pending",
+        "status": "sent",
         "event_key": "gtavi_32m_sales_rumor_2026",
         "source_hashes": [
           "132ac5f0231394fd0fe4cf5f8606c865881205d9d6fe3e4b7207115e61c85472"
@@ -1510,7 +1510,14 @@
           ],
           "recomposed": true
         },
-        "image_hash": "1872851c6d9fd24bcf8225e0aa7c8c4dcb3603ae46fc1ed586d5e3e4764f59e7"
+        "image_hash": "1872851c6d9fd24bcf8225e0aa7c8c4dcb3603ae46fc1ed586d5e3e4764f59e7",
+        "message_id": 61,
+        "custom_emoji_ids": [
+          "5282847372223740079",
+          "5222464272390463282",
+          "5346023102742571644",
+          "5282842763723832120"
+        ]
       }
     ],
     "examined": {
