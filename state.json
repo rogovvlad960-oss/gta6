@@ -2764,10 +2764,14 @@
       "premium_emoji_verified": true
     },
     "8569e0684e4f04024bc71eeba4ce0537545fab913368b631c7e093896cacf87b": {
-      "status": "pending",
+      "status": "sent",
       "sha256": "375dad6d3816163936d909a08233a3e417b24a8acfd89d5930c12ad99384d56f",
       "bytes": 17455642,
-      "filename": "lester-rescue-hurricane-visuals-v3.mp4"
+      "filename": "lester-rescue-hurricane-visuals-v3.mp4",
+      "message_id": 70,
+      "document_verified": true,
+      "caption_verified": true,
+      "premium_emoji_verified": true
     }
   }
 }
