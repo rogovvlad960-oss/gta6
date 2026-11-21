@@ -1631,7 +1631,7 @@
       },
       {
         "at": "2026-11-21T07:31:01.887251+00:00",
-        "status": "pending",
+        "status": "sent",
         "event_key": "gta6_metacritic_player_feedback_2026",
         "source_hashes": [
           "c316e34d6681b706a60a2e4a1994e05b023a4a281b15b90b016105fc992f8461"
@@ -1758,7 +1758,14 @@
           ],
           "recomposed": true
         },
-        "image_hash": "160e4e4fad7fd36841f1b68b742d7b49b5f0b1a66530ce1697cbc9644a60637d"
+        "image_hash": "160e4e4fad7fd36841f1b68b742d7b49b5f0b1a66530ce1697cbc9644a60637d",
+        "message_id": 64,
+        "custom_emoji_ids": [
+          "5282847372223740079",
+          "5222098491500702725",
+          "5282842763723832120",
+          "5222464272390463282"
+        ]
       }
     ],
     "examined": {
