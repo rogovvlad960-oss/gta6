@@ -2036,7 +2036,7 @@
       },
       "trigger": "schedule"
     },
-    "last_schedule_slot": "2026-11-21T21:30",
+    "last_schedule_slot": "2026-11-21T21:45",
     "schedule_checks": [
       {
         "at": "2026-11-18T23:49:19.787634+00:00",
