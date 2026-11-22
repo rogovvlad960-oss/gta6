@@ -2127,7 +2127,7 @@
       },
       "trigger": "schedule"
     },
-    "last_schedule_slot": "2026-11-22T15:45",
+    "last_schedule_slot": "2026-11-22T16:00",
     "schedule_checks": [
       {
         "at": "2026-11-19T21:59:23.400526+00:00",
