@@ -2113,6 +2113,10 @@
       {
         "at": "2026-11-21T21:01:18.894162+00:00",
         "code": "private_delivery_uncertain"
+      },
+      {
+        "at": "2026-11-23T21:15:45.240549+00:00",
+        "code": "RuntimeError"
       }
     ],
     "route": {
