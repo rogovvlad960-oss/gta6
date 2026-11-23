@@ -2121,7 +2121,7 @@
     },
     "policy": "rumors-v3-media-queue",
     "last_check": {
-      "at": "2026-11-23T16:30:51.050220+00:00",
+      "at": "2026-11-23T16:45:55.370355+00:00",
       "result": {
         "idle": "delivery_requires_reconciliation",
         "dated_posts": 33,
@@ -2129,7 +2129,7 @@
       },
       "trigger": "workflow_dispatch",
       "external_clock": "cloudflare",
-      "scheduled_at": "2026-11-23T16:30:31.533Z"
+      "scheduled_at": "2026-11-23T16:45:31.533Z"
     },
     "last_schedule_slot": "2026-11-23T19:45",
     "schedule_checks": [
@@ -2375,16 +2375,6 @@
       }
     ],
     "external_clock_checks": [
-      {
-        "at": "2026-11-23T09:15:51.080191+00:00",
-        "scheduled_at": "2026-11-23T09:15:31.533Z",
-        "result": {
-          "idle": "delivery_requires_reconciliation",
-          "dated_posts": 31,
-          "new_candidates": 29
-        },
-        "run_id": "45145394842"
-      },
       {
         "at": "2026-11-23T09:30:50.542493+00:00",
         "scheduled_at": "2026-11-23T09:30:31.533Z",
@@ -2674,6 +2664,16 @@
           "new_candidates": 32
         },
         "run_id": "45217296804"
+      },
+      {
+        "at": "2026-11-23T16:45:55.370392+00:00",
+        "scheduled_at": "2026-11-23T16:45:31.533Z",
+        "result": {
+          "idle": "delivery_requires_reconciliation",
+          "dated_posts": 33,
+          "new_candidates": 32
+        },
+        "run_id": "45220091463"
       }
     ],
     "previous_examined_count": 69,
