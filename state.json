@@ -2262,14 +2262,12 @@
     },
     "policy": "rumors-v3-media-queue",
     "last_check": {
-      "at": "2026-11-26T20:02:32.865968+00:00",
+      "at": "2026-11-26T20:07:36.168891+00:00",
       "result": {
-        "delivered": true,
-        "message_id": 72,
-        "destination": "private",
-        "test": false,
-        "image_mode": "reviewed_source",
-        "batches_tried": 1
+        "idle": "normal_cooldown",
+        "dated_posts": 19,
+        "new_candidates": 18,
+        "next_normal_at_moscow": "2026-11-27T00:02:26.287053+03:00"
       },
       "trigger": "push"
     },
