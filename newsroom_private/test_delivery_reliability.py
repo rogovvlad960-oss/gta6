@@ -7,6 +7,11 @@ from . import monitor as m
 from .image_branding import editorial_card
 
 class DeliveryReliability(unittest.TestCase):
+ def setUp(self):
+  from unittest.mock import patch
+  from . import engine
+  guard=patch.dict(engine.CONFIG,{'delivery_target':'private'});guard.start();self.addCleanup(guard.stop)
+
  def posts(self,n=7):return [{'id':f'test/{i}','url':f'https://t.me/test/{i}','text':f'В GTA VI обнаружили новую игровую деталь номер {i}','published_at':m.e.stamp(),'images':['https://cdn4.telesco.pe/file/frame.jpg'],'links':[]}for i in range(n)]
  def setup_state(self):
   now=m.e.now().astimezone(m.e.MSK).replace(hour=13);data={'history':[{'status':'sent','test':True,'at':(now-timedelta(hours=2)).isoformat()}],'examined':{},'deferred':{},'attempts':{},'errors':[],'policy':'rumors-v3-media-queue'};state=SimpleNamespace(data={'private_editor':data,'history':[],'spend':{},'errors':[]},load=lambda:None,save=lambda:None);return now,data,state
@@ -30,6 +35,14 @@ class DeliveryReliability(unittest.TestCase):
   with patch.dict(m.os.environ,{'TELEGRAM_BOT_TOKEN':'test'}),patch.dict(m.e.CONFIG,{'delivery_backend':'bot','premium_emoji_enabled':True}),patch.object(m,'seen_draft',return_value=False),patch.object(m,'check_recipient',return_value=123),patch.object(m.e,'request',return_value=m.json.dumps({'ok':True,'result':message}).encode()),patch('newsroom_private.bot_emoji.verify_returned',side_effect=RuntimeError('premium_emoji_not_preserved')):
    with self.assertRaisesRegex(RuntimeError,'private_delivery_formatting_warning'):m.send_reserved(state,draft,[],None)
   self.assertEqual(data['history'][-1]['status'],'sent');self.assertEqual(data['history'][-1]['message_id'],99)
+ def test_channel_photo_preserves_style_and_records_channel_destination(self):
+  from .bot_emoji import format_caption
+  now,data,state=self.setup_state();draft={'title':'Новость','body':'Факт.\n\n> Важная деталь.\n\n_Реплика._','event_key':'channel-fixture','source_ids':[]}
+  text,entities=format_caption(m.caption(draft))
+  message={'message_id':101,'chat':{'type':'channel','id':-10,'username':'lesterdossier'},'photo':[{}],'caption':text,'caption_entities':entities}
+  with patch.dict(m.os.environ,{'TELEGRAM_BOT_TOKEN':'test'}),patch.dict(m.e.CONFIG,{'delivery_target':'channel','delivery_backend':'bot','premium_emoji_enabled':True}),patch.object(m,'seen_draft',return_value=False),patch.object(m,'check_destination',return_value=-10),patch.object(m.e,'request',return_value=m.json.dumps({'ok':True,'result':message}).encode()):
+   result=m.send_reserved(state,draft,[],None)
+  self.assertEqual(result['destination'],'channel');self.assertEqual(data['history'][-1]['destination'],'channel');self.assertEqual(data['history'][-1]['status'],'sent')
  def test_editorial_fallback_is_own_image_not_source_evidence(self):
   b,meta=editorial_card({'title':'📁 Файлы GTA VI могли оказаться в сети','body':'Пока это не подтверждено. В сети обсуждают архив с игровыми файлами.'});im=Image.open(io.BytesIO(b));self.assertEqual(im.size,(1600,1400));self.assertTrue(meta['not_gameplay']);self.assertEqual(meta['source'],'official_promotional_artwork');self.assertFalse(meta['body_text_on_image']);self.assertTrue(meta['not_claim_evidence']);self.assertTrue(meta['recomposed'])
  def test_rejected_story_tries_next_batch_in_same_cycle(self):

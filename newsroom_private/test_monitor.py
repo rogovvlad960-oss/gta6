@@ -3,6 +3,20 @@ from datetime import timedelta, datetime, timezone
 from unittest.mock import patch
 from . import monitor as m
 class Tests(unittest.TestCase):
+ def setUp(self):
+  from unittest.mock import patch
+  from . import engine
+  guard=patch.dict(engine.CONFIG,{'delivery_target':'private'});guard.start();self.addCleanup(guard.stop)
+
+ def test_channel_destination_requires_exact_channel_and_post_permission(self):
+  with patch.dict(m.e.CONFIG,{'delivery_target':'channel','delivery_backend':'bot','channel':'@lesterdossier'}),patch.object(m,'telegram',side_effect=[{'ok':True,'result':{'id':8,'username':'GTA6NewsHustleBot'}},{'ok':True,'result':{'id':-10,'type':'channel','username':'lesterdossier'}},{'ok':True,'result':{'status':'administrator','can_post_messages':True}}]):
+   self.assertEqual(m.check_destination(),-10);self.assertTrue(m.expected_delivery_chat({'id':-10,'type':'channel','username':'lesterdossier'},-10));self.assertFalse(m.expected_delivery_chat({'id':-10,'type':'private'},-10))
+ def test_channel_destination_rejects_unapproved_channel(self):
+  with patch.dict(m.e.CONFIG,{'delivery_target':'channel','channel':'@other'}),patch.object(m,'telegram',side_effect=AssertionError('No network for invalid route')):
+   with self.assertRaisesRegex(RuntimeError,'unapproved_channel_destination'):m.check_destination()
+ def test_channel_destination_rejects_missing_post_rights(self):
+  with patch.dict(m.e.CONFIG,{'delivery_target':'channel','delivery_backend':'bot','channel':'@lesterdossier'}),patch.object(m,'telegram',side_effect=[{'ok':True,'result':{'id':8,'username':'GTA6NewsHustleBot'}},{'ok':True,'result':{'id':-10,'type':'channel','username':'lesterdossier'}},{'ok':True,'result':{'status':'administrator','can_post_messages':False}}]):
+   with self.assertRaisesRegex(RuntimeError,'channel_post_permission_missing'):m.check_destination()
  def test_unsafe_images(self):
   for u in ['http://cdn4.telesco.pe/file/x','https://localhost/x','https://cdn4.telesco.pe.evil/x','https://x@cdn4.telesco.pe/x','https://127.0.0.1/x']:self.assertFalse(m.safe_image(u))
   self.assertTrue(m.safe_image('https://cdn4.telesco.pe/file/x.jpg'))

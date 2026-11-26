@@ -6,6 +6,11 @@ from .monitor import body_html
 from .image_branding import brand_external_image
 
 class RulesTests(unittest.TestCase):
+ def setUp(self):
+  from unittest.mock import patch
+  from . import engine
+  guard=patch.dict(engine.CONFIG,{'delivery_target':'private'});guard.start();self.addCleanup(guard.stop)
+
  def test_post_has_single_footer_and_no_emoji_pairs(self):
   from .monitor import caption
   text,entities=format_message(caption({'title':'⚡️🔥 Заголовок','body':'💸 💵 **Деталь**\n\n> Памятка\n\n_Панч_\n\n@lesterdossier'}))

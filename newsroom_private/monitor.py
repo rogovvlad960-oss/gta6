@@ -1,4 +1,4 @@
-"""Private-only cloud editor. No channel-publishing code path."""
+"""GTA6 editor: approved channel publishing or exact owner-private delivery."""
 import base64, hashlib, html, json, os, re, sys
 from datetime import datetime, timedelta
 from pathlib import Path
@@ -43,6 +43,24 @@ def check_recipient():
  if not me.get('ok') or me['result'].get('username','').lower()!='gta6newshustlebot':raise RuntimeError('wrong_bot')
  if not chat.get('ok') or chat['result'].get('type')!='private' or chat['result']['id']!=cid:raise RuntimeError('private_recipient_required')
  return cid
+
+def channel_mode():
+ return e.CONFIG.get('delivery_target','private')=='channel'
+
+def check_destination():
+ if not channel_mode():return check_recipient()
+ # Explicit fixed-channel allowlist: never infer a destination from source text.
+ if e.CONFIG.get('channel')!='@lesterdossier' or e.CONFIG.get('delivery_backend')!='bot':raise RuntimeError('unapproved_channel_destination')
+ me=telegram('getMe',{})
+ if not me.get('ok')or me['result'].get('username','').lower()!='gta6newshustlebot':raise RuntimeError('wrong_bot')
+ chat=telegram('getChat',{'chat_id':'@lesterdossier'})
+ if not chat.get('ok')or chat['result'].get('type')!='channel'or chat['result'].get('username','').lower()!='lesterdossier':raise RuntimeError('wrong_channel')
+ cid=chat['result']['id'];member=telegram('getChatMember',{'chat_id':cid,'user_id':me['result']['id']})
+ if not member.get('ok')or member['result'].get('status')!='administrator'or not member['result'].get('can_post_messages'):raise RuntimeError('channel_post_permission_missing')
+ return cid
+
+def expected_delivery_chat(chat,cid):
+ return chat.get('id')==cid and chat.get('type')==('channel'if channel_mode()else'private') and (not channel_mode()or chat.get('username','').lower()=='lesterdossier')
 
 def fetch_feed(name):
  return parse_feed(e.request('https://t.me/s/'+name).decode())
@@ -143,7 +161,7 @@ def send_reserved(state,draft,posts,image_url,*,test=False):
  if image_url is not None and not safe_image(image_url):raise RuntimeError('untrusted_image')
  data=private_data(state)
  if seen_draft(draft,posts,data):return {'idle':'duplicate'}
- cid=check_recipient();record=event_record(draft,posts);record['test']=test
+ cid=check_destination();record=event_record(draft,posts);record['test']=test;record['destination']='channel'if channel_mode()else'private'
  if image_url is None:
   from .image_branding import editorial_card
   image,branding=editorial_card(draft)
@@ -173,7 +191,7 @@ def send_reserved(state,draft,posts,image_url,*,test=False):
    result=json.loads(e.request('https://api.telegram.org/bot'+os.environ['TELEGRAM_BOT_TOKEN']+'/sendPhoto',b''.join(parts),{'Content-Type':'multipart/form-data; boundary='+b}))
    if not result.get('ok'):raise RuntimeError('telegram_rejected')
    message=result['result']
-   if message['chat'].get('type')!='private' or message['chat']['id']!=cid or not message.get('photo'):raise RuntimeError('unexpected_delivery')
+   if not expected_delivery_chat(message['chat'],cid) or not message.get('photo'):raise RuntimeError('unexpected_delivery')
    message_id=message['message_id'];record['message_id']=message_id
    if entities is not None:
     from .bot_emoji import verify_returned
@@ -185,7 +203,7 @@ def send_reserved(state,draft,posts,image_url,*,test=False):
    raise RuntimeError('private_delivery_formatting_warning')from None
   record['status']='uncertain';state.save();raise RuntimeError('private_delivery_uncertain')from None
  record.update(status='sent',message_id=message_id);state.save()
- return {'delivered':True,'message_id':message_id,'destination':'saved_messages'if e.CONFIG.get('delivery_backend')=='telegram_user'else 'private','test':test}
+ return {'delivered':True,'message_id':message_id,'destination':'channel'if channel_mode()else'saved_messages'if e.CONFIG.get('delivery_backend')=='telegram_user'else 'private','test':test}
 
 def vision_check(state,draft,image_url):
  month=e.now().strftime('%Y-%m');prior=state.data['spend'].get(month,0);reserve=.015
@@ -231,7 +249,7 @@ def run(mode):
   slot=now.astimezone(e.MSK).strftime('%Y-%m-%dT%H:')+str((now.minute//15)*15).zfill(2)
   if data.get('last_schedule_slot')==slot:return {'idle':'schedule_slot_already_checked'}
   data['last_schedule_slot']=slot;state.save()
- check_recipient()
+ check_destination()
  gate=blocked(data,now)
  if mode=='probe':
   if gate:return {'idle':gate}

@@ -43,5 +43,7 @@
     "paid_image_generation": false
   },
   "premium_emoji_enabled": true,
-  "delivery_backend": "bot"
+  "delivery_backend": "bot",
+  "delivery_target": "channel",
+  "style_approved": true
 }

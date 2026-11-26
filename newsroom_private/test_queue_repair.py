@@ -5,6 +5,11 @@ from unittest.mock import patch
 from . import monitor as m
 
 class QueueRepairTests(unittest.TestCase):
+ def setUp(self):
+  from unittest.mock import patch
+  from . import engine
+  guard=patch.dict(engine.CONFIG,{'delivery_target':'private'});guard.start();self.addCleanup(guard.stop)
+
  def post(self,text='Новый момент в GTA VI',ident='test/1'):
   return {'id':ident,'url':'https://t.me/'+ident,'text':text,'published_at':m.e.stamp(),'images':['https://cdn4.telesco.pe/file/frame.jpg'],'links':[]}
  def data(self):return {'history':[],'examined':{}}
