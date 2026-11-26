@@ -10,6 +10,26 @@ class DeliveryReliability(unittest.TestCase):
  def posts(self,n=7):return [{'id':f'test/{i}','url':f'https://t.me/test/{i}','text':f'В GTA VI обнаружили новую игровую деталь номер {i}','published_at':m.e.stamp(),'images':['https://cdn4.telesco.pe/file/frame.jpg'],'links':[]}for i in range(n)]
  def setup_state(self):
   now=m.e.now().astimezone(m.e.MSK).replace(hour=13);data={'history':[{'status':'sent','test':True,'at':(now-timedelta(hours=2)).isoformat()}],'examined':{},'deferred':{},'attempts':{},'errors':[],'policy':'rumors-v3-media-queue'};state=SimpleNamespace(data={'private_editor':data,'history':[],'spend':{},'errors':[]},load=lambda:None,save=lambda:None);return now,data,state
+ def test_recent_uncertain_delivery_temporarily_blocks(self):
+  now,data,_=self.setup_state();data['history'].append({'status':'uncertain','at':(now-timedelta(minutes=10)).isoformat()})
+  self.assertEqual(m.blocked(data,now),'delivery_requires_reconciliation')
+ def test_old_unknown_delivery_archives_without_replaying_story(self):
+  now,data,_=self.setup_state();r={'status':'uncertain','at':(now-timedelta(days=5)).isoformat(),'event_key':'old_story','source_hashes':['retained']};data['history'].append(r)
+  self.assertIsNone(m.blocked(data,now));self.assertEqual(r['status'],'uncertain_archived');self.assertEqual(r['source_hashes'],['retained']);self.assertEqual(r['reconciliation'],'delivery_unknown_no_retry')
+ def test_stale_pending_delivery_does_not_freeze_unrelated_posts(self):
+  now,data,_=self.setup_state();data['history'].append({'status':'pending','at':(now-timedelta(hours=2)).isoformat()})
+  self.assertIsNone(m.blocked(data,now));self.assertEqual(data['history'][-1]['status'],'uncertain_archived')
+ def test_caption_failure_does_not_reserve_delivery(self):
+  now,data,state=self.setup_state();draft={'title':'Тест','body':'Текст','event_key':'test','source_ids':[]}
+  with patch.object(m,'seen_draft',return_value=False),patch.object(m,'check_recipient',return_value=123),patch.object(m,'caption',side_effect=RuntimeError('caption_too_long')),patch.object(m.e,'request',side_effect=AssertionError('Do not send invalid caption')):
+   with self.assertRaisesRegex(RuntimeError,'caption_too_long'):m.send_reserved(state,draft,[],None)
+  self.assertEqual(len(data['history']),1)
+ def test_acknowledged_delivery_survives_formatting_warning(self):
+  now,data,state=self.setup_state();draft={'title':'Тест','body':'Текст','event_key':'test','source_ids':[]}
+  message={'message_id':99,'chat':{'type':'private','id':123},'photo':[{}]}
+  with patch.dict(m.os.environ,{'TELEGRAM_BOT_TOKEN':'test'}),patch.dict(m.e.CONFIG,{'delivery_backend':'bot','premium_emoji_enabled':True}),patch.object(m,'seen_draft',return_value=False),patch.object(m,'check_recipient',return_value=123),patch.object(m.e,'request',return_value=m.json.dumps({'ok':True,'result':message}).encode()),patch('newsroom_private.bot_emoji.verify_returned',side_effect=RuntimeError('premium_emoji_not_preserved')):
+   with self.assertRaisesRegex(RuntimeError,'private_delivery_formatting_warning'):m.send_reserved(state,draft,[],None)
+  self.assertEqual(data['history'][-1]['status'],'sent');self.assertEqual(data['history'][-1]['message_id'],99)
  def test_editorial_fallback_is_own_image_not_source_evidence(self):
   b,meta=editorial_card({'title':'📁 Файлы GTA VI могли оказаться в сети','body':'Пока это не подтверждено. В сети обсуждают архив с игровыми файлами.'});im=Image.open(io.BytesIO(b));self.assertEqual(im.size,(1600,1400));self.assertTrue(meta['not_gameplay']);self.assertEqual(meta['source'],'own_editorial_illustration');self.assertTrue(meta['recomposed'])
  def test_rejected_story_tries_next_batch_in_same_cycle(self):

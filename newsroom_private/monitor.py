@@ -74,6 +74,11 @@ def safe_image(url):
 def private_data(state):
  return state.data.setdefault('private_editor',{'history':[],'examined':{},'attempts':{},'errors':[]})
 def blocked(data,now):
+ # Preserve uncertain events for deduplication, but never freeze unrelated news forever.
+ # The workflow timeout is six minutes; wait a full delivery interval before archiving.
+ for r in data['history']:
+  if r['status']in('pending','uncertain') and r.get('at') and now-datetime.fromisoformat(r['at'])>=timedelta(hours=max(1,e.CONFIG['minimum_gap_hours'])):
+   r.update(status='uncertain_archived',reconciled_at=now.isoformat(),reconciliation='delivery_unknown_no_retry')
  if any(r['status']in('pending','uncertain')for r in data['history']):return 'delivery_requires_reconciliation'
  today=now.astimezone(e.MSK).date()
  if sum(datetime.fromisoformat(r['at']).astimezone(e.MSK).date()==today for r in data['history']if not r.get('test'))>=e.CONFIG['daily_max']:return 'daily_cap'
@@ -126,7 +131,12 @@ def send_reserved(state,draft,posts,image_url,*,test=False):
   from .image_branding import brand_external_image
   image,branding=brand_external_image(image,draft['title'])
  record['image_branding']=branding
- text=caption(draft);record['image_hash']=hashlib.sha256(image).hexdigest();data['history'].append(record);state.save()
+ # Validate rich text before reserving a delivery or contacting Telegram.
+ text=caption(draft);entities=None
+ if e.CONFIG.get('delivery_backend')!='telegram_user' and e.CONFIG.get('premium_emoji_enabled'):
+  from .bot_emoji import format_caption
+  text,entities=format_caption(text,urgent=draft.get('priority')=='urgent')
+ record['image_hash']=hashlib.sha256(image).hexdigest();data['history'].append(record);state.save()
  try:
   if e.CONFIG.get('delivery_backend')=='telegram_user':
    from .telegram_user.transport import send_photo
@@ -134,10 +144,6 @@ def send_reserved(state,draft,posts,image_url,*,test=False):
   else:
    import uuid
    b='lester'+uuid.uuid4().hex;parts=[]
-   entities=None
-   if e.CONFIG.get('premium_emoji_enabled'):
-    from .bot_emoji import format_caption
-    text,entities=format_caption(text,urgent=draft.get('priority')=='urgent')
    fields=[('chat_id',str(cid)),('caption',text)]+([('caption_entities',json.dumps(entities,ensure_ascii=False))]if entities is not None else [('parse_mode','HTML')])
    for key,value in fields:parts.append(('--'+b+'\r\nContent-Disposition: form-data; name="'+key+'"\r\n\r\n'+value+'\r\n').encode())
    parts.extend([('--'+b+'\r\nContent-Disposition: form-data; name="photo"; filename="post.jpg"\r\nContent-Type: image/jpeg\r\n\r\n').encode(),image,('\r\n--'+b+'--\r\n').encode()])
@@ -150,6 +156,10 @@ def send_reserved(state,draft,posts,image_url,*,test=False):
     from .bot_emoji import verify_returned
     verify_returned(message,entities);record['custom_emoji_ids']=[x['custom_emoji_id']for x in entities if x['type']=='custom_emoji']
  except Exception:
+  if record.get('message_id'):
+   # Telegram acknowledged delivery; formatting verification cannot undo that fact.
+   record.update(status='sent',formatting_warning='post_delivery_verification_failed');state.save()
+   raise RuntimeError('private_delivery_formatting_warning')from None
   record['status']='uncertain';state.save();raise RuntimeError('private_delivery_uncertain')from None
  record.update(status='sent',message_id=message_id);state.save()
  return {'delivered':True,'message_id':message_id,'destination':'saved_messages'if e.CONFIG.get('delivery_backend')=='telegram_user'else 'private','test':test}
