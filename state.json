@@ -2278,21 +2278,36 @@
         ],
         "test": false,
         "image_branding": {
-          "style": "lesterdossier-editorial-illustration-v1",
-          "source": "own_editorial_illustration",
+          "style": "lesterdossier-official-art-cover-v2",
+          "source": "official_promotional_artwork",
           "not_gameplay": true,
-          "output_sha256": "6be7413df01cf7d879ba8bc209fd640272a70d55c5156eecf565e950bc1d68e3",
+          "not_claim_evidence": true,
+          "asset": "keyart",
+          "source_url": "https://www.rockstargames.com/VI/_next/static/media/poster_full.0az_iud2g3y4j.jpg",
+          "reuse_license_verified": false,
+          "output_sha256": "1a7c71dc6117aa338953fdb983de43d94479e3b864961b2ab8ee00b7027b2acd",
           "output_size": [
             1600,
             1400
           ],
-          "recomposed": true
+          "source_fully_visible": true,
+          "recomposed": true,
+          "body_text_on_image": false
         },
-        "image_hash": "6be7413df01cf7d879ba8bc209fd640272a70d55c5156eecf565e950bc1d68e3",
+        "image_hash": "1a7c71dc6117aa338953fdb983de43d94479e3b864961b2ab8ee00b7027b2acd",
         "message_id": 73,
         "custom_emoji_ids": [
           "5222430393688432601",
           "5278320231880631425"
+        ],
+        "previous_image_hash": "6be7413df01cf7d879ba8bc209fd640272a70d55c5156eecf565e950bc1d68e3",
+        "formatting_repaired_at": "2026-11-26T21:20:54.138012+00:00",
+        "verified_entity_types": [
+          "blockquote",
+          "bold",
+          "custom_emoji",
+          "italic",
+          "mention"
         ]
       }
     ],
