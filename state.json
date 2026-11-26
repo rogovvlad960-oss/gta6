@@ -2371,7 +2371,7 @@
     },
     "policy": "rumors-v3-media-queue",
     "last_check": {
-      "at": "2026-11-26T21:20:53.651038+00:00",
+      "at": "2026-11-26T21:26:15.797608+00:00",
       "result": {
         "idle": "normal_cooldown",
         "dated_posts": 18,
