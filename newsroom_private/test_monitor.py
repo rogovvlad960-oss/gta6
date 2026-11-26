@@ -25,7 +25,7 @@ class Tests(unittest.TestCase):
   self.assertEqual(m.body_html('Кадр **под водой**'),'Кадр <b>под водой</b>')
   self.assertIn('<b>под водой</b>',m.caption({'title':'Кадр','body':'Вид **под водой**'}))
   self.assertEqual(m.body_html('<script>x</script>'),'&lt;script&gt;x&lt;/script&gt;')
-  self.assertNotIn('<b>',m.body_html('**'+('x'*71)+'**'))
+  self.assertIn('<b>',m.body_html('**'+('x'*71)+'**'))
  def test_report_uses_natural_attribution_without_added_disclaimer(self):
   out=m.caption({'kind':'rumor','title':'Деталь','body':'По словам автора, найдена новая деталь'})
   self.assertNotIn('подтвержден',out);self.assertNotIn('подтверждения',out);self.assertIn('По словам автора',out)

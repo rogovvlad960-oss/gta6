@@ -56,35 +56,33 @@ def brand_external_image(raw,title):
  return blob,{'style':'lesterdossier-editorial-v1','source_sha256':source_hash,'output_sha256':hashlib.sha256(blob).hexdigest(),'source_size':list(im.size),'output_size':[width,height],'source_fully_visible':True,'source_rect':[x,y,x+fitted.width,y+fitted.height],'recomposed':True}
 
 def editorial_card(draft):
- """Own thematic illustration, explicitly not a screenshot or source evidence."""
- import html
- title=str(draft['title']);body=re.sub(r'[*_`>|]','',html.unescape(str(draft['body']))).strip()
- im=Image.new('RGB',(1600,1400),INK);d=ImageDraw.Draw(im)
- for x in range(0,1600,80):d.line((x,360,x,1150),fill='#14292e',width=1)
- for y in range(380,1160,80):d.line((0,y,1600,y),fill='#14292e',width=1)
- d.rounded_rectangle((72,48,83,85),radius=4,fill=AMBER);d.text((104,43),'ДОСЬЕ ЛЕСТЕРА',font=font(31,800),fill=WHITE)
- handle='@lesterdossier';hf=font(29,720);d.text((1520-hf.getlength(handle),44),handle,font=hf,fill=LIME)
- size=68
- while size>=38:
-  face=font(size,800);lines=headline_lines(title,face,1440)
-  if len(lines)<=2 and all(face.getlength(x)<=1440 for x in lines):break
-  size-=3
+ """Curated promotional art cover, never a made-up gameplay/statistics screenshot."""
+ import json
+ title=str(draft['title']);subject=title+' '+str(draft['body'])
+ theme='keyart'
+ for pattern,name in [(r'остров|каяк|катер|водн|дайв|подвод','islands'),(r'болот|аллигатор|аэролод','swamp'),(r'горах|горы|охот|калaг|калаг','mountains'),(r'вайс.сити|аэропорт|город','city')]:
+  if re.search(pattern,subject,re.I):theme=name;break
+ # Hardware/FPS/port stories use the game's key art, never an invented benchmark.
+ if re.search(r'\bПК\b|FPS|RTX|порт|производительност',title,re.I):theme='keyart'
+ path=ROOT/'assets/covers'/(theme+'.jpg')
+ art=Image.open(path).convert('RGB')
+ canvas=Image.new('RGB',(1600,1400),'#0e0b17')
+ fitted=ImageOps.contain(art,(1600,1070),Image.Resampling.LANCZOS)
+ x=(1600-fitted.width)//2;y=76+(1070-fitted.height)//2
+ canvas.paste(fitted,(x,y))
+ draw=ImageDraw.Draw(canvas)
+ draw.rectangle((0,0,1600,76),fill='#0e0b17')
+ draw.text((58,20),'ДОСЬЕ ЛЕСТЕРА',font=font(28,800),fill='#ffffff')
+ hf=font(26,700);handle='@lesterdossier';draw.text((1542-hf.getlength(handle),22),handle,font=hf,fill='#f783c8')
+ draw.rectangle((58,1167,1542,1172),fill='#f783c8')
+ size=64
+ while size>=36:
+  face=font(size,850);lines=headline_lines(title,face,1484)
+  if len(lines)<=2 and all(face.getlength(line)<=1484 for line in lines):break
+  size-=2
  if len(lines)>2:raise ValueError('editorial_headline_too_long')
- for i,line in enumerate(lines):d.text((80,136+i*(size+17)),line,font=face,fill=WHITE)
- d.rounded_rectangle((80,370,1520,1000),radius=35,fill=PANEL,outline='#40635b',width=2)
- file_theme=bool(re.search('сборк|утеч|файл|архив|хакер',title+' '+body,re.I))
- if file_theme:
-  d.polygon([(360,530),(360,480),(670,480),(740,550),(1240,550),(1240,870),(360,870)],fill='#294640',outline=LIME,width=5)
-  d.rounded_rectangle((830,470,1100,800),radius=18,fill='#0c2028',outline='#70d5c8',width=3)
-  for y in range(525,720,42):d.line((872,y,1055,y),fill='#477972',width=7)
- else:
-  d.ellipse((350,430,900,980),outline='#3d6b64',width=3);d.ellipse((415,495,835,915),outline='#d7ed7a',width=4)
-  d.line((270,705,970,705),fill='#548f84',width=3);d.line((625,405,625,995),fill='#548f84',width=3)
- face=font(154,850);label='GTA VI';d.text((420,625),label,font=face,fill=WHITE)
- # Text is drawn from the already-reviewed draft; no invented stats or source quotes.
- summary=' '.join(body.split())[:200];sf=font(35,600);rows=headline_lines(summary,sf,1400)[:3]
- for i,line in enumerate(rows):d.text((100,1040+i*48),line,font=sf,fill='#ccdcd7')
- d.line((80,1265,1520,1265),fill='#3b5651',width=2)
- d.text((80,1305),'РЕДАКЦИОННАЯ ИЛЛЮСТРАЦИЯ · НЕ ИГРОВОЙ КАДР',font=font(25,650),fill='#9eb7af')
- output=BytesIO();im.save(output,format='JPEG',quality=94,optimize=True,subsampling=0);blob=output.getvalue()
- return blob,{'style':'lesterdossier-editorial-illustration-v1','source':'own_editorial_illustration','not_gameplay':True,'output_sha256':hashlib.sha256(blob).hexdigest(),'output_size':[1600,1400],'recomposed':True}
+ for i,line in enumerate(lines):draw.text((58,1190+i*(size+12)),line,font=face,fill='#ffffff')
+ draw.text((58,1350),'ОБЛОЖКА: ОФИЦИАЛЬНЫЙ АРТ GTA 6',font=font(21,600),fill='#bcaec5')
+ output=BytesIO();canvas.save(output,format='JPEG',quality=94,optimize=True,subsampling=0);blob=output.getvalue()
+ provenance=next(x for x in json.loads((ROOT/'assets/covers/sources.json').read_text())if x['file']==theme+'.jpg')
+ return blob,{'style':'lesterdossier-official-art-cover-v2','source':'official_promotional_artwork','not_gameplay':True,'not_claim_evidence':True,'asset':theme,'source_url':provenance['source_url'],'reuse_license_verified':False,'output_sha256':hashlib.sha256(blob).hexdigest(),'output_size':[1600,1400],'source_fully_visible':True,'recomposed':True,'body_text_on_image':False}

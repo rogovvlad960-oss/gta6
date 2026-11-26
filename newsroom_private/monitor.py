@@ -96,8 +96,9 @@ def body_html(text):
  def hold(match):
   code.append('<code>'+match.group(1)+'</code>');return '\x00CODE'+str(len(code)-1)+'\x00'
  escaped=re.sub(r'`([^`\n]{1,160})`',hold,escaped)
- escaped=re.sub(r'\*\*([^*\n]{1,70})\*\*',lambda m:'<b>'+m.group(1)+'</b>',escaped,count=1)
+ escaped=re.sub(r'\*\*([^*\n]{1,1024})\*\*',lambda m:'<b>'+m.group(1)+'</b>',escaped)
  escaped=re.sub(r'(?<!\w)_([^_\n]{1,300})_(?!\w)',lambda m:'<i>'+m.group(1)+'</i>',escaped)
+ escaped=re.sub(r'(?<![\w*])\*([^*\n]{1,1024})\*(?![\w*])',lambda m:'<i>'+m.group(1)+'</i>',escaped)
  escaped=re.sub(r'\|\|([^|]{1,500})\|\|',lambda m:'<tg-spoiler>'+m.group(1)+'</tg-spoiler>',escaped)
  lines=escaped.split('\n');result=[];quoted=[]
  for line in lines:
@@ -109,10 +110,32 @@ def body_html(text):
  for i,value in enumerate(code):rendered=rendered.replace('\x00CODE'+str(i)+'\x00',value)
  return rendered
 
+def styled_body(text):
+ """Enforce Telegram quote/italic presentation without changing the story's words."""
+ rendered=body_html(text)
+ blocks=re.split(r'\n\s*\n',rendered)
+ if '<blockquote>'not in rendered:
+  index=1 if len(blocks)>2 else 0
+  blocks[index]='<blockquote>'+blocks[index]+'</blockquote>'
+ if '<i>'not in rendered:
+  blocks[-1]='<i>'+blocks[-1]+'</i>'
+ return '\n\n'.join(blocks)
+
+def check_post_style(text,entities):
+ kinds={entry['type']for entry in entities}
+ if not {'bold','italic','blockquote'}.issubset(kinds):raise RuntimeError('required_post_formatting_missing')
+ if not text.endswith('@lesterdossier')or text.count('@lesterdossier')!=1:raise RuntimeError('invalid_post_footer')
+ # Raw Markdown outside copyable code must never leak to the reader.
+ data=text.encode('utf-16-le');visible=bytearray(data)
+ for entry in entities:
+  if entry['type']in('code','pre'):
+   start=entry['offset']*2;end=start+entry['length']*2;visible[start:end]=(' '*entry['length']).encode('utf-16-le')
+ if '**'in visible.decode('utf-16-le'):raise RuntimeError('unrendered_post_markdown')
+
 def caption(draft):
  title=e.separate_emoji(draft['title']);title=title if title and ord(title[0])>=0x2000 else '⚡️ '+title
  body=e.separate_emoji(draft['body']).replace('@lesterdossier','').rstrip()
- text='<b>'+html.escape(title.replace('@lesterdossier','').rstrip())+'</b>\n\n'+body_html(body)+'\n\n@lesterdossier'
+ text='<b>'+html.escape(title.replace('@lesterdossier','').rstrip())+'</b>\n\n'+styled_body(body)+'\n\n@lesterdossier'
  if len(text)>1024:raise RuntimeError('caption_too_long')
  return text
 
@@ -135,6 +158,7 @@ def send_reserved(state,draft,posts,image_url,*,test=False):
  if e.CONFIG.get('delivery_backend')!='telegram_user' and e.CONFIG.get('premium_emoji_enabled'):
   from .bot_emoji import format_caption
   text,entities=format_caption(text,urgent=draft.get('priority')=='urgent')
+  check_post_style(text,entities)
  record['image_hash']=hashlib.sha256(image).hexdigest();data['history'].append(record);state.save()
  try:
   if e.CONFIG.get('delivery_backend')=='telegram_user':
@@ -260,7 +284,7 @@ def run(mode):
   result=send_reserved(state,draft,batch,image_url)
   if result.get('delivered'):
    mark_selected(data,draft,batch,'sent');state.save()
-   result['image_mode']='reviewed_source'if image_url else'own_editorial_illustration'
+   result['image_mode']='reviewed_source'if image_url else'official_artwork_cover'
    result['batches_tried']=batches_tried
    return result
   if result.get('idle')=='duplicate':

@@ -23,6 +23,17 @@ class RulesTests(unittest.TestCase):
   self.assertEqual(engine.validate_draft(draft,[source],[]),draft)
   draft['body']='В GTA VI точно добавили эту пещеру.'
   with self.assertRaisesRegex(ValueError,'unlabeled_uncertainty'):engine.validate_draft(draft,[source],[])
+ def test_long_bold_phrase_renders_and_plain_model_output_gets_required_styles(self):
+  from .monitor import caption,check_post_style
+  from .bot_emoji import format_caption
+  long='Стабильный FPS '+('важная деталь '*8)
+  text,entities=format_caption(caption({'title':'Новость','body':'Обычный абзац.\n\n**'+long.strip()+'**'}))
+  self.assertNotIn('**',text);check_post_style(text,entities)
+  data=text.encode('utf-16-le');bold=[data[e['offset']*2:(e['offset']+e['length'])*2].decode('utf-16-le')for e in entities if e['type']=='bold']
+  self.assertIn(long.strip(),bold)
+ def test_style_preflight_rejects_unformatted_post(self):
+  from .monitor import check_post_style
+  with self.assertRaisesRegex(RuntimeError,'required_post_formatting_missing'):check_post_style('Текст\n\n@lesterdossier',[])
  def test_generated_body_keeps_italic_quote_and_spoiler(self):
   text,entities=format_message('<b>📰 Заголовок</b>\n'+body_html('_Комментарий_\n\n> Первый шаг\n> Второй шаг\n\n||Панч||'))
   data=text.encode('utf-16-le');spans={e['type']:data[e['offset']*2:(e['offset']+e['length'])*2].decode('utf-16-le')for e in entities if e['type']in('italic','blockquote','spoiler')}

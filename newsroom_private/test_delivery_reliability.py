@@ -31,12 +31,12 @@ class DeliveryReliability(unittest.TestCase):
    with self.assertRaisesRegex(RuntimeError,'private_delivery_formatting_warning'):m.send_reserved(state,draft,[],None)
   self.assertEqual(data['history'][-1]['status'],'sent');self.assertEqual(data['history'][-1]['message_id'],99)
  def test_editorial_fallback_is_own_image_not_source_evidence(self):
-  b,meta=editorial_card({'title':'📁 Файлы GTA VI могли оказаться в сети','body':'Пока это не подтверждено. В сети обсуждают архив с игровыми файлами.'});im=Image.open(io.BytesIO(b));self.assertEqual(im.size,(1600,1400));self.assertTrue(meta['not_gameplay']);self.assertEqual(meta['source'],'own_editorial_illustration');self.assertTrue(meta['recomposed'])
+  b,meta=editorial_card({'title':'📁 Файлы GTA VI могли оказаться в сети','body':'Пока это не подтверждено. В сети обсуждают архив с игровыми файлами.'});im=Image.open(io.BytesIO(b));self.assertEqual(im.size,(1600,1400));self.assertTrue(meta['not_gameplay']);self.assertEqual(meta['source'],'official_promotional_artwork');self.assertFalse(meta['body_text_on_image']);self.assertTrue(meta['not_claim_evidence']);self.assertTrue(meta['recomposed'])
  def test_rejected_story_tries_next_batch_in_same_cycle(self):
   now,data,state=self.setup_state();posts=self.posts();draft={'title':'Деталь','body':'Обсуждают новую деталь','event_key':'detail','source_ids':['test/6']}
   with patch.object(m.e,'now',return_value=now),patch.object(m.e,'State',return_value=state),patch.object(m,'check_recipient',return_value=123),patch.object(m,'fetch_feed',side_effect=[posts,[],[],[]]),patch.object(m.e,'evidence',return_value={'url':'https://www.rockstargames.com/VI','text':'Actual evidence'}),patch.object(m.e,'generate',side_effect=[None,draft])as gen,patch.object(m,'choose_image',return_value=None),patch.object(m,'send_reserved',return_value={'delivered':True,'message_id':44})as send:
    out=m.run('cycle')
-  self.assertTrue(out['delivered']);self.assertEqual(out['batches_tried'],2);self.assertEqual(gen.call_count,2);self.assertIsNone(send.call_args.args[3]);self.assertEqual(out['image_mode'],'own_editorial_illustration')
+  self.assertTrue(out['delivered']);self.assertEqual(out['batches_tried'],2);self.assertEqual(gen.call_count,2);self.assertIsNone(send.call_args.args[3]);self.assertEqual(out['image_mode'],'official_artwork_cover')
  def test_hour_cooldown_still_prevents_drafting_or_fallback(self):
   now,data,state=self.setup_state();data['history'].append({'status':'sent','at':(now-timedelta(minutes=40)).isoformat()})
   with patch.object(m.e,'now',return_value=now),patch.object(m.e,'State',return_value=state),patch.object(m,'check_recipient',return_value=123),patch.object(m,'fetch_feed',return_value=self.posts(1)),patch.object(m.e,'urgent_candidate',return_value=False),patch.object(m.e,'generate',side_effect=AssertionError('No generation during cooldown')):

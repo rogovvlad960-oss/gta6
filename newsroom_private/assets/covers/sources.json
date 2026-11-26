@@ -1,0 +1,37 @@
+[
+  {
+    "file": "keyart.jpg",
+    "source_url": "https://www.rockstargames.com/VI/_next/static/media/poster_full.0az_iud2g3y4j.jpg",
+    "copyright": "Rockstar Games",
+    "usage": "Official promotional artwork used as editorial cover, not evidence of the reported claim. No general reuse license verified.",
+    "sha256": "cd7704dcc8c677a4cf0939eea7c3a14acf34d495ff9b88124d4017447f1dd6e0"
+  },
+  {
+    "file": "islands.jpg",
+    "source_url": "https://www.rockstargames.com/VI/_next/static/media/Leonida_Keys_01.0zgz7tveur6y8.jpg",
+    "copyright": "Rockstar Games",
+    "usage": "Official promotional artwork used as editorial cover, not evidence of the reported claim. No general reuse license verified.",
+    "sha256": "96405ac7ea32c5236c3174b2682292fb94c4208a2ca9fd1465684f85604f1e39"
+  },
+  {
+    "file": "city.jpg",
+    "source_url": "https://www.rockstargames.com/VI/_next/static/media/Vice_City_01.135x56yoeu.6t.jpg",
+    "copyright": "Rockstar Games",
+    "usage": "Official promotional artwork used as editorial cover, not evidence of the reported claim. No general reuse license verified.",
+    "sha256": "6bbae676486e71f63ddc93fbaffdf28d45677bc1fa3110409a4be9cd44d6debc"
+  },
+  {
+    "file": "swamp.jpg",
+    "source_url": "https://www.rockstargames.com/VI/_next/static/media/Grassrivers_01.1096rw4lbjur_.jpg",
+    "copyright": "Rockstar Games",
+    "usage": "Official promotional artwork used as editorial cover, not evidence of the reported claim. No general reuse license verified.",
+    "sha256": "fbb501dbc601ab47d0bf63a28c790002e90c637aa6a1b2c0e931423f6fe55a3a"
+  },
+  {
+    "file": "mountains.jpg",
+    "source_url": "https://www.rockstargames.com/VI/_next/static/media/Mount_Kalaga_National_Park_01.0v5fl0f83hjv_.jpg",
+    "copyright": "Rockstar Games",
+    "usage": "Official promotional artwork used as editorial cover, not evidence of the reported claim. No general reuse license verified.",
+    "sha256": "5d06cc2c3875d4f98039ae36d2169183114653d109d4903cea9e6e032100b125"
+  }
+]
