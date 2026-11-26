@@ -2202,6 +2202,93 @@
           "5222464272390463282",
           "5282842763723832120"
         ]
+      },
+      {
+        "at": "2026-11-26T21:16:01.352930+00:00",
+        "status": "pending",
+        "event_key": "gta6_unofficial_pc_port_60fps_2026",
+        "source_hashes": [
+          "1479d7fccf7049e7a181f8c91b7b09ccb4cb71e8c6882f170b39cef8ee7dea0c"
+        ],
+        "tokens": [
+          "006447eb6d1081caea76148498d242f853e90fa2c3c622f5aa8a30a7eeb5b4d5",
+          "01ac60947c9cc0b37f1d907ce2ef20cffe9e9497d8022349dee0cb2bbf49d237",
+          "03a9d2e3ab85b5b85464cf97f4c9645e5684ce2031232f8d25b86ad06011a69c",
+          "088eeea2bb61d543ff5a41654a9e1a44ede9ff36f6e74c2c66cc0550dc1a875b",
+          "091595af194c0e21047a8ac234abf5e26068afc74f9ce7eb08c132cfdae245dd",
+          "0c8d9143e0325873fa0364b2ebd4474ad528ebd4ef3198b286e1fd9e12e8f26b",
+          "0ef992c00e9ce1fbc977b8d6d0aa74140bbff4d624b4fa05acc65f96f8e77b11",
+          "18dfc3a95ade271619f69ea6857698dfd3ad48ecc1e67adcac673f2f65edd388",
+          "1b45a992fd903ecc55dc0c6f66a1730efc4c90d8b7aa4c5370c4d78b545f44bf",
+          "205533c6ab9e8f731195b1f9fb5382d8815119340846503f70277193d926843c",
+          "2c33eff4c8610bc130a0fc6a8a45aed6236543169a3df4704601b3d50cd16292",
+          "4fc980fbfca28a5743a66ed8b149e06098032ea494210fbdf5175b4ef23b7661",
+          "60863632db6ec8d6c6c5741780aaf23df9b013daf2b44eaa7c626ecc8fe1b751",
+          "62ea3efe9c9b8828f6a527ac89b8bd7445043f8d82301452186ca1d5c920d017",
+          "6a61114ba7161a398cf9d045b106e0a2f5142c511feb7e05c3a17c80f53ab695",
+          "6f6228ed6f275f3234f0a2db244266ff710ac23f649da61a0e1216c2c8a8e04e",
+          "814687eb4e350053dde8a1a4cc40ce02a76cbb826aed3148841d22c24f661b55",
+          "82d1522ebb390801548efa81d92d2468e5428dc6c3b957cbd9ad5923a3eb592d",
+          "83772fd857bb37ed42d959c08319b3f483faa5446e48d733cfbe5ea2a86c43e6",
+          "83f8c8cd5dfb98d035a83eff37d3b61dab6834881242fce75d9fb2e26e2bee54",
+          "85784338a10ee457aed1066c24c7cbe5d04397066383def522ff2285920f4150",
+          "8649ef73707aed0c84acfe527ccec56169705052e07de4f5447f357e9b9967b4",
+          "897320358f350171e715038a3500d2052d2fde697a43112938e07572196599e6",
+          "9407f17e683b155624458105c100db8884b8d8743d6f71a69db5efc97b75a80d",
+          "9d4aafe470c6875caec68b4d84790b9c2cf42a3cb42d31b3b0435c1c026de514",
+          "9eef7ce912bfd63363fa9b8dccb7d8e22d4ae5aebc0024c39092722dac1be25c",
+          "a03e7687812142d53a496e431a2c00212c60a0bef9adec8a5afe61589c4047aa",
+          "a1e36fceeb7f852f17135da54f1c21eba2dbbe828191ffe76ff68717ba568218",
+          "a29c8745eff5305d591dfa6d345547e8e6bb50b8575b756f58851de1a40fd343",
+          "a439ce3da4be8b44adad0367e5d2bfd0ea0781ed46fa7936184589c4286c2d78",
+          "a4c1b10cc3411b697e35d2aba21e45a788d4a012ac18efa97a26b9b2d7c6d446",
+          "a9efac9002aecc55a65b6022f1bd6745cd48671c8df47c774528e35aa1dec0e5",
+          "ab28f054dcd99e30f7df017b8327c27af9108cb4436148735d4049161cc83670",
+          "ab9f7bd8618742c46511a89180f249561d8e4141c78b02935b6f20e4f8491901",
+          "ae6e9157995bdbcae79f0221fc05ca3df41dadbabd1d489c5aaee1a944a9c16d",
+          "aef0b16b0cb4959bf61cc16f414409a1ff9c8a7c85d7618a63ec7e2bd9cdb2ac",
+          "af464881cecb1b451db8e7f3af0048a0c708fffe008fc0ef064b2a9c8c09cd27",
+          "b9531d5b55fb79e3a9394aea767f935063d048d6033a35c7fa89e83b75b775bd",
+          "c7deb5a8c3ca9d3e828d0250a4c7040ee5d4407683c918bcd53b9c54c5b4228c",
+          "ca00992f8c98c8e5f7eb44ce2e8a76e843dc2962389e39b44d629fe9df97d10a",
+          "cbeca4380d294bcbd29732209a96d3319d182a2b43f9a070ef20d5917948c340",
+          "d2e06ece2ac5fed308b9b63c7318a77a5537e6a71c054ba19c1fa05316081d6b",
+          "d78c9eeb15ba25e3f48f6c75174d3cfb078ce38716741aa635b9c413bb141cc8",
+          "dc671be820d2cd5af888b47fe1d1971c9d602253e81bd2231d2b63c134297ac8",
+          "de22d5333be7dcd12bc044a9e124900a85ac3163e48576416b4d2dab62464b34",
+          "e52a8d1caf831ba45fb0df7f9d0bad855dded11e2754d2819600abff4d6f58e1",
+          "e59938fa9aa54d7defdb1b88ffa23f3614e122665040996cedb0bde6960c9ef9",
+          "e656e36afcc86e6b01b5a773ad3911cf9abd0a7ed95f729f01885ab4b93823c7",
+          "eae5c31f3286e87051a11d4bd2128e8df7972e788bbe9ab7032db08141ad16bd",
+          "efc739954ff3932f5bd671506daffaba5d15672d14e3183051b98f941b7594c5",
+          "f985925adc773e1333aa02029e73b2f17b2bb9e0e687763cdb70d4583a0c9b5e",
+          "fbde1d2f1384060949a064f5233cf8716db11f1eb5d3136c4fa61df3b7dab6ad",
+          "fcc2f530114b48dd4af9f65450a51a8145aeb805e98ad81685ff9d9e54a56b77",
+          "fffdac3872f0e36f984868327023281c9f8762d7e83a3b6196081d6e31151f10"
+        ],
+        "evidence": [
+          {
+            "url": "https://t.me/GTAVIStar/1081",
+            "quote_sha256": "9e92e0862c5b465528971251a1ca14440661ba47b03c0c848f8880ac76ed0dc1"
+          },
+          {
+            "url": "https://t.me/GTAVIStar/1081",
+            "quote_sha256": "d09b59e0c5896c6fde57cea26f45f94179a15157da04c302d6c6eae89e802f65"
+          }
+        ],
+        "test": false,
+        "image_branding": {
+          "style": "lesterdossier-editorial-illustration-v1",
+          "source": "own_editorial_illustration",
+          "not_gameplay": true,
+          "output_sha256": "6be7413df01cf7d879ba8bc209fd640272a70d55c5156eecf565e950bc1d68e3",
+          "output_size": [
+            1600,
+            1400
+          ],
+          "recomposed": true
+        },
+        "image_hash": "6be7413df01cf7d879ba8bc209fd640272a70d55c5156eecf565e950bc1d68e3"
       }
     ],
     "examined": {
