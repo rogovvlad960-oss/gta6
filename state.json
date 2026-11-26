@@ -2356,18 +2356,14 @@
     },
     "policy": "rumors-v3-media-queue",
     "last_check": {
-      "at": "2026-11-26T21:16:06.121270+00:00",
+      "at": "2026-11-26T21:20:53.651038+00:00",
       "result": {
-        "delivered": true,
-        "message_id": 73,
-        "destination": "private",
-        "test": false,
-        "image_mode": "own_editorial_illustration",
-        "batches_tried": 1
+        "idle": "normal_cooldown",
+        "dated_posts": 18,
+        "new_candidates": 16,
+        "next_normal_at_moscow": "2026-11-27T01:16:01.352930+03:00"
       },
-      "trigger": "workflow_dispatch",
-      "external_clock": "cloudflare",
-      "scheduled_at": "2026-11-26T21:15:31.000Z"
+      "trigger": "push"
     },
     "last_schedule_slot": "2026-11-27T00:15",
     "schedule_checks": [
