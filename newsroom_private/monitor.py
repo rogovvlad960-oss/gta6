@@ -110,10 +110,9 @@ def body_html(text):
  return rendered
 
 def caption(draft):
- title=draft['title'];title=title if title and ord(title[0])>=0x2000 else ('👀 ' if draft.get('kind')=='rumor' else '⚡️ ')+title
- body=draft['body']
- if draft.get('kind')=='rumor' and not re.search(r'не подтвержден|неподтвержд|подтверждения нет',body,re.I):body='В сети сообщают об этом, но подтверждения пока нет. '+body
- text='<b>'+html.escape(title)+'</b>\n\n'+body_html(body)
+ title=e.separate_emoji(draft['title']);title=title if title and ord(title[0])>=0x2000 else '⚡️ '+title
+ body=e.separate_emoji(draft['body']).replace('@lesterdossier','').rstrip()
+ text='<b>'+html.escape(title.replace('@lesterdossier','').rstrip())+'</b>\n\n'+body_html(body)+'\n\n@lesterdossier'
  if len(text)>1024:raise RuntimeError('caption_too_long')
  return text
 

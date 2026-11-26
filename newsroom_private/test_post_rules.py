@@ -6,6 +6,23 @@ from .monitor import body_html
 from .image_branding import brand_external_image
 
 class RulesTests(unittest.TestCase):
+ def test_post_has_single_footer_and_no_emoji_pairs(self):
+  from .monitor import caption
+  text,entities=format_message(caption({'title':'⚡️🔥 Заголовок','body':'💸 💵 **Деталь**\n\n> Памятка\n\n_Панч_\n\n@lesterdossier'}))
+  self.assertEqual(text.count('@lesterdossier'),1);self.assertTrue(text.endswith('@lesterdossier'))
+  self.assertNotIn('⚡️🔥',text);self.assertNotIn('💸 💵',text)
+  self.assertTrue({'bold','italic','blockquote'}.issubset({x['type']for x in entities}))
+ def test_emoji_sequences_keep_flags_and_family_intact(self):
+  from .engine import separate_emoji
+  self.assertEqual(separate_emoji('🇷🇺 Текст 👨‍👩‍👧‍👦'),'🇷🇺 Текст 👨‍👩‍👧‍👦')
+  self.assertEqual(separate_emoji('🇷🇺🔥 Текст'),'🇷🇺 Текст')
+ def test_attribution_is_valid_without_stock_disclaimer(self):
+  from . import engine
+  source={'id':'test/1','url':'https://t.me/test/1','text':'Игроки сообщают, что нашли новую пещеру в GTA VI.'}
+  draft={'kind':'rumor','title':'Пещера в GTA VI','body':source['text'],'event_key':'cave','source_ids':['test/1'],'citations':[source['url']],'claims':[{'url':source['url'],'quote':source['text']}]}
+  self.assertEqual(engine.validate_draft(draft,[source],[]),draft)
+  draft['body']='В GTA VI точно добавили эту пещеру.'
+  with self.assertRaisesRegex(ValueError,'unlabeled_uncertainty'):engine.validate_draft(draft,[source],[])
  def test_generated_body_keeps_italic_quote_and_spoiler(self):
   text,entities=format_message('<b>📰 Заголовок</b>\n'+body_html('_Комментарий_\n\n> Первый шаг\n> Второй шаг\n\n||Панч||'))
   data=text.encode('utf-16-le');spans={e['type']:data[e['offset']*2:(e['offset']+e['length'])*2].decode('utf-16-le')for e in entities if e['type']in('italic','blockquote','spoiler')}

@@ -22,13 +22,13 @@ class QueueRepairTests(unittest.TestCase):
   data=self.data();posts=[self.post(),self.post('Другой сюжет в GTA VI','test/2')];now=m.e.now();m.defer_posts(data,posts[:1],now,'image_review_rejected');self.assertEqual(m.available_posts(posts,data,now),posts[1:])
  def test_sent_source_cannot_be_reintroduced_by_migration(self):
   data=self.data();p=self.post();data['history']=[{'status':'sent','source_hashes':[m.e.digest(p['text'])]}];self.assertEqual(m.available_posts([p],data,m.e.now()),[])
- def test_uncertainty_is_added_before_validation_and_private_history_used(self):
+ def test_natural_attribution_preserved_and_private_history_used(self):
   p=self.post();d={'kind':'rumor','priority':'normal','title':'Новая находка','body':'В сети обсуждают необычный игровой момент. Подождём подробностей.','event_key':'new','source_ids':[p['id']],'evidence_refs':['e0_0']}
   responses=[{'choices':[{'message':{'content':json.dumps(d)}}],'usage':{'prompt_tokens':10,'completion_tokens':10}},{'choices':[{'message':{'content':json.dumps({'approved':True})}}],'usage':{'prompt_tokens':10,'completion_tokens':10}}];calls=[]
   def request(url,payload,headers):calls.append(payload);return json.dumps(responses[len(calls)-1])
   state=SimpleNamespace(data={'history':[{'event_key':'public-topic'}],'spend':{},'errors':[]},save=lambda:None)
   with patch.dict(os.environ,{'NEWSROOM_AI_SPEND_APPROVED':'true','NEWSROOM_LLM_KEY':'test'}),patch.object(m.e,'request',side_effect=request):out=m.e.generate([p],[],state,editor_history=[{'event_key':'private-topic'}])
-  self.assertIsNotNone(out);self.assertIn('не подтверждено',out['body']);self.assertEqual(json.loads(calls[0]['messages'][1]['content'])['HISTORY'],['private-topic'])
+  self.assertIsNotNone(out);self.assertEqual(out['body'],d['body']);self.assertNotIn('не подтверждено',out['body']);self.assertEqual(json.loads(calls[0]['messages'][1]['content'])['HISTORY'],['private-topic'])
  def test_irrelevant_first_image_does_not_drop_the_story(self):
   post=self.post();post['images'].append('https://cdn4.telesco.pe/file/matching.jpg');state=object()
   with patch.object(m,'vision_check',side_effect=[False,True])as review:

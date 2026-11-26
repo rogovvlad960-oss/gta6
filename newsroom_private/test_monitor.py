@@ -26,13 +26,10 @@ class Tests(unittest.TestCase):
   self.assertIn('<b>под водой</b>',m.caption({'title':'Кадр','body':'Вид **под водой**'}))
   self.assertEqual(m.body_html('<script>x</script>'),'&lt;script&gt;x&lt;/script&gt;')
   self.assertNotIn('<b>',m.body_html('**'+('x'*71)+'**'))
- def test_rumor_uncertainty_is_inline(self):
-  out=m.caption({'kind':'rumor','title':'Деталь','body':'Сообщают о детали, не подтверждено'})
-  self.assertNotIn('⚠️',out)
-  self.assertNotIn('<b>НЕ ПОДТВЕРЖДЕНО',out)
-  self.assertIn('не подтверждено',out)
-  fallback=m.caption({'kind':'rumor','title':'Деталь','body':'Сообщают о детали'})
-  self.assertIn('подтверждения пока нет',fallback)
+ def test_report_uses_natural_attribution_without_added_disclaimer(self):
+  out=m.caption({'kind':'rumor','title':'Деталь','body':'По словам автора, найдена новая деталь'})
+  self.assertNotIn('подтвержден',out);self.assertNotIn('подтверждения',out);self.assertIn('По словам автора',out)
+  self.assertTrue(out.endswith('@lesterdossier'))
  def test_streamer_name_is_not_advertisement(self):
   self.assertIsNone(m.e.reject_reason({'text':'Бустер показал смешной момент в GTA VI','published_at':m.e.stamp()}))
   self.assertEqual(m.e.reject_reason({'text':'Буст канала про GTA VI','published_at':m.e.stamp()}),'advertisement_or_giveaway')
@@ -60,7 +57,7 @@ class Tests(unittest.TestCase):
  def test_premium_caption_preserves_bold_utf16_and_literal_html(self):
   from .bot_emoji import format_caption,units,LOGO
   text,entities=format_caption(m.caption({'title':'🚔 КОПЫ','body':'Деталь **важная** <x>'}))
-  self.assertEqual(text,'📰 КОПЫ\n\nДеталь важная <x>')
+  self.assertEqual(text,'📰 КОПЫ\n\nДеталь важная <x>\n\n@lesterdossier')
   custom=next(e for e in entities if e['type']=='custom_emoji')
   self.assertEqual(custom,{'type':'custom_emoji','offset':0,'length':2,'custom_emoji_id':LOGO})
   body_bold=next(e for e in entities if e['type']=='bold'and e['offset']>0)
