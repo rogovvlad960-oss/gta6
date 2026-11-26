@@ -1974,7 +1974,7 @@
       },
       {
         "at": "2026-11-21T21:01:14.706894+00:00",
-        "status": "uncertain",
+        "status": "uncertain_archived",
         "event_key": "gtavi_kurt_cobain_reference_2026",
         "source_hashes": [
           "96e43a63f7b7660b07bbada491784ca690969d0e7a5333b643f8c103f1fbf2f5"
@@ -2066,7 +2066,9 @@
           ],
           "recomposed": true
         },
-        "image_hash": "b4914793ecef37d373c2377a47a68bd825134795168510a242ce9cdb29bc4e14"
+        "image_hash": "b4914793ecef37d373c2377a47a68bd825134795168510a242ce9cdb29bc4e14",
+        "reconciled_at": "2026-11-26T20:02:06.196383+00:00",
+        "reconciliation": "delivery_unknown_no_retry"
       }
     ],
     "examined": {
