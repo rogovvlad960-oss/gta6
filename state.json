@@ -2072,7 +2072,7 @@
       },
       {
         "at": "2026-11-26T20:02:26.287053+00:00",
-        "status": "pending",
+        "status": "sent",
         "event_key": "gta6_cave_network_rumor_2026",
         "source_hashes": [
           "11fe8cae1d0b87a049d1cc870ef543a35667cd70be42c01cacdf086ffc4314f1"
@@ -2195,7 +2195,13 @@
           ],
           "recomposed": true
         },
-        "image_hash": "082c992d6060e15a30c72344d618dd95b45967a5058955da094cca513d451113"
+        "image_hash": "082c992d6060e15a30c72344d618dd95b45967a5058955da094cca513d451113",
+        "message_id": 72,
+        "custom_emoji_ids": [
+          "5282847372223740079",
+          "5222464272390463282",
+          "5282842763723832120"
+        ]
       }
     ],
     "examined": {
