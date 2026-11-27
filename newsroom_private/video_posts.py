@@ -13,7 +13,7 @@ def safe_video(url):
 def permission(post):
  # Availability online is not permission to re-upload. Keep the exact permission evidence.
  text=post['text']
- if re.search(r'\bCC[ -]?0\b|\bCC[ -]?BY(?:[ -]?SA)?\b|public domain',text,re.I):return {'status':'explicit_license','evidence':text[:1500],'source_url':post['url'],'credit_required':not bool(re.search(r'\bCC[ -]?0\b|public domain',text,re.I))}
+ if re.search(r'\bCC[ -]?0\b|\bCC[ -]?BY(?:[ -]?SA)?\b|public domain',text,re.I):return {'status':'explicit_license','evidence':text[:1500],'source_url':post['url'],'credit_required':not bool(re.search(r'\bCC[ -]?0\b|public domain',text,re.I)),'license':(re.search(r'\bCC[ -]?BY(?:[ -]?SA)?(?:[ -]?[1-4]\.0)?',text,re.I).group(0)if re.search(r'\bCC[ -]?BY',text,re.I)else'CC0/public domain')}
  if re.search(r'(?:разрешаю|разрешаем|разрешено|можно).{0,45}(?:репост|перепубликов|использовать.{0,15}видео)',text,re.I):return {'status':'explicit_permission','evidence':text[:1500],'source_url':post['url']}
  grant=e.CONFIG.get('video_reuse_permissions',{}).get(post['id'])
  if grant and grant.get('evidence_url')and grant.get('rights_holder')and grant.get('reviewed'):return {'status':'reviewed_permission','evidence':grant,'source_url':post['url']}
@@ -70,7 +70,7 @@ def send(m,state,draft,posts,video):
  if m.seen_draft(draft,posts,data):return {'idle':'duplicate'}
  cid=m.check_destination();prepared=dict(draft)
  if video['rights'].get('credit_required'):
-  prepared['body']+='\n\n_Видео: '+video['source_url']+' · CC BY (условия в источнике)._'
+  prepared['body']+='\n\n_Видео: '+video['source_url']+' · '+video['rights'].get('license','условия в источнике')+'._'
  text,entities=format_caption(m.caption(prepared));m.check_post_style(text,entities)
  record=m.event_record(draft,posts);record.update(kind='video',destination='channel'if m.channel_mode()else'private',media_sha256=video['sha256'],video_source=video['source_url'],video_rights=video['rights'],test=False)
  if m.channel_mode():

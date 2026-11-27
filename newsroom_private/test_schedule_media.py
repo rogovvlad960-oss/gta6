@@ -31,6 +31,10 @@ class MediaTests(unittest.TestCase):
   from . import monitor as m
   markup='<div class="tgme_widget_message" data-post="test/1"><time datetime="'+e.stamp()+'"></time><div class="tgme_widget_message_text">В GTA VI игрок показывает необычную машину и дорогу к ней.</div><video src="https://cdn4.telesco.pe/file/clip.mp4"></video></div>'
   posts=m.parse_feed(markup);self.assertEqual(posts[0]['videos'],['https://cdn4.telesco.pe/file/clip.mp4']);self.assertEqual(posts[0]['images'],[])
+ def test_sharealike_license_is_not_relabelled_as_plain_by(self):
+  from .video_posts import permission
+  result=permission({'id':'source/1','url':'https://t.me/source/1','text':'Автор разрешает использовать видео: CC BY-SA 4.0'})
+  self.assertEqual(result['license'],'CC BY-SA 4.0');self.assertTrue(result['credit_required'])
  def test_video_url_allowlist(self):
   from .video_posts import safe_video
   self.assertTrue(safe_video('https://cdn4.telesco.pe/file/x.mp4?token=a'))
