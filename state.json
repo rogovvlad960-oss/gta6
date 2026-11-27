@@ -2496,6 +2496,10 @@
       {
         "at": "2026-11-23T21:15:45.240549+00:00",
         "code": "RuntimeError"
+      },
+      {
+        "at": "2026-11-27T05:01:17.443781+00:00",
+        "code": "private_delivery_formatting_warning"
       }
     ],
     "route": {
