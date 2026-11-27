@@ -2929,6 +2929,16 @@
         "image_hash": "d27926114a09a0bf6acc26afb8321f0b95f4998694c18e3aa08c95289d80c650",
         "message_id": 32,
         "formatting_warning": "post_delivery_verification_failed"
+      },
+      {
+        "at": "2026-11-27T17:00:46.061895+00:00",
+        "kind": "poll",
+        "status": "pending",
+        "destination": "channel",
+        "event_key": "daily_poll_2026-11-27",
+        "poll_template": "transport",
+        "source_hashes": [],
+        "tokens": []
       }
     ],
     "examined": {
