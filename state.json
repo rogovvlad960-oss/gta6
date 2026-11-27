@@ -2680,6 +2680,120 @@
         "image_hash": "198d4166eb0f5bde7a67634fc44a96218a652f85e460be409edb0465c0a1ccc0",
         "message_id": 30,
         "formatting_warning": "post_delivery_verification_failed"
+      },
+      {
+        "at": "2026-11-27T08:46:09.139723+00:00",
+        "status": "pending",
+        "event_key": "gta6_weather_bug_2026",
+        "source_hashes": [
+          "6983d1eca6b5be6f49ab313bdd828ca14d80534544489904970d32d84af930b8"
+        ],
+        "tokens": [
+          "041472ea3d33c90cea555450d90f7577bb7ee3c6e1b227f1b343d800fb2c49af",
+          "0a3543839c2b695a07660b7c6371060573158163e7b5e0e2f2d7b4c9492cd04d",
+          "0c54cac11da6d7b91180dbe87ac16d7d503feb47940e713afe9519f06f4607b4",
+          "15a8de3a49326280a7e2b92cc203b1f6f41c5df7fc2f87af309f03c8db3f64cf",
+          "168dc8f22407318cd9836616ddfbaf20273cf6df25c6ce0280063f3af19412a2",
+          "17392904318eb788eace1f8cebb971004b480bf99e4dc3dce090a2ca48684498",
+          "1925356803504e44bd021990adbff8dc3bab5b627cc718b77608c5b58c499dc0",
+          "19f26a886997d5b1f22fb38f68a612b93da3b9fde77c6d5e6e50e403db0ab766",
+          "1c0ce09139aabbdeb758da5f5070ff2ab8f33f755f20674e4fcf03f93a24d178",
+          "205533c6ab9e8f731195b1f9fb5382d8815119340846503f70277193d926843c",
+          "20a45eeeb030b0cbb530bd1c49a2b42888003c7808045cb07abbafaa766edd74",
+          "257e2010e1b081aea5590893a1f80ed0a041c2dd6b19ad4e67900fe751aeb0fd",
+          "28a879e9278ff59a24196c9d56439ed0c4f171ae197e7f1e1346bb78981ce62f",
+          "2ba698e15d131652804988932a1efa1f517e38f0e0985cacdce2904d9d72bcba",
+          "35c24e8853578a8d5f50e188e1b1c60cb30f8d380083e04faf3794c059a94b44",
+          "396ba2aeba3475fbd1aba03de177865f8b672bd5c27012b60efc16d2c0a2a480",
+          "3bfc990d8179c8496a642f5a044e25de7d6e31dd616084da7a46c0f56fc9ba91",
+          "3cf77dad0611280a1861fe3b43127ead19d17226372e7ec6e983068b29915085",
+          "409fb5fb3d222b606bbba5d3e8ec0a0ce6d0f727811fb879e1d1187edd035821",
+          "45956adf9e4545f8f9b941fd943b4d0cc281ba95932f107a292c88a41fcfb08f",
+          "5588ef7202a793cc3633df2dc427a6594d3849ea65d15ee21edb748fabbc8396",
+          "55db921f8ed4ca83fab552057bc8af42c1b5b797e4380c623f74c4309492b7e3",
+          "5ab9beacb64499b73d7df93590645b369946b3ac5d39c118bf25f39f79787db0",
+          "5d991a82929490de2dc65d2e38989590fc0b3991b37533736c60f10a8edc7ca9",
+          "6002708853f1262591d591bf3d4b04d2e6c30381cc8b38395d975398135df47e",
+          "620aa0895ddb2a341ab1269f345472756a5107e22f9ff901caffc299b4f4ddfa",
+          "6639f9947d339f4c942024262257b788df4513a79fb41242b4fa6fcf455a03af",
+          "691732cb544b7cacc9ec106bacb3a6c84301c823e059615573d8e4fe8654bbad",
+          "69c83fe1b2aadda11c540561e1e2d90b4710cba57fd5a1b30fde0db0cebd39a1",
+          "6dbcb3a831a35e02406eee1fc836217e334be893277d38a1211261e5a0237a31",
+          "6f6228ed6f275f3234f0a2db244266ff710ac23f649da61a0e1216c2c8a8e04e",
+          "74d8cdfd4843f0dd7ef7c8f09aa661459ff4b5638059352df8a54a85fe8869d4",
+          "754db111989333800dfe5f2febacb720bedb1159841cef80b5d1d2b0dbf640f5",
+          "79f4319d7cf13ac8a63e4ad5545ae6681312f6f435b486aca0ae7fb3b97d2345",
+          "7c2729b52a4de7654fe1938266a3864adbf2833bbeee70097f52ffedc242286d",
+          "7f306f752124ba25366a9d5dd6221cb2573a6a9e8b84103de5829aa057cce3ef",
+          "86fdaa93930924a15051fd7f76c2cd3b5fc649a055aeb4f9c28e43de4ddb15b9",
+          "890b533cf0f1cd21a4e5943a87a73d142a9cebc22939be49a0a29316db37b3bb",
+          "8b6dd36743f55803a61761343b4d6924315ee4fe7826be9dab2ea4fd66a38506",
+          "8f1212aef55099f0bf59004037d6a7ecb86dcf466faea4d48abe93855af25ffc",
+          "93964daac56984fef2c491ade31eb98b39ac4e80e345f61d8718e2dc8d5fe8ab",
+          "9b18f847bb361207b26c91479fb4320144808eaf9f6c394dba628c4ca231e366",
+          "a2692abe1b37f53f8ba92e1bb0f28e7d12a27584c2d66466fd7924468654c9a9",
+          "a3b72e4344c410bc65946af1e76c84c308d57971d947ceebbedbd3efc4fdb283",
+          "a632d921fff3b1396b71d6575a3f85483e64317be8fceb40fc0a3d90ab9399f7",
+          "a6cff92c38011c687fde15e7d2a83550fd06031f2c54ac145e949ba51633cf18",
+          "a867e3643ac2ab64e69f730c1a9ff6762e9bb64897580e6753f75c979429615b",
+          "a875e604ccbdd5afa72c430b39e98a5d8ff151764958369056ecff6ba4b8ed5e",
+          "aa252391af1b6be0419a35bc42356a9f8d3b84fece3596c98261369b93d499f1",
+          "b4b947a899ebedd5a1774dd1c29f467a2ebf35a054e150f80ac22e6078918190",
+          "b89c03b78bedab07b0e8933594769aaeec2b4f4c5d8c6fbec86d9d1d9d305e74",
+          "bb9b270bc30868d4152bc23bd097db665b559d9c2507a30be7f3c528d658c43d",
+          "bc4a95ce210ec54532fd1f479fc66e5160fcd7d719c1fadd8e149af0d4156251",
+          "bde196963e54fa0514852fb9ce30bc4368f8110fe89100c88a7d4f555b017ae7",
+          "bfe13d001aa1398a63b3ca64a9149cdc95073c0d30f2c8a009a30121cd187b95",
+          "c28bb74da3a96b9c71aa12d9ec5ac3d9521e418b834cef1321b4879ab74d13ff",
+          "c3f4e339e91b32f937dc315ca33043d1c80ba5d98d50f51e7e05c53960aa1090",
+          "c5d7241d9166bfc62ca59752b6170745407c0a71d884e811e5f6bd5af2d5aca8",
+          "c9fa71f66bb4f3d9e873eb59eaa89885e88584d0a5ae25940d31b0d1e01ae7cd",
+          "ceef9a3cdbcf3e5ce20e544dee7f67b6d56210fa0e22a6b54cd7b559e009a87f",
+          "d78c9eeb15ba25e3f48f6c75174d3cfb078ce38716741aa635b9c413bb141cc8",
+          "dd29933f950f2add17e5b4a8cf611057aebc59666a8c52f6438a2595c7bb825f",
+          "e2838f8ac07cc364d8be6bc9d9c99637797b9de12bd1cb76d83b87981ed43a51",
+          "e5258fd2c403a8d3c3d0affc082e85099605a3600370c9149133d427238cd5b5",
+          "e52a8d1caf831ba45fb0df7f9d0bad855dded11e2754d2819600abff4d6f58e1",
+          "e79fccd04bfe3a053c3d45f5e1b70004c3ca5898e14bcc665607aa72fc183683",
+          "e7f6d8ff47a330992afa5c552dbc7fbb277ec20577fd5681ee2178cf6a5585cb",
+          "ebebbec08fafee67421bfc6b128424467b5456a70e4bb3290a06e7b48777f50f",
+          "fa41cd6d6a27b5fa0d550ae130738354dfcf017660ba66efc040b2461a16d34d",
+          "fc73fb429719f4ee5cac198443a1e0fd366bd801e729d09dda86c679f2cbac48"
+        ],
+        "evidence": [
+          {
+            "url": "https://t.me/gta6deluxe/2444",
+            "quote_sha256": "a0e08c1b67658afe8dcf119223bfce6331c73eb79f852000f23f9775a77366a6"
+          },
+          {
+            "url": "https://t.me/gta6deluxe/2444",
+            "quote_sha256": "0447b630f2e69798596fe2997f18337ba3a3d5a6d8f13be926694593ff3a1d5b"
+          }
+        ],
+        "test": false,
+        "destination": "channel",
+        "image_branding": {
+          "style": "lesterdossier-editorial-v1",
+          "source_sha256": "c4a70fb2f09f1d981b77c44f447f2bfed7f5398d0a14570e6213c820beb82416",
+          "output_sha256": "adf1bfa87de6becb25da583ca18b80abec33d437869453ddcc5c53efcf3bd385",
+          "source_size": [
+            800,
+            600
+          ],
+          "output_size": [
+            1600,
+            1400
+          ],
+          "source_fully_visible": true,
+          "source_rect": [
+            185,
+            318,
+            1414,
+            1240
+          ],
+          "recomposed": true
+        },
+        "image_hash": "adf1bfa87de6becb25da583ca18b80abec33d437869453ddcc5c53efcf3bd385"
       }
     ],
     "examined": {
