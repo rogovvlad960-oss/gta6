@@ -172,7 +172,7 @@
     }
   ],
   "spend": {
-    "2026-11": 0.4681848
+    "2026-11": 0.4831848
   },
   "live_test": {
     "draft_hash": "5758177ce8db016ca3b70534279b1163e8f2c5083d531762a216c0c9243815a8",
@@ -3576,7 +3576,8 @@
       "source_ids": [
         "GTAVIStar/1081"
       ]
-    }
+    },
+    "video_review_queue": {}
   },
   "review_file_deliveries": {
     "e2a93144b0d00a32a7ab912fc9d671ac7215fde713a5337df6c0c5c1e72d4275": {
