@@ -2683,7 +2683,7 @@
       },
       {
         "at": "2026-11-27T08:46:09.139723+00:00",
-        "status": "pending",
+        "status": "sent",
         "event_key": "gta6_weather_bug_2026",
         "source_hashes": [
           "6983d1eca6b5be6f49ab313bdd828ca14d80534544489904970d32d84af930b8"
@@ -2793,7 +2793,9 @@
           ],
           "recomposed": true
         },
-        "image_hash": "adf1bfa87de6becb25da583ca18b80abec33d437869453ddcc5c53efcf3bd385"
+        "image_hash": "adf1bfa87de6becb25da583ca18b80abec33d437869453ddcc5c53efcf3bd385",
+        "message_id": 31,
+        "formatting_warning": "post_delivery_verification_failed"
       }
     ],
     "examined": {
