@@ -3003,6 +3003,10 @@
       {
         "at": "2026-11-27T11:15:52.414210+00:00",
         "code": "RuntimeError"
+      },
+      {
+        "at": "2026-11-27T15:16:17.252731+00:00",
+        "code": "private_delivery_formatting_warning"
       }
     ],
     "route": {
