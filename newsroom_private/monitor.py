@@ -82,7 +82,13 @@ def parse_feed(markup):
   for video in msg.select('video[poster]'):
    if safe_image(video['poster']):images.append(video['poster'])
   p['images']=list(dict.fromkeys(images))
-  if images:posts.append(p)
+  from .video_posts import safe_video
+  videos=[]
+  for video in msg.select('video'):
+   nested=video.find('source');url=video.get('src')or(nested.get('src','')if nested else'')
+   if safe_video(url):videos.append(url)
+  p['videos']=list(dict.fromkeys(videos))
+  if images or p['videos']:posts.append(p)
  return posts
 
 def safe_image(url):
@@ -99,7 +105,7 @@ def blocked(data,now):
    r.update(status='uncertain_archived',reconciled_at=now.isoformat(),reconciliation='delivery_unknown_no_retry')
  if any(r['status']in('pending','uncertain')for r in data['history']):return 'delivery_requires_reconciliation'
  today=now.astimezone(e.MSK).date()
- if sum(datetime.fromisoformat(r['at']).astimezone(e.MSK).date()==today for r in data['history']if not r.get('test')and r.get('kind')!='poll')>=e.CONFIG['daily_max']:return 'daily_cap'
+ if sum(datetime.fromisoformat(r['at']).astimezone(e.MSK).date()==today for r in data['history']if not r.get('test')and r.get('kind')!='poll'and(not channel_mode()or r.get('destination')=='channel'))>=e.CONFIG['daily_max']:return 'daily_cap'
  return None
 
 def event_record(draft,posts):
@@ -285,7 +291,8 @@ def run(mode):
  if data['attempts'].get(day,0)>=max(12,e.CONFIG['daily_max']*4):return {'idle':'daily_model_attempt_cap','new_candidates':len(fresh)}
  sent=[r for r in data['history']if r['status']=='sent'and not r.get('test')]
  if sent and now-datetime.fromisoformat(sent[-1]['at'])<timedelta(hours=e.CONFIG['minimum_gap_hours']):return {'idle':'normal_cooldown','dated_posts':len(posts),'new_candidates':len(fresh),'next_normal_at_moscow':(datetime.fromisoformat(sent[-1]['at'])+timedelta(hours=e.CONFIG['minimum_gap_hours'])).astimezone(e.MSK).isoformat()}
- fresh=sorted(fresh,key=lambda x:x['published_at'],reverse=True);proofs=[]
+ from .video_posts import priority_score
+ fresh=sorted(fresh,key=lambda x:(priority_score(x),x['published_at']),reverse=True);proofs=[]
  urls=['https://www.rockstargames.com/VI','https://www.rockstargames.com/VI/launch-gallery']
  for p in fresh:
   urls.extend(u for u in p['links']if e.official(u))
@@ -304,12 +311,16 @@ def run(mode):
    defer_posts(data,batch,now,'no_supported_fresh_story');state.save();continue
   if seen_draft(draft,batch,data):
    mark_selected(data,draft,batch,'duplicate');state.save();continue
-  image_url=choose_image(state,draft,batch)
-  # Do not replace rejected evidence with another claim. Use a clearly labelled own illustration.
-  result=send_reserved(state,draft,batch,image_url)
+  from .video_posts import choose as choose_video,send as send_video
+  video=choose_video(sys.modules[__name__],state,draft,batch)
+  image_url=None
+  if video:result=send_video(sys.modules[__name__],state,draft,batch,video)
+  else:
+   image_url=choose_image(state,draft,batch)
+   result=send_reserved(state,draft,batch,image_url)
   if result.get('delivered'):
    mark_selected(data,draft,batch,'sent');state.save()
-   result['image_mode']='reviewed_source'if image_url else'official_artwork_cover'
+   result['image_mode']='original_video'if video else'reviewed_source'if image_url else'official_artwork_cover'
    result['batches_tried']=batches_tried
    return result
   if result.get('idle')=='duplicate':

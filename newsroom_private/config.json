@@ -60,5 +60,13 @@
     "window_end_hour_moscow": 22,
     "daily_max": 1,
     "separate_from_six_news": true
-  }
+  },
+  "video_posts": {
+    "enabled": true,
+    "max_bytes": 45000000,
+    "max_seconds": 180,
+    "keep_original": true,
+    "permission_required": true
+  },
+  "video_reuse_permissions": {}
 }

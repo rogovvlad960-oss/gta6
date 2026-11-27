@@ -3,7 +3,7 @@ from datetime import datetime,timedelta
 from . import engine as e
 
 def today_records(data,at,*,poll=False):
- return [r for r in data['history']if not r.get('test')and (r.get('kind')=='poll')==poll and r.get('status')!='failed_confirmed'and datetime.fromisoformat(r['at']).astimezone(e.MSK).date()==at.astimezone(e.MSK).date()]
+ return [r for r in data['history']if (e.CONFIG.get('delivery_target')!='channel'or r.get('destination')=='channel')and not r.get('test')and (r.get('kind')=='poll')==poll and r.get('status')!='failed_confirmed'and datetime.fromisoformat(r['at']).astimezone(e.MSK).date()==at.astimezone(e.MSK).date()]
 def slot(at):
  local=at.astimezone(e.MSK);hours=e.CONFIG.get('posting_windows_moscow',[9,11,14,16,18,22]);due=[h for h in hours if h<=local.hour]
  return local.replace(hour=due[-1],minute=0,second=0,microsecond=0).isoformat()if due else None
@@ -46,7 +46,7 @@ def send_poll(m,state,at):
  record={'at':at.isoformat(),'kind':'poll','status':'pending','destination':'channel','event_key':'daily_poll_'+at.astimezone(e.MSK).date().isoformat(),'poll_template':key,'source_hashes':[],'tokens':[]}
  data['history'].append(record);state.save()
  try:
-  result=m.telegram('sendPoll',{'chat_id':cid,'question':question,'options':options,'is_anonymous':True,'allows_multiple_answers':False})
+  result=m.telegram('sendPoll',{'chat_id':cid,'question':question,'options':[{'text':option}for option in options],'is_anonymous':True,'allows_multiple_answers':False})
   if not result.get('ok'):record['status']='failed_confirmed';state.save();raise RuntimeError('poll_rejected')
   msg=result['result']
   if not m.expected_delivery_chat(msg.get('chat',{}),cid)or not msg.get('poll'):raise RuntimeError('unexpected_poll_delivery')
