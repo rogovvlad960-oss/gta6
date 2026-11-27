@@ -2567,7 +2567,7 @@
       },
       {
         "at": "2026-11-27T07:31:09.094811+00:00",
-        "status": "pending",
+        "status": "sent",
         "event_key": "rockstar_antipiracy_gta6_pc_2026",
         "source_hashes": [
           "14c926f574fc0f7307434de393531e527432b0dbb48af3bbb24ea3b8db1d0433"
@@ -2677,7 +2677,9 @@
           ],
           "recomposed": true
         },
-        "image_hash": "198d4166eb0f5bde7a67634fc44a96218a652f85e460be409edb0465c0a1ccc0"
+        "image_hash": "198d4166eb0f5bde7a67634fc44a96218a652f85e460be409edb0465c0a1ccc0",
+        "message_id": 30,
+        "formatting_warning": "post_delivery_verification_failed"
       }
     ],
     "examined": {
