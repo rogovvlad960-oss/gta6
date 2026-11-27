@@ -2874,16 +2874,15 @@
     },
     "policy": "rumors-v3-media-queue",
     "last_check": {
-      "at": "2026-11-27T08:30:51.010199+00:00",
+      "at": "2026-11-27T08:50:09.846673+00:00",
       "result": {
-        "idle": "normal_cooldown",
+        "idle": "publication_window_not_due",
+        "ordinary_posts_today": 5,
+        "next_window_moscow": "2026-11-27T22:00:00+03:00",
         "dated_posts": 18,
-        "new_candidates": 12,
-        "next_normal_at_moscow": "2026-11-27T11:31:09.094811+03:00"
+        "new_candidates": 11
       },
-      "trigger": "workflow_dispatch",
-      "external_clock": "cloudflare",
-      "scheduled_at": "2026-11-27T08:30:31.000Z"
+      "trigger": "push"
     },
     "last_schedule_slot": "2026-11-27T11:45",
     "schedule_checks": [
