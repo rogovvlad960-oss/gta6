@@ -2807,7 +2807,7 @@
       },
       {
         "at": "2026-11-27T15:16:12.703057+00:00",
-        "status": "pending",
+        "status": "sent",
         "event_key": "gta6_unofficial_pc_port_30fps_2026",
         "source_hashes": [
           "bbadb8b2292ad54e562259cb1cc52e83a14e6d2c1e8051595c7a44a2ca54bb14"
@@ -2926,7 +2926,9 @@
           "recomposed": true,
           "body_text_on_image": false
         },
-        "image_hash": "d27926114a09a0bf6acc26afb8321f0b95f4998694c18e3aa08c95289d80c650"
+        "image_hash": "d27926114a09a0bf6acc26afb8321f0b95f4998694c18e3aa08c95289d80c650",
+        "message_id": 32,
+        "formatting_warning": "post_delivery_verification_failed"
       }
     ],
     "examined": {
