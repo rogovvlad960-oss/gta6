@@ -99,7 +99,7 @@ def blocked(data,now):
    r.update(status='uncertain_archived',reconciled_at=now.isoformat(),reconciliation='delivery_unknown_no_retry')
  if any(r['status']in('pending','uncertain')for r in data['history']):return 'delivery_requires_reconciliation'
  today=now.astimezone(e.MSK).date()
- if sum(datetime.fromisoformat(r['at']).astimezone(e.MSK).date()==today for r in data['history']if not r.get('test'))>=e.CONFIG['daily_max']:return 'daily_cap'
+ if sum(datetime.fromisoformat(r['at']).astimezone(e.MSK).date()==today for r in data['history']if not r.get('test')and r.get('kind')!='poll')>=e.CONFIG['daily_max']:return 'daily_cap'
  return None
 
 def event_record(draft,posts):
@@ -162,6 +162,9 @@ def send_reserved(state,draft,posts,image_url,*,test=False):
  data=private_data(state)
  if seen_draft(draft,posts,data):return {'idle':'duplicate'}
  cid=check_destination();record=event_record(draft,posts);record['test']=test;record['destination']='channel'if channel_mode()else'private'
+ if channel_mode():
+  from .publishing import slot
+  record['publication_slot']=slot(e.now())
  if image_url is None:
   from .image_branding import editorial_card
   image,branding=editorial_card(draft)
@@ -261,6 +264,10 @@ def run(mode):
   if not vision_check(state,draft,image):raise RuntimeError('probe_image_review_rejected')
   return send_reserved(state,draft,[],image,test=True)
  if not any(r.get('test')and r['status']=='sent'for r in data['history']):raise RuntimeError('cloud_probe_required')
+ if channel_mode():
+  from .publishing import poll_due,send_poll,news_gate
+  if poll_due(data,now):return send_poll(sys.modules[__name__],state,now)
+  if not gate:gate=news_gate(data,now)
  posts=[]
  for name in e.CONFIG['sources']:
   try:posts.extend(fetch_feed(name))
@@ -271,7 +278,7 @@ def run(mode):
   data['previous_examined_count']=len(data.get('examined',{}));data['examined']={};data['deferred']={};data['policy']=policy
  fresh=available_posts(posts,data,now)
  state.save()
- if gate:return {'idle':gate,'dated_posts':len(posts),'new_candidates':len(fresh)}
+ if gate:return {**(gate if isinstance(gate,dict)else{'idle':gate}),'dated_posts':len(posts),'new_candidates':len(fresh)}
  if not fresh:return {'idle':'no_new_media_posts','dated_posts':len(posts)}
  # Allow bounded retries for the daily post target; the shared monetary cap still applies.
  day=now.astimezone(e.MSK).date().isoformat()
