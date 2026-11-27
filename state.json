@@ -2937,84 +2937,28 @@
     ],
     "previous_examined_count": 69,
     "deferred": {
-      "351c94120403512c96100a7b77a4f90958e11d2f2cb54024991c353ddcaed837": {
-        "until": "2026-11-20T11:39:31.875606+00:00",
-        "reason": "image_review_rejected"
-      },
-      "50620a8a990632bf1192566cbd03459ac268e42ca1ff3846c20a94184b5459b2": {
-        "until": "2026-11-20T10:45:45.915614+00:00",
+      "14c926f574fc0f7307434de393531e527432b0dbb48af3bbb24ea3b8db1d0433": {
+        "until": "2026-11-27T06:00:42.118936+00:00",
         "reason": "no_supported_fresh_story"
       },
-      "3c0797b4af97104cbda53b0430f6498dafaf44059089a635aa29614eb39ab3af": {
-        "until": "2026-11-20T10:45:45.915614+00:00",
+      "0f4ba95c2de969f42cf7cc90b1cd6138faa6062f782176d2fe3f1e5ae5d4c9a4": {
+        "until": "2026-11-27T06:00:42.118936+00:00",
         "reason": "no_supported_fresh_story"
       },
-      "c6fc20918b1125d3067ad43a145eddc04ed4065671f2c186c54dfcdb5c00d840": {
-        "until": "2026-11-20T10:45:45.915614+00:00",
+      "475694494ca58b43c16c1cc183ecb34a1dbb963d527ae9d7ca9690621aa71a90": {
+        "until": "2026-11-27T06:00:42.118936+00:00",
         "reason": "no_supported_fresh_story"
       },
-      "3fdcb28c73e968463581713f52de098e0547f381176269378751799d07890686": {
-        "until": "2026-11-20T11:15:45.217300+00:00",
+      "6983d1eca6b5be6f49ab313bdd828ca14d80534544489904970d32d84af930b8": {
+        "until": "2026-11-27T06:00:42.118936+00:00",
         "reason": "no_supported_fresh_story"
       },
-      "603da8ad3d34ff0cce9c6c70161bd08ff6ff729688bd7484ec5123d7344b5267": {
-        "until": "2026-11-20T11:15:45.217300+00:00",
+      "ecf0a2bf8b8902476e262e6ac9ed592087a9bf6e163ba89843eb0dfe994575e7": {
+        "until": "2026-11-27T06:00:42.118936+00:00",
         "reason": "no_supported_fresh_story"
       },
-      "0c96aa0ed8099e9b589d515bafd439a7421c08b48c766bc9276e69c1f21751d9": {
-        "until": "2026-11-20T13:00:41.472035+00:00",
-        "reason": "image_review_rejected"
-      },
-      "0633040dc869bdff29d261a5c0209ecc87bce36d2ecae826e05a724ed1dd5465": {
-        "until": "2026-11-20T10:45:45.915614+00:00",
-        "reason": "no_supported_fresh_story"
-      },
-      "dd8a9d6d29a4ae7d51d04efbe5e8ae05aab6ad9541dcda3f23c6d8504f0aa840": {
-        "until": "2026-11-20T10:45:45.915614+00:00",
-        "reason": "no_supported_fresh_story"
-      },
-      "d595e70cdd25f1256653858252de1beb01fed0cd5d2bebe4f1585ce0e0df172e": {
-        "until": "2026-11-20T10:45:45.915614+00:00",
-        "reason": "no_supported_fresh_story"
-      },
-      "82a723ca4578c3f75eb88888ba51f36328cb0f22e48a536e3c4b9a72f349e50b": {
-        "until": "2026-11-20T11:15:45.217300+00:00",
-        "reason": "no_supported_fresh_story"
-      },
-      "e23b7c5c93b66b8926fbcf1c77af8d72d1bee7c7b8a763a1b8d2408cdeb09e82": {
-        "until": "2026-11-20T11:15:45.217300+00:00",
-        "reason": "no_supported_fresh_story"
-      },
-      "2d3e96cb508d7b1016bc559da14dd19c726e6f5fe8b3cf1a715538a120ba4177": {
-        "until": "2026-11-20T11:15:45.217300+00:00",
-        "reason": "no_supported_fresh_story"
-      },
-      "783d44177c34d820c9fd251bbcd12290bb7f311846aabfe8b7460e8fc8eaeb30": {
-        "until": "2026-11-20T11:15:45.217300+00:00",
-        "reason": "no_supported_fresh_story"
-      },
-      "939ac69a623c6ae3e77342d17b19b49d33fbc97daf709b45120c1e7d627fed5d": {
-        "until": "2026-11-20T11:15:45.217300+00:00",
-        "reason": "no_supported_fresh_story"
-      },
-      "09144278bd0b8e2979fd44ba6c069a2c3ef16b66f4d5792a7cc232433a3ccf1d": {
-        "until": "2026-11-20T11:15:45.217300+00:00",
-        "reason": "no_supported_fresh_story"
-      },
-      "2958b6e55f142ed387f6cfc890bcb31c19cb9396e5c2ca036d04a77c64ce9c04": {
-        "until": "2026-11-20T11:15:45.217300+00:00",
-        "reason": "no_supported_fresh_story"
-      },
-      "7be2599129f35e3e79992f42ee70dd0864306b60a84f004474505f231dc77a55": {
-        "until": "2026-11-20T11:15:45.217300+00:00",
-        "reason": "no_supported_fresh_story"
-      },
-      "2f94e6f9ab4ec22ae73b2f4b45f88fbd3c377ed8f1d886f16e9a9c187b33116e": {
-        "until": "2026-11-20T11:15:45.217300+00:00",
-        "reason": "no_supported_fresh_story"
-      },
-      "562d11e95b1300e8ce9fc77443229f1f18a6664118657fabb90100f157a99fdd": {
-        "until": "2026-11-20T11:15:45.217300+00:00",
+      "e3c5ad2e49364464b9967bc6b18c1b75b9cbb8a897257f284c9cbc5999536a81": {
+        "until": "2026-11-27T06:00:42.118936+00:00",
         "reason": "no_supported_fresh_story"
       }
     },
