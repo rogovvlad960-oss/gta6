@@ -2445,7 +2445,7 @@
       },
       {
         "at": "2026-11-27T06:16:09.048424+00:00",
-        "status": "pending",
+        "status": "sent",
         "event_key": "gta6_browser_playmyps5_2026",
         "source_hashes": [
           "0f4ba95c2de969f42cf7cc90b1cd6138faa6062f782176d2fe3f1e5ae5d4c9a4",
@@ -2561,7 +2561,9 @@
           ],
           "recomposed": true
         },
-        "image_hash": "887ac1a3d8d4b873d9e755c4a783914d052b161292329d6a075dbb57fc9fbefa"
+        "image_hash": "887ac1a3d8d4b873d9e755c4a783914d052b161292329d6a075dbb57fc9fbefa",
+        "message_id": 29,
+        "formatting_warning": "post_delivery_verification_failed"
       }
     ],
     "examined": {
