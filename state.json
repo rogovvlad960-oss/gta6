@@ -2933,12 +2933,14 @@
       {
         "at": "2026-11-27T17:00:46.061895+00:00",
         "kind": "poll",
-        "status": "pending",
+        "status": "sent",
         "destination": "channel",
         "event_key": "daily_poll_2026-11-27",
         "poll_template": "transport",
         "source_hashes": [],
-        "tokens": []
+        "tokens": [],
+        "message_id": 33,
+        "poll_id": "5210977966472829362"
       }
     ],
     "examined": {
