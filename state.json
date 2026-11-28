@@ -257,6 +257,10 @@
     {
       "at": "2026-11-28T14:01:07.339444+00:00",
       "code": "missing_primary_source"
+    },
+    {
+      "at": "2026-11-28T14:16:03.619549+00:00",
+      "code": "unknown_evidence_reference"
     }
   ],
   "spend": {
