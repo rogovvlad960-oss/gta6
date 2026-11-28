@@ -3145,6 +3145,16 @@
         "image_hash": "995664f0289fbe8e829a25d0a5a8ea01fd6435fdf25817fc4d60acac8ff386e0",
         "message_id": 34,
         "formatting_warning": "post_delivery_verification_failed"
+      },
+      {
+        "at": "2026-11-28T17:00:41.679326+00:00",
+        "kind": "poll",
+        "status": "pending",
+        "destination": "channel",
+        "event_key": "daily_poll_2026-11-28",
+        "poll_template": "first-car",
+        "source_hashes": [],
+        "tokens": []
       }
     ],
     "examined": {
