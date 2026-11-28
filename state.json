@@ -3854,6 +3854,10 @@
       "70417b9878d5560efecc25926537426b8a05ed5b60825ec287a6663a7c42893d": {
         "until": "2026-11-28T12:30:43.585482+00:00",
         "reason": "no_supported_fresh_story"
+      },
+      "fe62727a74137295c1e1c8b2d7822ceeb616fc2ebe96575cb80108f6b270742d": {
+        "until": "2026-11-28T13:15:44.387799+00:00",
+        "reason": "no_supported_fresh_story"
       }
     },
     "last_selection": {
