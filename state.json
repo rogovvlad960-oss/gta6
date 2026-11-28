@@ -3149,12 +3149,14 @@
       {
         "at": "2026-11-28T17:00:41.679326+00:00",
         "kind": "poll",
-        "status": "pending",
+        "status": "sent",
         "destination": "channel",
         "event_key": "daily_poll_2026-11-28",
         "poll_template": "first-car",
         "source_hashes": [],
-        "tokens": []
+        "tokens": [],
+        "message_id": 36,
+        "poll_id": "5212986254525732232"
       }
     ],
     "examined": {
