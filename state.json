@@ -217,6 +217,10 @@
     {
       "at": "2026-11-28T10:30:57.082481+00:00",
       "code": "fact_supported_by_secondary_only"
+    },
+    {
+      "at": "2026-11-28T10:31:06.873078+00:00",
+      "code": "missing_primary_source"
     }
   ],
   "spend": {
