@@ -3836,6 +3836,10 @@
       "e48c9d9cd1bca5e416c5718f3aa82795d3bbf5ea32cd10b3d0e0ee35119ad379": {
         "until": "2026-11-28T09:00:46.918212+00:00",
         "reason": "no_supported_fresh_story"
+      },
+      "7f333f03c0a41168410d627d445c7d0c76aabfccdbd65ac7cb33c0cd617cba1d": {
+        "until": "2026-11-28T09:15:43.056067+00:00",
+        "reason": "no_supported_fresh_story"
       }
     },
     "last_selection": {
