@@ -229,6 +229,10 @@
     {
       "at": "2026-11-28T11:31:08.998153+00:00",
       "code": "unknown_evidence_reference"
+    },
+    {
+      "at": "2026-11-28T12:16:01.273086+00:00",
+      "code": "invalid_source_ids"
     }
   ],
   "spend": {
