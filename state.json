@@ -3236,25 +3236,14 @@
     },
     "policy": "rumors-v3-media-queue",
     "last_check": {
-      "at": "2026-11-28T15:15:53.776254+00:00",
+      "at": "2026-11-28T15:23:51.855223+00:00",
       "result": {
-        "idle": "daily_model_attempt_cap",
-        "new_candidates": 2
+        "idle": "schedule_slot_already_checked"
       },
-      "trigger": "workflow_dispatch",
-      "external_clock": "cloudflare",
-      "scheduled_at": "2026-11-28T15:15:31.000Z"
+      "trigger": "schedule"
     },
     "last_schedule_slot": "2026-11-28T18:15",
     "schedule_checks": [
-      {
-        "at": "2026-11-25T08:41:33.742610+00:00",
-        "result": {
-          "idle": "schedule_slot_already_checked"
-        },
-        "workflow": "Lester Dossier newsroom",
-        "run_id": "45578451498"
-      },
       {
         "at": "2026-11-25T15:05:53.695299+00:00",
         "result": {
@@ -3493,6 +3482,14 @@
         },
         "workflow": "Lester Dossier newsroom",
         "run_id": "46151927900"
+      },
+      {
+        "at": "2026-11-28T15:23:51.855263+00:00",
+        "result": {
+          "idle": "schedule_slot_already_checked"
+        },
+        "workflow": "Lester Dossier newsroom",
+        "run_id": "46159629613"
       }
     ],
     "external_clock_checks": [
