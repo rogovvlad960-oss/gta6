@@ -245,6 +245,10 @@
     {
       "at": "2026-11-28T13:15:59.383711+00:00",
       "code": "unknown_evidence_reference"
+    },
+    {
+      "at": "2026-11-28T13:31:00.051615+00:00",
+      "code": "invalid_draft"
     }
   ],
   "spend": {
